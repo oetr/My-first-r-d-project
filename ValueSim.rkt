@@ -47,7 +47,6 @@
 (define-struct body (variables sensors motors physics))
 (define-struct mind (perception value-system learning decision-making))
 (define-struct posn (x y) #:mutable)
-(define-struct orientation theta)
 
 (define agent-view (make-hash))
 (hash-set! agent-view 'N 'A)
@@ -133,7 +132,6 @@
      orientations movements)
 
 ;;; Simulator:
-(define SIM-STEPS 1000)
 ;; 1) Ask environment for sensory data
 ;; 2) Ask agent for action
 ;; 3) Execute action
@@ -143,18 +141,29 @@
     (unless (>= n steps)
       ;;(void) ;; tell the agent its sensory data
       (let ([action-to-execute ((mind-decision-making (agent-mind tested-agent)))])
-        (action-to-execute))
+        (action-to-execute)
+        ;; log results of the action
+        (let ([a-log-cell (vector-ref logged-data n)])
+          (set-log-cell-posn! a-log-cell (agent-posn tested-agent))
+          (set-log-cell-orientation! a-log-cell
+                                     (agent-orientation tested-agent))))
       (run-step (+ n 1))))
   (run-step 0))
 
 ;;; Data logging
+  (define SIM-STEPS 10)
 ;; For now will be logging following:
 ;;   position
 ;;   orientation
 ;;   SM data
 ;;   internal values
 ;; Provide a data structure (an array?) to store the logged data
-(define-struct logged-piece (position orientation sensors motors internal-values))
+(define-struct log-cell (posn orientation sensors motors internal-values) #:mutable)
+(define logged-data
+  (make-vector SIM-STEPS (log-cell
+                          (posn 0 0)
+                          0 0 0 0))) ;; instantiated with zeros
+
 
 ;; position
 ;; every time that the agent chooses an action and returns to the simulator, log the data
@@ -171,6 +180,14 @@
         (printf "~a " print-symbol))
       (aux (+ n 1))))
   (aux 0))
+
+(define (print-log-data data)
+  (vector-map (lambda (a-log-cell)
+                (printf "posn=~a, "
+                        (log-cell-posn a-log-cell))
+                (printf "theta=~a~n" (log-cell-orientation a-log-cell)))
+              data)
+  (void))
 
 ;;; Run the simulation
 (run-simulation SIM-STEPS)
