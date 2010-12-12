@@ -154,7 +154,7 @@
       ;; Satiation
       (run-step (+ n 1))))
   (set! log-data (build-vector steps (lambda (n)
-                                       (log-cell
+                                       (make-log-cell
                                         (posn 0 0)
                                         0 0 0 0)))) ;; instantiated with zero
   (run-step 0))
@@ -176,7 +176,7 @@
       (sleep 0.2)
       (run-step (+ n 1))))
   (set! log-data (build-vector steps (lambda (n)
-                                       (log-cell
+                                       (make-log-cell
                                         (posn 0 0)
                                         0 0 0 0)))) ;; instantiated with zero
   (run-step 0))
@@ -246,9 +246,6 @@
 
 ;; passing sensory values
 
-
-
-
 ;;; New Representation Prototype
 ;; function converting the number of grid into x and y coordinates of the agent
 ;; assume a square environment
@@ -264,10 +261,111 @@
         [world (build-environment world-size)])
    (check-equal? (position->coordinates world-size 10) (make-posn 2 2) "test 1")
    (check-equal? (position->coordinates world-size 4) (make-posn 0 1) "test 2")
-   (check-equal? (position->coordinates world-size 3) (make-posn 3 0) "test 3"))
+   (check-equal? (position->coordinates world-size 3) (make-posn 3 0) "test 3")
+   (check-equal? (position->coordinates world-size 3) (make-posn 3 0) "test 3.5"))
  ;; World with size 10
  (let* ([world-size 10]
         [world (build-environment world-size)])
    (check-equal? (position->coordinates world-size 53) (make-posn 3 5) "test 4")
    (check-equal? (position->coordinates world-size 99) (make-posn 9 9) "test 5")
-   (check-equal? (position->coordinates world-size 27) (make-posn 7 2) "test 6")))
+   (check-equal? (position->coordinates world-size 27) (make-posn 7 2) "test 6")
+   (check-equal? (position->coordinates world-size 0) (make-posn 0 0) "test 6")))
+
+;;; Environment
+;; a tile is a structure
+;; a color is a structure with 3 natural numbers (RGB)
+;; temperature is a (natural) number
+;; object-on-top is a structure with its own properties
+;; traversable? tells if the agent can go over the tile
+(define-struct tile (color temperature object-on-top traversable?)
+  #:mutable #:transparent)
+
+(define-struct color (r g b)
+  #:mutable #:transparent)
+
+;; Levers
+(define (make-lever #:color [color #f]
+                    #:temperature [temperature #f]
+                    #:pullable? [pullable? #t])
+  (unless color
+    (set! color (make-color (random 256)
+                            (random 256)
+                            (random 256))))
+  (unless temperature
+    (set! temperature (+ 15 (random 10))))  
+  (make-hash `((color . ,color)
+               (temperature . ,temperature)
+               (pullable? . ,pullable?))))
+
+;; Buttons
+(define (make-button #:color [color #f]
+                     #:temperature [temperature #f]
+                     #:pushable? [pushable? #t])
+  (unless color
+    (set! color (make-color (random 256)
+                            (random 256)
+                            (random 256))))
+  (unless temperature
+    (set! temperature (+ 15 (random 10))))  
+  (make-hash `((color . ,color)
+               (temperature . ,temperature)
+               (pushable? . ,pushable?))))
+
+;; Rocks
+(define (make-rock #:color [color #f]
+                   #:temperature [temperature #f]
+                   #:movable? [movable? empty])
+  (unless color
+    (set! color (make-color (random 256)
+                            (random 256)
+                            (random 256))))
+  (unless temperature
+    (set! temperature (+ 15 (random 10))))
+  (when (empty? movable?)
+    (if (zero? (random 2))
+        (set! movable? #t)
+        (set! movable? #f)))
+  (make-hash `((color . ,color)
+               (temperature . ,temperature)
+               (movable? . ,movable?))))
+
+;; Battery pack
+(define (battery-pack #:color [color #f]
+                   #:temperature [temperature #f]
+                   #:movable? [movable? empty])
+  (unless color
+    (set! color (make-color (random 256)
+                            (random 256)
+                            (random 256))))
+  (unless temperature
+    (set! temperature (+ 15 (random 10))))
+  (when (empty? movable?)
+    (if (zero? (random 2))
+        (set! movable? #t)
+        (set! movable? #f)))
+  (make-hash `((color . ,color)
+               (temperature . ,temperature)
+               (movable? . ,movable?))))
+
+;; Actions
+;;(define actions (vector move press pull turn eat))
+
+;; Sensors
+;; light
+;; temperature
+;; energy
+;; life
+;; taste
+
+
+(define-syntax my-time
+  (syntax-rules ()
+    [(my-time e)
+     (let ([begin-time (current-milliseconds)])
+       (begin
+         e
+         (- (current-milliseconds) begin-time)))]))
+
+(define (clear)
+  (for ([i (in-range 5)])
+       (collect-garbage)))
