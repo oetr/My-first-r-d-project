@@ -1,5 +1,4 @@
-(require (planet williams/science/random-distributions/gaussian))
-(require (planet williams/science/random-distributions/flat))
+;;; Libraries
 (require rackunit)
 
 (test-case
@@ -177,53 +176,161 @@
 (test-case
  "Moving around"
  ;; World with size 5
- (let* ([test-name "Moving around "]
+ (let* ([test-name "Moving around 5x5 "]
         [world-size 5]
         [environment (build-environment world-size)]
-        [agent (make-agent 0 0 0 0)])
-   (set! agent (place-agent agent environment 13 3))
+        [an-agent (make-agent 0 0 0 0)]
+        [movements #f])
+   (set! movements (list->vector `(,(- world-size) +1 ,world-size -1)))
+   (set! an-agent (place-agent an-agent environment 13 3))
+   ;; Move horizontally
+   (move! an-agent environment movements)
+   (check-equal? 12 (agent-position an-agent) (string-append test-name ":test " (number->string 1)))
+   (check-equal? 3 (agent-orientation an-agent) (string-append test-name ":test " (number->string 1)))
    ;; Move
-   (move! agent environment)
-   (check-equal? 12 (agent-position agent) (string-append test-name ":test " (number->string 1)))
-   (check-equal? 3 (agent-orientation agent) (string-append test-name ":test " (number->string 1)))
+   (move! an-agent environment movements)
+   (check-equal? 11 (agent-position an-agent) (string-append test-name ":test " (number->string 2)))
+   (check-equal? 3 (agent-orientation an-agent) (string-append test-name ":test " (number->string 2)))
    ;; Move
-   (move! agent environment)
-   (check-equal? 11 (agent-position agent) (string-append test-name ":test " (number->string 1)))
-   (check-equal? 3 (agent-orientation agent) (string-append test-name ":test " (number->string 1)))
+   (move! an-agent environment movements)
+   (check-equal? 11 (agent-position an-agent) (string-append test-name ":test " (number->string 3)))
+   (check-equal? 3 (agent-orientation an-agent) (string-append test-name ":test " (number->string 3)))
+   ;; Move vertically
+   (set! an-agent (place-agent an-agent environment 18 0))
    ;; Move
-   (move! agent environment)
-   (check-equal? 11 (agent-position agent) (string-append test-name ":test " (number->string 1)))
-   (check-equal? 3 (agent-orientation agent) (string-append test-name ":test " (number->string 1)))
-   ;; Setting the agent to another position
-   (set! agent (place-agent agent environment 18 0))
+   (move! an-agent environment movements)
+   (check-equal? 13 (agent-position an-agent) (string-append test-name ":test " (number->string 4)))
+   (check-equal? 0 (agent-orientation an-agent) (string-append test-name ":test " (number->string 4)))
    ;; Move
-   (move! agent environment)
-   (check-equal? 13 (agent-position agent) (string-append test-name ":test " (number->string 1)))
-   (check-equal? 0 (agent-orientation agent) (string-append test-name ":test " (number->string 1)))
+   (move! an-agent environment movements)
+   (check-equal? 8 (agent-position an-agent) (string-append test-name ":test " (number->string 5)))
+   (check-equal? 0 (agent-orientation an-agent) (string-append test-name ":test " (number->string 5)))
    ;; Move
-   (move! agent environment)
-   (check-equal? 8 (agent-position agent) (string-append test-name ":test " (number->string 1)))
-   (check-equal? 0 (agent-orientation agent) (string-append test-name ":test " (number->string 1)))
-   ;; Move
-   (move! agent environment)
-   (check-equal? 8 (agent-position agent) (string-append test-name ":test " (number->string 1)))
-   (check-equal? 0 (agent-orientation agent) (string-append test-name ":test " (number->string 1)))
+   (move! an-agent environment movements)
+   (check-equal? 8 (agent-position an-agent) (string-append test-name ":test " (number->string 6)))
+   (check-equal? 0 (agent-orientation an-agent) (string-append test-name ":test " (number->string 6)))
    ))
 
+(test-case
+ "Vision"
+ ;; World with size 5
+ (let* ([test-name #f]
+        [world-size 41]
+        [environment (build-environment world-size)]
+        [an-agent (make-agent 0 0 0 0)]
+        [movements #f]
+        [vision #f])
+   ;; Posittion: x=39, y=39, facing the wall int the east
+   (set! test-name "Posittion: x=39, y=39, facing the wall int the east")
+   (set! movements (list->vector `(,(- world-size) +1 ,world-size -1)))
+   (set! an-agent (place-agent an-agent environment
+                               (coordinates->position world-size (make-posn 39 39)) 1))
+   ;;   (printf "~a~n" an-agent)
+   ;; Vision(4)
+   (set! vision (compute-vision an-agent environment movements))
+   (check-equal? (make-color 0 0 0)
+                 (& vision 4) (string-append test-name ":test " (number->string 0)))
+   ;; Vision(5)
+   (set! vision (compute-vision an-agent environment movements))
+   (check-equal? (make-color 0 0 0)
+                 (& vision 5) (string-append test-name ":test " (number->string 1)))
+   ;; Vision(6)
+   (set! vision (compute-vision an-agent environment movements))
+   (check-equal? (make-color 0 0 0)
+                 (& vision 6) (string-append test-name ":test " (number->string 2)))
+   ;; Vision(7)
+   (set! vision (compute-vision an-agent environment movements))
+   (check-equal? (make-color 0 0 0)
+                 (& vision 7) (string-append test-name ":test " (number->string 3)))
+   ;; Vision(8)
+   (set! vision (compute-vision an-agent environment movements))
+   (check-equal? (make-color 0 0 0)
+                 (& vision 8) (string-append test-name ":test " (number->string 4)))
+   ;; Posittion: x=1, y=39, facing the wall in the east
+   (set! test-name "Posittion: x=1, y=39, facing the wall int the west")
+   (set! an-agent (place-agent an-agent environment
+                               (coordinates->position world-size (make-posn 1 39)) 3))
+   ;; Vision(0)
+   (set! vision (compute-vision an-agent environment movements))   
+   (check-equal? (make-color 0 0 0)
+                 (& vision 0) (string-append test-name ":test " (number->string 1)))
+   ;; Vision(5)
+   (check-equal? (make-color 0 0 0)
+                 (& vision 5) (string-append test-name ":test " (number->string 2)))
+   ;; Vision(6)
+   (check-equal? (make-color 0 0 0)
+                 (& vision 6) (string-append test-name ":test " (number->string 3)))
+   ;; Vision(7)
+   (check-equal? (make-color 0 0 0)
+                 (& vision 7) (string-append test-name ":test " (number->string 4)))
+   ;; Vision(8)
+   (check-equal? (make-color 0 0 0)
+                 (& vision 8) (string-append test-name ":test " (number->string 5)))
+   ;; Vision(2)
+   (set! vision (compute-vision an-agent environment movements))   
+   (check-not-equal? (make-color 0 0 0)
+                     (& vision 2) (string-append test-name ":test " "6"))
+   
+   ))
 
 (test-case
  "Testing position->cordinates"
  ;; World with size 4
- (let* ([world-size 4]
+ (let* ([test-name  "Testing position->cordinates (4x4)"]
+        [world-size 4]
         [world (build-environment world-size)])
-   (check-equal? (position->coordinates world-size 10) (make-posn 2 2) "test 1")
-   (check-equal? (position->coordinates world-size 4) (make-posn 0 1) "test 2")
-   (check-equal? (position->coordinates world-size 3) (make-posn 3 0) "test 3")
-   (check-equal? (position->coordinates world-size 3) (make-posn 3 0) "test 3.5"))
+   (check-equal? (position->coordinates world-size 10) (make-posn 2 2)
+                 (string-append test-name "test: 1"))
+   (check-equal? (position->coordinates world-size 4) (make-posn 0 1)
+                 (string-append test-name "test: 2"))
+   (check-equal? (position->coordinates world-size 3) (make-posn 3 0)
+                 (string-append test-name "test: 3"))
+   (check-equal? (position->coordinates world-size 3) (make-posn 3 0)
+                 (string-append test-name "test: 3.5")))
  ;; World with size 10
- (let* ([world-size 10]
+ (let* ([test-name "Testing position->cordinates (10x10) "]
+        [world-size 10]
         [world (build-environment world-size)])
-   (check-equal? (position->coordinates world-size 53) (make-posn 3 5) "test 4")
-   (check-equal? (position->coordinates world-size 99) (make-posn 9 9) "test 5")
-   (check-equal? (position->coordinates world-size 27) (make-posn 7 2) "test 6")
-   (check-equal? (position->coordinates world-size 0) (make-posn 0 0) "test 6")))
+   (check-equal? (position->coordinates world-size 53) (make-posn 3 5)
+                 (string-append test-name "test: 4"))
+   (check-equal? (position->coordinates world-size 99) (make-posn 9 9)
+                 (string-append test-name "test: 5"))
+   (check-equal? (position->coordinates world-size 27) (make-posn 7 2)
+                 (string-append test-name "test: 6"))
+   (check-equal? (position->coordinates world-size 0) (make-posn 0 0)
+                 (string-append test-name "test: 7"))))
+
+(test-case
+ "Testing coordinates->position "
+ ;; World with size 4
+ (let* ([test-name "Testing coordinates->position (4x4) "]
+        [world-size 4]
+        [world (build-environment world-size)])
+   (check-equal? (coordinates->position world-size (make-posn 2 2)) 10
+                 (string-append test-name "test: 1"))
+   (check-equal? (coordinates->position world-size (make-posn 0 1)) 4
+                 (string-append test-name "test: 2"))
+   (check-equal? (coordinates->position world-size (make-posn 3 0)) 3
+                 (string-append test-name "test: 3"))
+   (check-equal? (coordinates->position world-size (make-posn 3 0)) 3
+                 (string-append test-name "test: 4")))
+ ;; World with size 10
+ (let* ([test-name "Testing coordinates->position (10x10) "]
+        [world-size 10]
+        [world (build-environment world-size)])
+   (check-equal? (coordinates->position world-size (make-posn 3 5)) 53
+                 (string-append test-name "test: 1"))
+   (check-equal? (coordinates->position world-size (make-posn 9 9)) 99
+                 (string-append test-name "test: 2"))
+   (check-equal? (coordinates->position world-size (make-posn 7 2)) 27
+                 (string-append test-name "test: 3"))
+   (check-equal? (coordinates->position world-size (make-posn 7 2)) 27
+                 (string-append test-name "test: 4"))
+   (check-equal? (coordinates->position world-size (make-posn 0 0)) 0
+                 (string-append test-name "test: 5"))))
+
+
+
+
+
+
