@@ -194,7 +194,7 @@
              [front (& x-y-movements orientation)]
              [left (& x-y-movements (turn-left orientation))]
              [right (& x-y-movements (turn-right orientation))]
-             [start (sum-posn position front)])
+             [start (posn+ position front)])
         (vector
          ;; first row from left to right
          (posn+ start (posn+ left left))
@@ -210,20 +210,24 @@
          (posn+ start (posn+ front front)))))
     (vector-map compute-color (visible-tiles))))
 
-(define (sense agent environment)
-  (vector
+;; produces a vector of values
+(define (sense agent environment movements)
+  (vector-append
    ;; transmitting energy
-   (agent-energy agent)
-   ;; life
-   (agent-life agent)
-   ;; temperature
-   (compute-surrounding-temperatures agent environment)
-   ;; vision
-   (vector-map (lambda (color) (vector (color-r color)
-                                  (color-g color)
-                                  (color-b color)))
-               (compute-vision agent environment movements))
-   ))
+   (vector
+    (agent-energy agent)
+    ;; life
+    (agent-life agent))
+    ;; temperature
+    (compute-surrounding-temperatures agent environment)
+    ;; vision
+    (call-with-values (lambda () (vector->values
+                             (vector-map
+                              (lambda (color) (vector (color-r color)
+                                                 (color-g color)
+                                                 (color-b color)))
+                              (compute-vision agent environment movements))))
+      vector-append)))
 
 (define (print-temperatures environment)
   (define (aux n)
@@ -240,7 +244,6 @@
       (aux (+ n 1))))
   (aux 0)
   (printf "~n"))
-
 
 ;; function converting the number of grid into x and y coordinates of the agent
 ;; assume a square environment
@@ -261,6 +264,53 @@
 
 (define (move-in-x-y posn orientation coordinate-movements)
   (posn+ posn (& coordinate-movements orientation)))
+
+;;; Run simulator
+(define STEPS 10)
+(define (run-simulation agent environment movements coordinate-movements data steps)
+  (let ([percepts #f]
+        [value-system-labels #f]
+        [decision #f])
+    (define (run-simulation-aux n)
+      (when (< n steps)
+        ;; sense
+        (set! percepts (sense agent environment movements))
+        ;; evaluate the sensory data and make decision
+        ((agent-think! agent))
+        ;; read the agent's decision
+        (set! decision (agent-decision agent))
+        ;; read the label of the agent's value system
+        (set! value-system-labels (evaluate agent environment))
+        ;; log data
+        (log-data! percepts value-system-labels decision data)
+        ;; TODO test that the content of all the vectors is copied
+        ;; and not the pointers
+        ;; update the world
+        (update-world! agent environment decision movements coordinate-movements)
+        (run-simulation-aux (+ n 1))))
+    (run-simulation-aux 0)))
+
+(define (run n)
+  (run-simulation A env movements coordinate-movements data n))
+
+;;; Data logger
+;; Fetures:
+;; - Save sensory data into a file
+;; - Should the information about the source of the data be retained?
+;; - (probably yes--the more information we have, the easier it will be to read)
+;; - Save actions of the agent
+;; - Retain the sources and meanings
+;; - Create a domain-specific language (DSL) to save the data in a specific format? (like SVG, or graphviz?)
+
+;; 1. Need a data structure
+;; vectors? struct?
+;; (define-struct data-log (sense act sense value)) -- good question what to save?
+
+;; Before writing the data logger, I have to create the data sources first
+;; <sense!, act, update world!, update the agent>
+;; then I need to test a random agent
+;; then I can add the logging functionality
+
 
 ;;; Tests
 (define (test-all)
@@ -294,3 +344,15 @@
 
 (define (print-world)
   (print-environment A env WORLD-SIZE))
+
+;; Buggy version of the function
+;; works only for the unary operator case
+(define (vector-apply f v)
+  (let ([length (vector-length v)])
+    (define (vector-apply-aux result n)
+      (if (= n length)
+          result
+          (vector-apply-aux (f result (& v n)) (+ n 1))))
+    (if (zero? length)
+        (error "No arguments provided in " vector-apply)
+        (vector-apply-aux (& v 0) 1))))
