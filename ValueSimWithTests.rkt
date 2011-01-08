@@ -1,5 +1,9 @@
-;;; New Representation Prototype
-;; World Builder
+;;(load "/Users/petr/Dropbox/Libraries/Racket/utils.rkt")
+(require (planet williams/science/random-distributions/gaussian))
+(require (planet williams/science/random-distributions/flat))
+(require racket/date)
+
+;;; Objects
 (define-struct tile (color temperature object-on-top traversable?)
   #:mutable #:transparent)
 
@@ -55,7 +59,7 @@
                (movable? . ,movable?)
                (name . rock))))
 
-;; Battery pack
+;; Battery packs
 (define (battery-pack #:color [color #f]
                       #:temperature [temperature #f]
                       #:movable? [movable? empty])
@@ -74,6 +78,7 @@
                (movable? . ,movable?)
                (name . battery-pack))))
 
+;;; Environment
 (define (build-environment world-size)
   (let ([environment #f])
     (define (fill-boundaries)
@@ -92,15 +97,13 @@
     (set! environment
           (build-vector (expt world-size 2)
                         (lambda (n)
-                          (tile (make-color 19 201 19) 15 #f 0))))
-  (fill-boundaries)))
+                          (if (> (random 30) 1)
+                              (tile (make-color 19 201 19) 15 #f 0)
+                              (tile (make-color 19 201 19) 15 (rock) 0)))))
+    (fill-boundaries)))
 
-(define WORLD-SIZE 10)
-(define env (build-environment WORLD-SIZE))
-(define movements (list->vector `(,(- WORLD-SIZE) +1 ,WORLD-SIZE -1)))
-
-;; Agent definitions
-(define-struct agent (position orientation energy life) #:mutable #:transparent)
+;;; Agent
+(define-struct agent (position orientation energy life fn) #:mutable #:transparent)
 (define-struct posn (x y) #:mutable #:transparent)
 
 (define (place-agent-randomly agent environment world-size)
@@ -108,40 +111,38 @@
     (if (tile-object-on-top (& environment position))
         (place-agent-randomly agent environment world-size)
         (begin
-;;          (printf "agent placement: OK\n")
           (make-agent position
                       (random 4)
                       (agent-energy agent)
-                      (agent-life agent))))))
+                      (agent-life agent)
+                      (agent-fn agent))))))
 
+;; manually place the agent
 (define (place-agent agent environment position orientation)
-  (cond [(> position (vector-length environment))
-;;         (printf "could not place~n")
-         agent]
-        [(tile-object-on-top (& environment position))
-;;         (printf "could not place~n")
-         agent]
-        [else (make-agent position
-                          orientation
-                          (agent-energy agent)
-                          (agent-life agent))]))
+  (cond [(> position (vector-length environment)) agent]
+        [(tile-object-on-top (& environment position)) agent]
+        [else
+         (make-agent position
+                     orientation
+                     (agent-energy agent)
+                     (agent-life agent)
+                     (agent-fn agent))]))
 
-(define A (make-agent 0 0 0 0))
-(set! A (place-agent-randomly A env WORLD-SIZE))
+;; Some simple decision making functions
+(define (random-as agent actions)
+  (lambda (percepts)
+    (let ([decision (& actions (random (vector-length actions)))])
+      (values (vector 0) decision))))
 
-;; Actions
-(define (turn-left! agent environment)
+;;; Actions
+(define (turn-left! agent environment movements)
+  (set-agent-energy! agent (reduce-energy (agent-energy agent) 0.5))
   (set-agent-orientation! agent (remainder
                                  (+ (agent-orientation agent) 3)
                                  4)))
 
-(define (turn-left orientation)
-  (remainder (+ orientation 3) 4))
-
-(define (turn-right orientation)
-  (remainder (+ orientation 1) 4))
-
-(define (turn-right! agent environment)
+(define (turn-right! agent environment movements)
+  (set-agent-energy! agent (reduce-energy (agent-energy agent) 0.5))
   (set-agent-orientation! agent (remainder
                                  (+ (agent-orientation agent) 1)
                                  4)))
@@ -149,10 +150,25 @@
 (define (move! agent environment movements)
   (let ([next-position (+ (agent-position agent)
                           (& movements (agent-orientation agent)))])
+    ;; reduce energy
+    (set-agent-energy! agent (reduce-energy (agent-energy agent) 10))
     (unless (tile-object-on-top (& environment next-position))
       (set-agent-position! agent next-position))))
 
-;; Sensors
+(define (do-nothing! agent environment movements)
+  (set-agent-energy! agent (reduce-energy (agent-energy agent) 0.01))
+  (void))
+
+(define (reduce-energy current-amount amount)
+  (let ([next-energy (- current-amount amount)])
+    (if (< next-energy 0)
+        0
+        next-energy)))
+
+(define actions (vector move! turn-left! turn-right! do-nothing!))
+
+
+;;; Sensors
 (define (compute-surrounding-temperatures agent environment)
   (define (compute-temperature pos)
     (let* ([a-tile (& environment pos)]
@@ -175,6 +191,10 @@
 
 (define (compute-vision agent environment movements)
   (let ([world-size (sqrt (vector-length environment))])
+    (define (turn-left orientation)
+      (remainder (+ orientation 3) 4))
+    (define (turn-right orientation)
+      (remainder (+ orientation 1) 4))
     (define (position-out-of-bounds posn)
       (or (< (posn-x posn) 0) (>= (posn-x posn) world-size)
           (< (posn-y posn) 0) (>= (posn-y posn) world-size)))    
@@ -218,17 +238,175 @@
     (agent-energy agent)
     ;; life
     (agent-life agent))
-    ;; temperature
-    (compute-surrounding-temperatures agent environment)
-    ;; vision
-    (call-with-values (lambda () (vector->values
-                             (vector-map
-                              (lambda (color) (vector (color-r color)
-                                                 (color-g color)
-                                                 (color-b color)))
-                              (compute-vision agent environment movements))))
-      vector-append)))
+   ;; temperature
+   (compute-surrounding-temperatures agent environment)
+   ;; vision
+   (call-with-values
+       (lambda () (vector->values
+              (vector-map
+               (lambda (color) (vector (color-r color)
+                                  (color-g color)
+                                  (color-b color)))
+               (compute-vision agent environment movements))))
+     vector-append)))
 
+;; function converting the number of grid into x and y coordinates of the agent
+;; assume a square environment
+;; position->coordinates : N x N -> posn
+(define (position->coordinates world-size position)
+  (make-posn (remainder position world-size)
+             (quotient position world-size)))
+
+(define (coordinates->position world-size posn)
+  (+ (posn-x posn) (* (posn-y posn) world-size)))
+
+(define x-y-movements (vector (make-posn 0 -1) (make-posn 1 0)
+                              (make-posn 0 1) (make-posn -1 0)))
+
+(define (posn+ posn1 posn2)
+  (make-posn (+ (posn-x posn1) (posn-x posn2))
+             (+ (posn-y posn1) (posn-y posn2))))
+
+(define (move-in-x-y posn orientation coordinate-movements)
+  (posn+ posn (& coordinate-movements orientation)))
+
+;;; Data logger
+(define-struct log (percepts value-system-label decision position orientation)
+  #:transparent #:mutable )
+
+(define data #())
+
+(define (log-data! percepts value-system-label decision agent data n)
+  (! data n
+     (make-log percepts value-system-label decision (agent-position agent)
+               (agent-orientation agent))))
+
+(define (print-comma-separated data a-file separator end)
+  (if (or (number? data) (procedure? data))
+      (fprintf a-file "~a~a" data end)
+      (begin
+        (let ([length (vector-length data)])
+          (define (print-comma-separated-aux i)
+            (when (< i length)
+              (fprintf a-file "~a" (& data i))
+              (if (= i (- length 1))
+                  (fprintf a-file "~a" end)
+                  (fprintf a-file "~a" separator))
+              (print-comma-separated-aux (+ i 1))))
+          (print-comma-separated-aux 0)))))
+
+;; data format
+;; 0 1 2 3 4 ...
+;; p o x y a e l
+;; pos orienation x y action energy life
+(define (save-log data world-size)
+  (let ([file-out #f])
+    (set! file-out (data-file-open "/Users/petr/Dropbox/rnd1/Simulator/Data/"))
+    (printf "~a~n" file-out)
+    (vector-map
+     (lambda (log)
+       (let ([pos (position->coordinates world-size (log-position log))])
+         (print-comma-separated (log-position log) file-out ", " ", ")
+         (print-comma-separated (log-orientation log) file-out "," ", ")
+         (print-comma-separated (posn-x pos) file-out ", " ", ")
+         (print-comma-separated (posn-y pos) file-out ", " ", ")
+         (print-comma-separated (vector-member (log-decision log) actions)
+                                file-out ", " ", ")
+         (print-comma-separated (log-percepts log) file-out ", " ", ")
+         (print-comma-separated (log-value-system-label log) file-out ", " "\n")))
+     data)
+    (data-file-close file-out)))
+
+;;; Saving logs into a file
+(define (timestamp)
+  (let ([now (current-date)]
+        [n (open-output-string)])
+    (fprintf n "ValueSim-~a-~a-~a-~a-~a"
+             (date-year now)
+             (date-month now)
+             (date-hour now)
+             (date-minute now)
+             (date-second now))
+    (get-output-string n)))
+
+(define (data-file-open dir)
+  (open-output-file (string-append dir
+                                   (timestamp)
+                                   ".txt")
+                    #:mode 'text
+                    #:exists 'replace))
+
+(define (data-file-close file-out)
+  (close-output-port file-out))
+
+;;; Run simulator
+(define (update-world! decision agent environment movements)
+  (decision agent environment movements))
+
+(define (agent-live agent percepts)
+  ((agent-fn agent) percepts))
+  
+(define (run-simulation agent environment movements data steps)
+  (let ([percepts #f]
+        [value-system-label #f]
+        [decision #f])
+    (define (run-simulation-aux n)
+      (if (< n steps)
+          (begin
+            ;; sense
+            (set! percepts (sense agent environment movements))
+            ;; let the agent make decision combining new percepts
+            (set!-values (value-system-label decision)
+                         (agent-live agent percepts))
+            ;;        (printf "decision: ~a, label: ~a~n" decision value-system-label)
+            ;; log data
+            (log-data! percepts value-system-label decision agent data n)
+            ;; TODO test that the content of all the vectors is copied
+            ;; and not the pointers
+            ;; update the world
+            (update-world! decision agent environment movements)
+            (run-simulation-aux (+ n 1)))
+          data))
+    (set! data (make-vector steps #f))
+    (run-simulation-aux 0)))
+
+(define (step)
+  (run-simulation A env movements data 1))
+
+(define (run n)
+  (set! data (run-simulation A env movements data n))
+  (save-log data WORLD-SIZE)
+  (void))
+
+;;; Instantiate environment and agent
+;; let's build an environment
+(define WORLD-SIZE 200)
+(define env (build-environment WORLD-SIZE))
+(define movements (list->vector `(,(- WORLD-SIZE) +1 ,WORLD-SIZE -1)))
+(define A (make-agent 0 0 3000 3000 void))
+(set-agent-fn! A (random-as A actions))
+
+(define B (make-agent 0 0 100 100 void))
+(set-agent-fn! B (random-as B actions))
+
+(set! A (place-agent-randomly A env WORLD-SIZE))
+
+;; Create a simulator
+(define STEPS 10)
+
+;;; Tests
+(define (test-all)
+  (load "Tests.rkt"))
+
+;; (define (random-as probabilities x)
+;;   (when (empty? probabilities)
+;;     (error "probabilities should not be empty" random-as))
+;;   (let ([xnu (- x (car probabilities))])
+;;     (if (< xnu 0)
+;;         0
+;;         (1+ (random-as (cdr probabilities) xnu)))))
+
+;;; Visualization
 (define (print-temperatures environment)
   (define (aux n)
     (when (< n (vector-length environment))
@@ -245,86 +423,6 @@
   (aux 0)
   (printf "~n"))
 
-;; function converting the number of grid into x and y coordinates of the agent
-;; assume a square environment
-;; position->coordinates : N x N -> posn
-(define (position->coordinates world-size position)
-  (make-posn (remainder position world-size)
-             (quotient position world-size)))
-
-(define (coordinates->position world-size posn)
-  (+ (posn-x posn) (* (posn-y posn) world-size)))
-
-(define x-y-movements (vector (make-posn 0 -1) (make-posn 1 0)
-                                     (make-posn 0 1) (make-posn -1 0)))
-
-(define (posn+ posn1 posn2)
-  (make-posn (+ (posn-x posn1) (posn-x posn2))
-             (+ (posn-y posn1) (posn-y posn2))))
-
-(define (move-in-x-y posn orientation coordinate-movements)
-  (posn+ posn (& coordinate-movements orientation)))
-
-;;; Run simulator
-(define STEPS 10)
-(define (run-simulation agent environment movements coordinate-movements data steps)
-  (let ([percepts #f]
-        [value-system-labels #f]
-        [decision #f])
-    (define (run-simulation-aux n)
-      (when (< n steps)
-        ;; sense
-        (set! percepts (sense agent environment movements))
-        ;; evaluate the sensory data and make decision
-        ((agent-think! agent))
-        ;; read the agent's decision
-        (set! decision (agent-decision agent))
-        ;; read the label of the agent's value system
-        (set! value-system-labels (evaluate agent environment))
-        ;; log data
-        (log-data! percepts value-system-labels decision data)
-        ;; TODO test that the content of all the vectors is copied
-        ;; and not the pointers
-        ;; update the world
-        (update-world! agent environment decision movements coordinate-movements)
-        (run-simulation-aux (+ n 1))))
-    (run-simulation-aux 0)))
-
-(define (run n)
-  (run-simulation A env movements coordinate-movements data n))
-
-;;; Data logger
-;; Fetures:
-;; - Save sensory data into a file
-;; - Should the information about the source of the data be retained?
-;; - (probably yes--the more information we have, the easier it will be to read)
-;; - Save actions of the agent
-;; - Retain the sources and meanings
-;; - Create a domain-specific language (DSL) to save the data in a specific format? (like SVG, or graphviz?)
-
-;; 1. Need a data structure
-;; vectors? struct?
-;; (define-struct data-log (sense act sense value)) -- good question what to save?
-
-;; Before writing the data logger, I have to create the data sources first
-;; <sense!, act, update world!, update the agent>
-;; then I need to test a random agent
-;; then I can add the logging functionality
-
-
-;;; Tests
-(define (test-all)
-  (load "Tests.rkt"))
-
-(define (random-as probabilities x)
-  (when (empty? probabilities)
-    (error "probabilities should not be empty" random-as))
-  (let ([xnu (- x (car probabilities))])
-    (if (< xnu 0)
-        0
-        (1+ (random-as (cdr probabilities) xnu)))))
-
-;;; Printing
 (define (print-environment agent environment world-size)
   (define (aux n)
     (when (< n (sqr world-size))
@@ -356,3 +454,7 @@
     (if (zero? length)
         (error "No arguments provided in " vector-apply)
         (vector-apply-aux (& v 0) 1))))
+
+
+;;(require macro-debugger/expand)
+;;(require macro-debugger/stepper-text)
