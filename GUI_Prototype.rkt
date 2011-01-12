@@ -69,7 +69,7 @@
               [new-y (inexact->exact (quotient y (/ height WORLD-SIZE)))]
               [w (/ width WORLD-SIZE)]
               [h (/ height WORLD-SIZE)])
-          (printf "(~a; ~a)~n" new-x new-y)
+;;          (printf "(~a; ~a)~n" new-x new-y)
           (place-object! current-object-to-insert
                         (coordinates->position WORLD-SIZE (make-posn new-x new-y))
                         env WORLD-SIZE)
@@ -358,7 +358,6 @@
     (draw-agent A)
     (when box-moved
       (let ([posn (position->coordinates WORLD-SIZE box-moved)])
-        (printf "box moved~n")
         (draw-location (posn-x posn) (posn-y posn))))))
 
 (define (draw-location x y)
