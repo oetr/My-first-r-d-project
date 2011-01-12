@@ -41,7 +41,7 @@
                (name . button))))
 
 ;; Rocks
-(define (rock #:color [color #f]
+(define (wall #:color [color #f]
               #:temperature [temperature #f]
               #:movable? [movable? empty])
   (unless color
@@ -57,22 +57,53 @@
   (make-hash `((color . ,color)
                (temperature . ,temperature)
                (movable? . ,movable?)
-               (name . rock))))
+               (name . wall))))
 
-;; Battery packs
-(define (battery-pack #:color [color #f]
-                      #:temperature [temperature #f]
-                      #:movable? [movable? empty])
+
+;; Boxes
+(define (door #:color [color #f]
+             #:temperature [temperature #f]
+             #:movable? [movable? empty])
   (unless color
-    (set! color (make-color (random 256)
-                            (random 256)
-                            (random 256))))
+    (set! color (make-color 0 255 0)))
   (unless temperature
     (set! temperature (+ 15 (random 10))))
   (when (empty? movable?)
     (if (zero? (random 2))
         (set! movable? #t)
         (set! movable? #f)))
+  (make-hash `((color . ,color)
+               (temperature . ,temperature)
+               (movable? . ,movable?)
+               (name . door))))
+
+;; Boxes
+(define (box #:color [color #f]
+             #:temperature [temperature #f]
+             #:movable? [movable? empty])
+  (unless color
+    (set! color (make-color 0 255 0)))
+  (unless temperature
+    (set! temperature (+ 15 (random 10))))
+  (when (empty? movable?)
+    (if (zero? (random 2))
+        (set! movable? #t)
+        (set! movable? #f)))
+  (make-hash `((color . ,color)
+               (temperature . ,temperature)
+               (movable? . ,movable?)
+               (name . box))))
+
+;; Battery packs
+(define (wall-socket #:color [color #f]
+                     #:temperature [temperature #f]
+                     #:movable? [movable? #f])
+  (unless color
+    (set! color (make-color (random 256)
+                            (random 256)
+                            (random 256))))
+  (unless temperature
+    (set! temperature (+ 15 (random 10))))
   (make-hash `((color . ,color)
                (temperature . ,temperature)
                (movable? . ,movable?)
@@ -89,7 +120,7 @@
                    (= (quotient n world-size) 0)
                    (= (quotient n world-size) (- world-size 1)))
                (set-tile-object-on-top! (& environment n)
-                                        (rock #:movable? #f))
+                                        (wall #:movable? #f))
                (aux (+ n 1))]
               [else
                (aux (+ n 1))]))
@@ -97,9 +128,7 @@
     (set! environment
           (build-vector (expt world-size 2)
                         (lambda (n)
-                          (if (> (random 30) 1)
-                              (tile (make-color 19 201 19) 15 #f 0)
-                              (tile (make-color 19 201 19) 15 (rock) 0)))))
+                          (tile (make-color 19 201 19) 15 #f 0))))
     (fill-boundaries)))
 
 ;;; Agent
@@ -128,6 +157,20 @@
                      (agent-life agent)
                      (agent-fn agent))]))
 
+(define temp-object #f)
+
+(define (take-object! position environment world-size)
+  (let ([tile (& environment position)])
+    (set! temp-object (tile-object-on-top tile))
+    (set-tile-object-on-top! tile #f)))
+
+(define (place-object! object position environment world-size)
+  (let ([tile (& environment position)]
+        [obj #f])
+    (cond [(procedure? object) (set! obj (object))]
+          [else (set! obj object)])
+    (set-tile-object-on-top! tile obj)))
+
 ;; Some simple decision making functions
 (define (random-as agent actions)
   (lambda (percepts)
@@ -146,14 +189,32 @@
   (set-agent-orientation! agent (remainder
                                  (+ (agent-orientation agent) 1)
                                  4)))
+(define box-moved #f)
 
 (define (move! agent environment movements)
-  (let ([next-position (+ (agent-position agent)
-                          (& movements (agent-orientation agent)))])
+  (let* ([next-position (+ (agent-position agent)
+                           (& movements (agent-orientation agent)))]
+         [object-in-front (tile-object-on-top (& environment next-position))]
+         [moved? #f]
+         [next-box-position #f])
     ;; reduce energy
     (set-agent-energy! agent (reduce-energy (agent-energy agent) 10))
-    (unless (tile-object-on-top (& environment next-position))
-      (set-agent-position! agent next-position))))
+    ;; dealing with boxes
+    (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'box))
+      (set! next-box-position (+ next-position (& movements (agent-orientation agent))))
+      (unless (tile-object-on-top (& environment next-box-position))
+        (take-object! next-position env WORLD-SIZE)
+        (place-object! temp-object next-box-position environment WORLD-SIZE)
+        (set! moved? #t)
+        (printf "box moved^~n")
+        (set-agent-position! agent next-position)))
+    (unless (or object-in-front moved?)
+      (printf "box-moved: ~a, object-in-front: ~a~n" moved? object-in-front)
+      (set-agent-position! agent next-position))
+    (if moved?
+        (set! box-moved next-box-position)
+        (set! box-moved #f))))
+
 
 (define (do-nothing! agent environment movements)
   (set-agent-energy! agent (reduce-energy (agent-energy agent) 0.01))
@@ -380,7 +441,7 @@
 
 ;;; Instantiate environment and agent
 ;; let's build an environment
-(define WORLD-SIZE 200)
+(define WORLD-SIZE 30)
 (define env (build-environment WORLD-SIZE))
 (define movements (list->vector `(,(- WORLD-SIZE) +1 ,WORLD-SIZE -1)))
 (define A (make-agent 0 0 3000 3000 void))
