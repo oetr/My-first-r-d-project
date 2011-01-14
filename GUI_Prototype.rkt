@@ -31,7 +31,7 @@
 ;; A frame
 (define frame (new frame% [label ""]))
 (define white-pen (make-object pen% "WHITE" 1 'solid))
-(define black-pen (make-object pen% "BLACK" 0.75 'solid))
+(define black-pen (make-object pen% "BLACK" 1 'solid))
 (define white-brush (make-object brush% "WHITE" 'solid))
 (define black-brush (make-object brush% "BLACK" 'solid))
 (define red-brush (make-object brush% "RED" 'solid))
@@ -65,11 +65,11 @@
       (set-draw! event-type)
       ;;(printf "mouse-event = ~a; state = ~a~n" event-type mouse-event)
       (when (and draw? (position-valid? x y))
-        (let ([new-x (inexact->exact (quotient x (/ width WORLD-SIZE)))]
-              [new-y (inexact->exact (quotient y (/ height WORLD-SIZE)))]
+        (let ([new-x (inexact->exact (floor (/ x (/ width WORLD-SIZE))))]
+              [new-y (inexact->exact (floor (/ y (/ height WORLD-SIZE))))]
               [w (/ width WORLD-SIZE)]
               [h (/ height WORLD-SIZE)])
-;;          (printf "(~a; ~a)~n" new-x new-y)
+          (printf "(~a; ~a)~n" new-x new-y)
           (place-object! current-object-to-insert
                         (coordinates->position WORLD-SIZE (make-posn new-x new-y))
                         env WORLD-SIZE)
@@ -79,7 +79,7 @@
 
 (define (position-valid? x y)
   (and (>= x 0.0) (>= y 0)
-       (<= x WIDTH) (<= y HEIGHT)))
+       (< x WIDTH) (< y HEIGHT)))
 
 (define (local-erase x y width height)
   (draw-shapes erase-rectangle-design x y width height))
@@ -130,8 +130,8 @@
                                      (draw-world)))))
   (set! slider (new slider% [parent panel]
                     [label "Delay (ms)"]
-                    [min-value 1]
-                    [max-value 500]))
+                    [min-value 0]
+                    [max-value 250]))
   ;; draw frame
   (send frame show #t)
   (send dc set-smoothing 'unsmoothed)
@@ -163,7 +163,7 @@
             (send button set-label "Start")
             (thread-suspend simulation)
             (send step-button enable #t)
-            (draw-grid)
+;;            (draw-grid)
             (draw-elements)
             (draw-agent A))
           (begin
@@ -198,6 +198,7 @@
   (let-values ([(w h) (send dc get-size)])
     ;;(printf "w=~a, h=~a~n"  w h)
     (for ([i (in-range (/ w WORLD-SIZE) w (/ w WORLD-SIZE))])
+         (printf "~a~n" i)
          (send dc draw-line i 0 i h))
     (for ([i (in-range (/ h WORLD-SIZE) h (/ h WORLD-SIZE))])
          (send dc draw-line 0 i w i))))
@@ -249,40 +250,40 @@
      (rectangle 0.7 0.45 0.1 0.15 black 1 black)
      (rectangle 0.7 0.7 0.1 0.15 black 1 black)
      (rectangle 0.45 0.3 0.1 0.3 black 1 red) ;; gripper
-     (line 0.45 0.3 0.4 0.25 black 2) ;; fingers
-     (line 0.4 0.25 0.4 0.15 black 2)
-     (line 0.55 0.3 0.6 0.25 black 2)
-     (line 0.6 0.25 0.6 0.15 black 2))
+     (line 0.45 0.3 0.4 0.25 black 1) ;; fingers
+     (line 0.4 0.25 0.4 0.15 black 1)
+     (line 0.55 0.3 0.6 0.25 black 1)
+     (line 0.6 0.25 0.6 0.15 black 1))
    '((rectangle 0.1 0.3 0.5 0.4 black 1 white) ;; body
      (rectangle 0.15 0.2 0.15 0.1 black 1 black) ;; wheels
      (rectangle 0.4 0.2 0.15 0.1 black 1 black)
      (rectangle 0.15 0.7 0.15 0.1 black 1 black)
      (rectangle 0.4 0.7 0.15 0.1 black 1 black)
      (rectangle 0.4 0.45 0.3 0.1 black 1 red) ;; gripper
-     (line 0.7 0.45 0.75 0.4 black 2) ;; fingers
-     (line 0.75 0.4 0.85 0.4 black 2)
-     (line 0.7 0.55 0.75 0.6 black 2)
-     (line 0.75 0.6 0.85 0.6 black 2))
+     (line 0.7 0.45 0.75 0.4 black 1) ;; fingers
+     (line 0.75 0.4 0.85 0.4 black 1)
+     (line 0.7 0.55 0.75 0.6 black 1)
+     (line 0.75 0.6 0.85 0.6 black 1))
    '((rectangle 0.3 0.1 0.4 0.5 black 1 white) ;; body
      (rectangle 0.2 0.15 0.1 0.15 black 1 black) ;; wheels
      (rectangle 0.2 0.4 0.1 0.15 black 1 black)
      (rectangle 0.7 0.15 0.1 0.15 black 1 black)
      (rectangle 0.7 0.4 0.1 0.15 black 1 black)
      (rectangle 0.45 0.4 0.1 0.3 black 1 red) ;; gripper
-     (line 0.45 0.7 0.4 0.75 black 2) ;; fingers
-     (line 0.4 0.75 0.4 0.85 black 2)
-     (line 0.55 0.7 0.6 0.75 black 2)
-     (line 0.6 0.75 0.6 0.85 black 2))
+     (line 0.45 0.7 0.4 0.75 black 1) ;; fingers
+     (line 0.4 0.75 0.4 0.85 black 1)
+     (line 0.55 0.7 0.6 0.75 black 1)
+     (line 0.6 0.75 0.6 0.85 black 1))
    '((rectangle 0.4 0.3 0.5 0.4 black 1 white) ;; body
      (rectangle 0.45 0.2 0.15 0.1 black 1 black) ;; wheels
      (rectangle 0.7 0.2 0.15 0.1 black 1 black)
      (rectangle 0.45 0.7 0.15 0.1 black 1 black)
      (rectangle 0.7 0.7 0.15 0.1 black 1 black)
      (rectangle 0.3 0.45 0.3 0.1 black 1 red) ;; gripper
-     (line 0.3 0.45 0.25 0.4 black 2) ;; fingers
-     (line 0.25 0.4 0.15 0.4 black 2)
-     (line 0.3 0.55 0.25 0.6 black 2)
-     (line 0.25 0.6 0.15 0.6 black 2))))
+     (line 0.3 0.45 0.25 0.4 black 1) ;; fingers
+     (line 0.25 0.4 0.15 0.4 black 1)
+     (line 0.3 0.55 0.25 0.6 black 1)
+     (line 0.25 0.6 0.15 0.6 black 1))))
 
 (define door-design
   '((rectangle 0.1 0.1 0.1 0.9 black 0 black)
@@ -296,12 +297,12 @@
   '((rectangle 0.3 0.3 0.4 0.4 Green 0.1 Green)))
 
 (define erase-rectangle-design
-  '((rectangle 0.05 0.05 0.95 0.95 White 0 White)))
+  '((rectangle 0.0 0.0 1.0 1.0 Black 1 White)))
 
 (define (draw-rectangle x y width height (pen 'black) (pen-width 1) (brush 'white))
   (send dc set-pen (symbol->string pen) pen-width 'solid)
   (send dc set-brush (symbol->string brush) 'solid)
-  (send dc draw-rectangle x y width height)
+  (send dc draw-rectangle x y (+ width 1) (+ height 1))
   (restore-pen-brush))
 
 (define (draw-ellipse x y width height (pen 'black) (pen-width 1) (brush 'white))
@@ -319,6 +320,9 @@
   (cond [(symbol=? 'rectangle (first shape))
          (let ([base-x (+ x (* scale-x (second shape)))]
                [base-y (+ y (* scale-y (third shape)))])
+           ;; (printf "base-x ~a, base-y ~a, a ~a, b ~a, scale-x ~a, scale-y ~a~n"
+           ;;         base-x base-y (* scale-x (fourth shape)) (* scale-y (fifth shape))
+           ;;         scale-x scale-y)
            (apply draw-rectangle
                   (append (list base-x base-y
                                 (* scale-x (fourth shape))
@@ -333,7 +337,7 @@
                                 (* scale-y (fifth shape)))
                           (drop shape 5))))]
         [else ;; line
-         (send dc set-smoothing 'smoothed)
+;;         (send dc set-smoothing 'smoothed)
          (let ([p1-x (+ x (* scale-x (second shape)))]
                [p1-y (+ y (* scale-y (third shape)))]
                [p2-x (+ x (* scale-x (fourth shape)))]
@@ -342,12 +346,12 @@
                   ;;(printf "~a~n" (list
                   (append (list p1-x p1-y p2-x p2-y)
                           (drop shape 5))))
-         (send dc set-smoothing 'unsmoothed)
+;;         (send dc set-smoothing 'unsmoothed)
          ]))
 
 (define (make-gui)
   (create-view)
-  (draw-grid)
+;;  (draw-grid)
   (draw-elements))
 
 (define (draw-world)
@@ -358,6 +362,7 @@
     (draw-agent A)
     (when box-moved
       (let ([posn (position->coordinates WORLD-SIZE box-moved)])
+        ;;(printf "box moved~n")
         (draw-location (posn-x posn) (posn-y posn))))))
 
 (define (draw-location x y)
