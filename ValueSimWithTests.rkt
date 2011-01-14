@@ -206,10 +206,8 @@
         (take-object! next-position env WORLD-SIZE)
         (place-object! temp-object next-box-position environment WORLD-SIZE)
         (set! moved? #t)
-        (printf "box moved^~n")
         (set-agent-position! agent next-position)))
     (unless (or object-in-front moved?)
-      (printf "box-moved: ~a, object-in-front: ~a~n" moved? object-in-front)
       (set-agent-position! agent next-position))
     (if moved?
         (set! box-moved next-box-position)
@@ -441,7 +439,7 @@
 
 ;;; Instantiate environment and agent
 ;; let's build an environment
-(define WORLD-SIZE 30)
+(define WORLD-SIZE 50)
 (define env (build-environment WORLD-SIZE))
 (define movements (list->vector `(,(- WORLD-SIZE) +1 ,WORLD-SIZE -1)))
 (define A (make-agent 0 0 3000 3000 void))
@@ -519,3 +517,44 @@
 
 ;;(require macro-debugger/expand)
 ;;(require macro-debugger/stepper-text)
+
+
+;; (require (planet Inaimathi/postscript:1:0))
+;; (ps "test1.ps" (0 0 612 792)
+;;     (page (translate 50 50)
+;;           (text '(0 . 0) "Hello there")
+;;           (stroke (square '(0 . 0) 100))))
+
+;; (require racket/system)
+;; (define (ps->pdf)
+;;   (begin
+;;     (ps "test1.ps" (0 0 0 0 )
+;;         (page
+;;               (text '(100 . 100) "Hello there" #:font (font "Helvetica" 30))
+;;               (stroke (square '(100 . 100) 200))))
+;;     (system "ps2pdf test1.ps")
+;;     (system "rm test1.ps")))
+
+
+;; (ps->pdf)
+
+
+;; ;;; Saving logs into a file
+;; (define f #f)
+
+;; (read-accept-compiled #t)
+
+;; (let ([file (open-output-file "test.txt"
+;;                               #:mode 'binary
+;;                               #:exists 'replace)]
+;;       [o (open-output-string)])
+;; ;;  (close-output-port file)
+;;   (fprintf file "~a" (compile (agent-fn A)))
+;;   (set! f (get-output-string o))
+;;   (close-output-port file))
+
+;; (let ([file (open-input-file "test.txt" #:mode 'text)])
+;;   (set! f (read/recursive file))
+;;   (close-input-port file))
+
+;; (system "ls")
