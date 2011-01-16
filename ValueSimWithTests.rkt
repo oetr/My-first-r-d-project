@@ -12,8 +12,7 @@
 
 ;; Levers
 (define (lever #:color [color #f]
-               #:temperature [temperature #f]
-               #:pullable? [pullable? #t])
+               #:temperature [temperature #f])
   (unless color
     (set! color (make-color (random 256)
                             (random 256)
@@ -22,13 +21,11 @@
     (set! temperature (+ 15 (random 10))))  
   (make-hash `((color . ,color)
                (temperature . ,temperature)
-               (pullable? . ,pullable?)
                (name . lever))))
 
 ;; Buttons
 (define (button #:color [color #f]
-                #:temperature [temperature #f]
-                #:pushable? [pushable? #t])
+                #:temperature [temperature #f])
   (unless color
     (set! color (make-color (random 256)
                             (random 256)
@@ -37,61 +34,45 @@
     (set! temperature (+ 15 (random 10))))  
   (make-hash `((color . ,color)
                (temperature . ,temperature)
-               (pushable? . ,pushable?)
                (name . button))))
 
 ;; Rocks
 (define (wall #:color [color #f]
-              #:temperature [temperature #f]
-              #:movable? [movable? empty])
+              #:temperature [temperature #f])
   (unless color
-    (set! color (make-color (random 256)
-                            (random 256)
-                            (random 256))))
+    (set! color (make-color 255 255 255)))
   (unless temperature
     (set! temperature (+ 15 (random 10))))
-  (when (empty? movable?)
-    (if (zero? (random 2))
-        (set! movable? #t)
-        (set! movable? #f)))
+  ;; (when (empty? movable?)
+  ;;   (if (zero? (random 2))
+  ;;       (set! movable? #t)
+  ;;       (set! movable? #f)))
   (make-hash `((color . ,color)
                (temperature . ,temperature)
-               (movable? . ,movable?)
                (name . wall))))
-
 
 ;; Boxes
 (define (door #:color [color #f]
-             #:temperature [temperature #f]
-             #:movable? [movable? empty])
+              #:temperature [temperature #f]
+              #:open? [open? #f])
   (unless color
     (set! color (make-color 0 255 0)))
   (unless temperature
     (set! temperature (+ 15 (random 10))))
-  (when (empty? movable?)
-    (if (zero? (random 2))
-        (set! movable? #t)
-        (set! movable? #f)))
   (make-hash `((color . ,color)
                (temperature . ,temperature)
-               (movable? . ,movable?)
+               (open? . ,open?)
                (name . door))))
 
 ;; Boxes
 (define (box #:color [color #f]
-             #:temperature [temperature #f]
-             #:movable? [movable? empty])
+             #:temperature [temperature #f])
   (unless color
     (set! color (make-color 0 255 0)))
   (unless temperature
     (set! temperature (+ 15 (random 10))))
-  (when (empty? movable?)
-    (if (zero? (random 2))
-        (set! movable? #t)
-        (set! movable? #f)))
   (make-hash `((color . ,color)
                (temperature . ,temperature)
-               (movable? . ,movable?)
                (name . box))))
 
 ;; Battery packs
@@ -120,7 +101,7 @@
                    (= (quotient n world-size) 0)
                    (= (quotient n world-size) (- world-size 1)))
                (set-tile-object-on-top! (& environment n)
-                                        (wall #:movable? #f))
+                                        (wall))
                (aux (+ n 1))]
               [else
                (aux (+ n 1))]))
@@ -128,7 +109,7 @@
     (set! environment
           (build-vector (expt world-size 2)
                         (lambda (n)
-                          (tile (make-color 19 201 19) 15 #f 0))))
+                          (tile (make-color 0 0 0) 15 #f 0))))
     (fill-boundaries)))
 
 ;;; Agent
@@ -437,11 +418,14 @@
   (save-log data WORLD-SIZE)
   (void))
 
+(define (make-movements world-size)
+  (list->vector `(,(- world-size) +1 ,world-size -1)))
+
 ;;; Instantiate environment and agent
 ;; let's build an environment
-(define WORLD-SIZE 50)
+(define WORLD-SIZE 30)
 (define env (build-environment WORLD-SIZE))
-(define movements (list->vector `(,(- WORLD-SIZE) +1 ,WORLD-SIZE -1)))
+(define movements (make-movements WORLD-SIZE))
 (define A (make-agent 0 0 3000 3000 void))
 (set-agent-fn! A (random-as A actions))
 
@@ -518,7 +502,6 @@
 ;;(require macro-debugger/expand)
 ;;(require macro-debugger/stepper-text)
 
-
 ;; (require (planet Inaimathi/postscript:1:0))
 ;; (ps "test1.ps" (0 0 612 792)
 ;;     (page (translate 50 50)
@@ -535,26 +518,70 @@
 ;;     (system "ps2pdf test1.ps")
 ;;     (system "rm test1.ps")))
 
-
 ;; (ps->pdf)
+;;; Saving logs into a file
+(define f #f)
 
+(read-accept-compiled #t)
 
-;; ;;; Saving logs into a file
-;; (define f #f)
+;;         [o (open-output-string)])
+;;     (set! f (get-output-string o))
 
-;; (read-accept-compiled #t)
+(define (save-environment file)
+  (let ([file (open-output-file file
+                                #:mode 'binary
+                                #:exists 'replace)])
+    (fprintf file "~s" env)
+    (close-output-port file)))
 
-;; (let ([file (open-output-file "test.txt"
-;;                               #:mode 'binary
-;;                               #:exists 'replace)]
-;;       [o (open-output-string)])
-;; ;;  (close-output-port file)
-;;   (fprintf file "~a" (compile (agent-fn A)))
-;;   (set! f (get-output-string o))
-;;   (close-output-port file))
+;;(define new-world #f)
 
-;; (let ([file (open-input-file "test.txt" #:mode 'text)])
-;;   (set! f (read/recursive file))
-;;   (close-input-port file))
+;;(define-struct tile (color temperature object-on-top traversable?))
 
-;; (system "ls")
+(define (load-environment file)
+  (let ([file (open-input-file file #:mode 'text)])
+    (define result (read/recursive file))
+    (close-input-port file)
+    (restore-structure result)))
+
+;; to create a structure from a vector of values
+(define (restore-structure description)
+  (cond [(and (vector? description) (vector-empty? description)) description]
+        [(and (vector? description) (not (symbol? (& description 0))))
+         (vector-map restore-structure description)]
+        [(and (vector? description) (symbol? (& description 0)))
+         (let ([symbol (& description 0)]
+               [command #f])
+           (cond [(symbol=? symbol 'struct:tile) (set! command make-tile)]
+                 [(symbol=? symbol 'struct:color) (set! command make-color)]
+                 [else
+                  (error "unknown structure found -- RESTORE-STRUCTURE" description)])
+           (apply command
+                  (vector->list
+                   (vector-map
+                    restore-structure
+                    (vector-drop description 1)))))]
+        [(hash? description)
+         (let ([c (hash-ref description 'color)])
+           (hash-set description
+                     'color
+                     (apply make-color (vector->list (vector-drop c 1)))))]
+        [(number? description) description]
+        [else #f]))
+
+(define (environment-eq? e1 e2)
+  (cond [(and (vector? e1) (not (vector e2)))
+         (printf "e1 vector? --  yes; e2 vector? -- no\n")]
+        [(and (not (vector? e1)) (vector e2))
+         (printf "e1 vector? --  no; e2 vector? -- yes\n")]
+        [(vector? e1) (vector-map environment-eq? e1 e2)]))
+
+(define (load-and-set-environment file)
+  (let ([new-env (load-environment file)])
+    (printf "~a~n" (vector-length new-env))
+    (set! WORLD-SIZE (sqrt (vector-length new-env)))
+    (set! movements (make-movements WORLD-SIZE))
+    (set! env new-env)))
+
+;;(save-environment "env1.txt")
+;;(load-and-set-environment "env1.txt")
