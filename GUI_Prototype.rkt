@@ -18,12 +18,19 @@
 (define WIDTH #f)
 (define HEIGHT #f)
 
+(define (set-global-variables)
+  (let-values ([(width height) (send dc get-size)])
+    (set! WIDTH width)
+    (set! HEIGHT height)
+    (set! W (/ width WORLD-SIZE))
+    (set! H (/ height WORLD-SIZE)))
+  (let ([posn (position->coordinates WORLD-SIZE (agent-position A))])
+    (set! old-x (posn-x posn))
+    (set! old-y (posn-y posn))))
+
 ;; agent backup information
 (define old-x #f)
 (define old-y #f)
-(let ([posn (position->coordinates WORLD-SIZE (agent-position A))])
-  (set! old-x (posn-x posn))
-  (set! old-y (posn-y posn)))
 
 ;; Useful pen and brush backup utility
 (define backup-pen #f)
@@ -137,11 +144,7 @@
   (send dc set-smoothing 'unsmoothed)
   (sleep/yield 1)
   ;; Set some global variables
-  (let-values ([(width height) (send dc get-size)])
-    (set! WIDTH width)
-    (set! HEIGHT height)
-    (set! W (/ width WORLD-SIZE))
-    (set! H (/ height WORLD-SIZE))))
+  (set-global-variables))
 
 (define (restore-pen-brush)
   (send dc set-pen black-pen)
@@ -160,12 +163,12 @@
     (lambda (button)
       (if switch
           (begin
-            (send button set-label "Start")
             (thread-suspend simulation)
-            (send step-button enable #t)
-;;            (draw-grid)
-            (draw-elements)
-            (draw-agent A))
+            (draw-agent A)
+;;            (draw-elements)
+            (send button set-label "Start")
+            ;; (draw-grid)
+            (send step-button enable #t))
           (begin
             (send button set-label "Stop")
             (thread-resume simulation)
@@ -198,7 +201,6 @@
   (let-values ([(w h) (send dc get-size)])
     ;;(printf "w=~a, h=~a~n"  w h)
     (for ([i (in-range (/ w WORLD-SIZE) w (/ w WORLD-SIZE))])
-         (printf "~a~n" i)
          (send dc draw-line i 0 i h))
     (for ([i (in-range (/ h WORLD-SIZE) h (/ h WORLD-SIZE))])
          (send dc draw-line 0 i w i))))
@@ -225,7 +227,8 @@
         [(and (hash? (tile-object-on-top object))
               (symbol=? 'door (hash-ref (tile-object-on-top object) 'name)))
          (draw-shapes door-design (posn-x posn) (posn-y posn) w h)] 
-        [else (void)]))
+        [else
+         (draw-shapes erase-rectangle-design (posn-x posn) (posn-y posn) w h)]))
 
 (define (draw-shapes shapes x y width height)
   (andmap (lambda (a-shape)
@@ -394,5 +397,31 @@
 
 ;; connect the buttons to their right functions
 
-;;; Objects Visual Design
+;;; Saving and Loading
+(define (load-environment-gui file)
+  (load-and-set-environment file)
+  (set! A (place-agent-randomly A env WORLD-SIZE))
+  (set-global-variables)
+  (send dc clear)
+  (draw-grid)
+  (draw-elements))
+
 (make-gui)
+
+(load-environment-gui "env3.txt")
+;;(save-environment "env3.txt")
+
+(define (change-size new-world-size)
+  (set! WORLD-SIZE new-world-size)
+  (set! env (build-environment new-world-size))
+  (set! movements (make-movements new-world-size))
+  (set! A (place-agent-randomly A env WORLD-SIZE))
+  (set-global-variables)
+  (send dc clear)
+  (draw-grid)
+  (draw-elements))
+
+;;(send dc set-smoothing 'aligned)
+;;(change-size 50)
+
+;;; Objects Visual Design
