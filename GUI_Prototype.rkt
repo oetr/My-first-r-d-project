@@ -76,7 +76,7 @@
               [new-y (inexact->exact (floor (/ y (/ height WORLD-SIZE))))]
               [w (/ width WORLD-SIZE)]
               [h (/ height WORLD-SIZE)])
-          (printf "(~a; ~a)~n" new-x new-y)
+          ;; (printf "(~a; ~a)~n" new-x new-y)
           (place-object! current-object-to-insert
                         (coordinates->position WORLD-SIZE (make-posn new-x new-y))
                         env WORLD-SIZE)
@@ -226,7 +226,11 @@
          (draw-shapes box-design (posn-x posn) (posn-y posn) w h)]
         [(and (hash? (tile-object-on-top object))
               (symbol=? 'door (hash-ref (tile-object-on-top object) 'name)))
-         (draw-shapes door-design (posn-x posn) (posn-y posn) w h)] 
+         (let ([design #f])
+           (if (hash-ref (tile-object-on-top object) 'open?)
+               (set! design (& door-design 1))
+               (set! design (& door-design 0)))
+           (draw-shapes design (posn-x posn) (posn-y posn) w h))]
         [else
          (draw-shapes erase-rectangle-design (posn-x posn) (posn-y posn) w h)]))
 
@@ -243,6 +247,7 @@
 (define (draw-agent agent)
   (let([posn (position->coordinates WORLD-SIZE (agent-position agent))]
        [shapes (vector-ref agent-design (agent-orientation agent))])
+    (draw-location (posn-x posn) (posn-y posn))
     (draw-shapes shapes (posn-x posn) (posn-y posn) W H)))
 
 (define agent-design
@@ -289,12 +294,16 @@
      (line 0.25 0.6 0.15 0.6 black 1))))
 
 (define door-design
-  '((rectangle 0.1 0.1 0.1 0.9 black 0 black)
+  (vector 
+   '((rectangle 0.1 0.1 0.1 0.9 black 0 black)
      (rectangle 0.1 0.1 0.75 0.1 black 0 black)
      (rectangle 0.85 0.1 0.05 0.9 black 0 black)
-     (rectangle 0.19 0.19 0.7 0.85 Gray 0 Gray)
-     (rectangle 0.2 0.2 0.63 0.8 Orange 0 Orange)
-     (ellipse 0.3 0.45 0.2 0.2 DimGray 0.3 Black)))
+     (rectangle 0.19 0.19 0.7 0.8 Gray 0 Gray)
+     (rectangle 0.2 0.2 0.63 0.7 Orange 0 Orange)
+     (ellipse 0.3 0.45 0.2 0.2 DimGray 0.3 Black))
+   '((line 0.1 0.1 0.1 0.95 Orange 1.5)
+     (line 0.1 0.1 0.85 0.1 Orange 1.5)
+     (line 0.9 0.1 0.9 0.95 Orange 1.5))))
 
 (define box-design
   '((rectangle 0.3 0.3 0.4 0.4 Green 0.1 Green)))
@@ -358,15 +367,27 @@
   (draw-elements))
 
 (define (draw-world)
-  (let ([posn (position->coordinates WORLD-SIZE (agent-position A))])
+  (let ([posn (position->coordinates WORLD-SIZE (agent-position A))]
+        [new-x #f]
+        [new-y #f])
+    (set! new-x (posn-x posn))
+    (set! new-y (posn-y posn))    
     (local-erase old-x old-y W H)
-    (set! old-x (posn-x posn))
-    (set! old-y (posn-y posn))
-    (draw-agent A)
+    (draw-location old-x old-y)
+    (set! old-x new-x)
+    (set! old-y new-y)
+    ;; drawing a box that has been moved
     (when box-moved
-      (let ([posn (position->coordinates WORLD-SIZE box-moved)])
+      (let ([new-box-posn (position->coordinates WORLD-SIZE box-moved)])
         ;;(printf "box moved~n")
-        (draw-location (posn-x posn) (posn-y posn))))))
+        (draw-location (posn-x new-box-posn) (posn-y new-box-posn))))
+    ;; drawing a door that has been either opened or closed
+    (when door-changed
+      (let ([new-door-posn (position->coordinates WORLD-SIZE door-changed)])
+        (local-erase (posn-x new-door-posn) (posn-y new-door-posn) W H)
+        (draw-location (posn-x new-door-posn) (posn-y new-door-posn))
+        (set! door-changed #f)))
+    (draw-agent A)))
 
 (define (draw-location x y)
   (if (position-valid? x y)
@@ -408,7 +429,7 @@
 
 (make-gui)
 
-(load-environment-gui "env3.txt")
+;;(load-environment-gui "env3.txt")
 ;;(save-environment "env3.txt")
 
 (define (change-size new-world-size)
