@@ -171,6 +171,7 @@
                                  (+ (agent-orientation agent) 1)
                                  4)))
 (define box-moved #f)
+(define door-changed #f)
 
 (define (move! agent environment movements)
   (let* ([next-position (+ (agent-position agent)
@@ -192,12 +193,61 @@
       (set-agent-position! agent next-position))
     (if moved?
         (set! box-moved next-box-position)
-        (set! box-moved #f))))
+        (set! box-moved #f))
+    ;; dealing with doors
+    (when (and object-in-front
+               (symbol=? (hash-ref object-in-front 'name) 'door)
+               (hash-ref object-in-front 'open?)) ;; door open
+      (set-agent-position! agent next-position))))
+
+(define (move-back! agent environment movements)
+  (let* ([next-position (- (agent-position agent)
+                           (& movements (agent-orientation agent)))]
+         [object-in-back (tile-object-on-top (& environment next-position))]
+         [moved? #f]
+         [next-box-position #f])
+    (when (and object-in-back (symbol=? (hash-ref object-in-back 'name) 'box))
+      (set! next-box-position (- next-position (& movements (agent-orientation agent))))
+      (unless (tile-object-on-top (& environment next-box-position))
+        (take-object! next-position env WORLD-SIZE)
+        (place-object! temp-object next-box-position environment WORLD-SIZE)
+        (set! moved? #t)
+        (set-agent-position! agent next-position)))
+    (unless (or object-in-back moved?)
+      (set-agent-position! agent next-position))
+        (if moved?
+        (set! box-moved next-box-position)
+        (set! box-moved #f))
+    ;; dealing with doors
+    (when (and object-in-back
+               (symbol=? (hash-ref object-in-back 'name) 'door)
+               (hash-ref object-in-back 'open?)) ;; door open
+      (set-agent-position! agent next-position))))
 
 
 (define (do-nothing! agent environment movements)
   (set-agent-energy! agent (reduce-energy (agent-energy agent) 0.01))
   (void))
+
+(define (open-door! agent environment movements)
+  (let* ([next-position (+ (agent-position agent)
+                           (& movements (agent-orientation agent)))]
+         [object-in-front (tile-object-on-top (& environment next-position))])
+    ;; a door in front of the agent
+    (set! door-changed #f)
+    (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'door))
+      (set! door-changed next-position)
+      (hash-set! object-in-front 'open? #t))))
+
+(define (close-door! agent environment movements)
+  (let* ([next-position (+ (agent-position agent)
+                           (& movements (agent-orientation agent)))]
+         [object-in-front (tile-object-on-top (& environment next-position))])
+    ;; a door in front of the agent
+    (set! door-changed #f)
+    (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'door))
+      (set! door-changed next-position)
+      (hash-set! object-in-front 'open? #f))))
 
 (define (reduce-energy current-amount amount)
   (let ([next-energy (- current-amount amount)])
@@ -205,7 +255,9 @@
         0
         next-energy)))
 
-(define actions (vector move! turn-left! turn-right! do-nothing!))
+(define actions (vector move! turn-left! turn-right!
+                        do-nothing! open-door! close-door!
+                        move-back!))
 
 
 ;;; Sensors
@@ -361,9 +413,10 @@
 (define (timestamp)
   (let ([now (current-date)]
         [n (open-output-string)])
-    (fprintf n "ValueSim-~a-~a-~a-~a-~a"
+    (fprintf n "ValueSim-~a-~a-~a-~a-~a-~a"
              (date-year now)
              (date-month now)
+             (date-day now)
              (date-hour now)
              (date-minute now)
              (date-second now))
@@ -398,7 +451,7 @@
             ;; let the agent make decision combining new percepts
             (set!-values (value-system-label decision)
                          (agent-live agent percepts))
-            ;;        (printf "decision: ~a, label: ~a~n" decision value-system-label)
+             ;;(printf "~a~n" decision)
             ;; log data
             (log-data! percepts value-system-label decision agent data n)
             ;; TODO test that the content of all the vectors is copied
