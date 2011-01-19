@@ -218,12 +218,11 @@
         (if moved?
         (set! box-moved next-box-position)
         (set! box-moved #f))
-    ;; dealing with doors
+    ;; going through open doors
     (when (and object-in-back
                (symbol=? (hash-ref object-in-back 'name) 'door)
                (hash-ref object-in-back 'open?)) ;; door open
       (set-agent-position! agent next-position))))
-
 
 (define (do-nothing! agent environment movements)
   (set-agent-energy! agent (reduce-energy (agent-energy agent) 0.01))
@@ -255,10 +254,10 @@
         0
         next-energy)))
 
-(define actions (vector move! turn-left! turn-right!
-                        do-nothing! open-door! close-door!
-                        move-back!))
-
+(define actions (vector
+                 move! turn-left! turn-right!
+                 do-nothing! open-door! close-door!
+                 move-back!))
 
 ;;; Sensors
 (define (compute-surrounding-temperatures agent environment)
@@ -308,18 +307,18 @@
              [right (& x-y-movements (turn-right orientation))]
              [start (posn+ position front)])
         (vector
-         ;; first row from left to right
-         (posn+ start (posn+ left left))
-         (posn+ start left)
+         ;; first row -- 1 element
          start
-         (posn+ start right)
-         (posn+ start (posn+ right right))
-         ;; second row
-         (posn+ start (posn+ front left))
+         ;; second row -- 3 elements
+         (posn+ start front left)
          (posn+ start front)
-         (posn+ start (posn+ front right))
-         ;; third row
-         (posn+ start (posn+ front front)))))
+         (posn+ start front right)
+         ;; third row -- 5 elements
+         (posn+ start front front left left)
+         (posn+ start front front left)
+         (posn+ start front front)
+         (posn+ start front front right)
+         (posn+ start front front right right))))
     (vector-map compute-color (visible-tiles))))
 
 ;; produces a vector of values
@@ -355,9 +354,21 @@
 (define x-y-movements (vector (make-posn 0 -1) (make-posn 1 0)
                               (make-posn 0 1) (make-posn -1 0)))
 
-(define (posn+ posn1 posn2)
-  (make-posn (+ (posn-x posn1) (posn-x posn2))
-             (+ (posn-y posn1) (posn-y posn2))))
+(define (posn+ . pars)
+  (define (posn+-acc result a-list)
+    (cond [(empty? a-list) result]
+          [else
+           (let ([first-el (first a-list)])
+             (posn+-acc
+              (list (+ (first result) (posn-x first-el))
+                    (+ (second result) (posn-y first-el)))
+              (rest a-list)))]))
+  (let ([result (posn+-acc '(0 0) pars)])
+    (make-posn (first result) (second result))))
+
+(define (posn* posn1 n)
+  (make-posn (* (posn-x posn1) n)
+             (* (posn-y posn1) n)))
 
 (define (move-in-x-y posn orientation coordinate-movements)
   (posn+ posn (& coordinate-movements orientation)))
