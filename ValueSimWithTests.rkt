@@ -40,7 +40,7 @@
 (define (wall #:color [color #f]
               #:temperature [temperature #f])
   (unless color
-    (set! color (make-color 255 255 255)))
+    (set! color (make-color 0 0 0)))
   (unless temperature
     (set! temperature (+ 15 (random 10))))
   ;; (when (empty? movable?)
@@ -68,7 +68,7 @@
 (define (box #:color [color #f]
              #:temperature [temperature #f])
   (unless color
-    (set! color (make-color 0 255 0)))
+    (set! color (make-color 255 255 0)))
   (unless temperature
     (set! temperature (+ 15 (random 10))))
   (make-hash `((color . ,color)
@@ -109,7 +109,7 @@
     (set! environment
           (build-vector (expt world-size 2)
                         (lambda (n)
-                          (tile (make-color 0 0 0) 15 #f 0))))
+                          (tile (make-color 255 255 255) 15 #f 0))))
     (fill-boundaries)))
 
 ;;; Agent
@@ -215,7 +215,7 @@
         (set-agent-position! agent next-position)))
     (unless (or object-in-back moved?)
       (set-agent-position! agent next-position))
-        (if moved?
+    (if moved?
         (set! box-moved next-box-position)
         (set! box-moved #f))
     ;; going through open doors
@@ -236,6 +236,7 @@
     (set! door-changed #f)
     (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'door))
       (set! door-changed next-position)
+      (hash-set! object-in-front 'color (make-color 190 190 190))
       (hash-set! object-in-front 'open? #t))))
 
 (define (close-door! agent environment movements)
@@ -246,6 +247,7 @@
     (set! door-changed #f)
     (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'door))
       (set! door-changed next-position)
+      (hash-set! object-in-front 'color (make-color 255 255 0))
       (hash-set! object-in-front 'open? #f))))
 
 (define (reduce-energy current-amount amount)
@@ -260,7 +262,7 @@
                  move-back!))
 
 ;;; Sensors
-(define (compute-surrounding-temperatures agent environment)
+(define (compute-surrounding-temperatures agent environment movements)
   (define (compute-temperature pos)
     (let* ([a-tile (& environment pos)]
            [object-on-top (tile-object-on-top a-tile)])
@@ -307,18 +309,18 @@
              [right (& x-y-movements (turn-right orientation))]
              [start (posn+ position front)])
         (vector
-         ;; first row -- 1 element
-         start
-         ;; second row -- 3 elements
-         (posn+ start front left)
-         (posn+ start front)
-         (posn+ start front right)
          ;; third row -- 5 elements
          (posn+ start front front left left)
          (posn+ start front front left)
          (posn+ start front front)
          (posn+ start front front right)
-         (posn+ start front front right right))))
+         (posn+ start front front right right)
+         ;; second row -- 3 elements
+         (posn+ start front left)
+         (posn+ start front)
+         (posn+ start front right)
+         ;; first row -- 1 element
+         start)))
     (vector-map compute-color (visible-tiles))))
 
 ;; produces a vector of values
@@ -330,7 +332,7 @@
     ;; life
     (agent-life agent))
    ;; temperature
-   (compute-surrounding-temperatures agent environment)
+   (compute-surrounding-temperatures agent environment movements)
    ;; vision
    (call-with-values
        (lambda () (vector->values
@@ -449,7 +451,7 @@
 
 (define (agent-live agent percepts)
   ((agent-fn agent) percepts))
-  
+
 (define (run-simulation agent environment movements data steps)
   (let ([percepts #f]
         [value-system-label #f]
@@ -462,7 +464,7 @@
             ;; let the agent make decision combining new percepts
             (set!-values (value-system-label decision)
                          (agent-live agent percepts))
-             ;;(printf "~a~n" decision)
+            ;;(printf "~a~n" decision)
             ;; log data
             (log-data! percepts value-system-label decision agent data n)
             ;; TODO test that the content of all the vectors is copied
