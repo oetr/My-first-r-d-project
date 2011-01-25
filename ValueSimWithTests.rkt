@@ -152,12 +152,6 @@
           [else (set! obj object)])
     (set-tile-object-on-top! tile obj)))
 
-;; Some simple decision making functions
-(define (random-as agent actions)
-  (lambda (percepts)
-    (let ([decision (& actions (random (vector-length actions)))])
-      (values (vector 0) decision))))
-
 ;;; Actions
 (define (turn-left! agent environment movements)
   (set-agent-energy! agent (reduce-energy (agent-energy agent) 0.5))
@@ -445,10 +439,45 @@
 (define (data-file-close file-out)
   (close-output-port file-out))
 
+
+;;; Value Systems
+;; value->utility : fn -> fn (values)
+;; to produce a function that maps values according to utility-fn
+(define (value->utility utility-fn)
+  (lambda (values)
+    (utility-fn values)))
+
+;;; Action selection
+;; Some simple decision making functions
+(define (random-as agent actions)
+  (lambda (percepts)
+    (let ([decision (& actions (random (vector-length actions)))])
+      (values (vector 0) decision))))
+
+
+;;; Utility functions
+;; fixed set points Konidaris and Barto
+;; mapping energy to values
+;; keep the values between 0.0 and 1.0
+(define (energy->value energy priority)
+  (- 1 (expt energy (tan (/ (* priority pi) 2)))))
+;; need generic functions whose inputs are values or vectors of values
+;; will map parts of the sensory stream into values
+
+;; adding priorities
+;; simple mappings
+
+;; reconsider the way how agent makes decisions
+;; extend the agent that it has value system, learning and action selection
+
 ;;; Run simulator
 (define (update-world! decision agent environment movements)
   (decision agent environment movements))
 
+;; TODO: there is no reason that the function of the agent returns two values?
+;; the architecture of the agent should be connected by the simulator
+;; breaking the agent down into the parts will increase the understanding of
+;; the code
 (define (agent-live agent percepts)
   ((agent-fn agent) percepts))
 
@@ -461,6 +490,9 @@
           (begin
             ;; sense
             (set! percepts (sense agent environment movements))
+            ;; TODO: run the value system on the percepts
+            ;; TODO: run the learning on the values and percepts
+            ;; TODO: make decision considering all above
             ;; let the agent make decision combining new percepts
             (set!-values (value-system-label decision)
                          (agent-live agent percepts))
