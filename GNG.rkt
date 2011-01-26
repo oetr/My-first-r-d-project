@@ -3,6 +3,63 @@
 (require (planet williams/science/random-distributions/flat))
 (require racket/date)
 
+;;; Plotting the progress
+(define (plot nodes edges gng-dc)
+  (andmap (lambda (node)
+            (let ([posn (node-position node)])
+              (send gng-dc draw-ellipse
+                    (& posn 0)
+                    (& posn 1)
+                    8 8)))
+          nodes)
+  (andmap (lambda (edge)
+            (let ([posn1 (node-position (edge-node1 edge))]
+                  [posn2 (node-position (edge-node2 edge))])
+              (let ([x1 (+ 4 (& posn1 0))]
+                    [y1 (+ 4 (& posn1 1))]
+                    [x2 (+ 4 (& posn2 0))]
+                    [y2 (+ 4 (& posn2 1))])
+                (send gng-dc draw-line x1 y1 x2 y2))))
+          edges))
+
+(define (plot-data-point data gng-dc)
+  (send gng-dc set-brush yellow-brush)
+  (send gng-dc set-pen yellow-pen)
+  (send gng-dc draw-ellipse
+        (& data 0)
+        (& data 1)
+        20 20)
+  (send gng-dc set-brush blue-brush)
+  (send gng-dc set-pen black-pen))
+
+(define gng-dc #f)
+;; Make some pens and brushes
+(define no-pen (make-object pen% "BLACK" 1 'transparent))
+(define no-brush (make-object brush% "BLACK" 'transparent))
+(define blue-brush (make-object brush% "BLUE" 'solid))
+(define yellow-brush (make-object brush% "YELLOW" 'solid))
+(define red-pen (make-object pen% "RED" 2 'solid))
+(define yellow-pen (make-object pen% "yellow" 2 'solid))
+(define blue-pen (make-object pen% "RED" 2 'solid))
+(define black-pen (make-object pen% "BLACK" 1 'solid))
+
+(define (f)
+  ;; Make a 300 x 300 frame
+  (define frame (new frame% [label "Plotting GNG"]
+                     [width 700]
+                     [height 700]))
+  ;; Make the drawing area
+  (define canvas (new canvas% [parent frame]))
+  ;; Get the canvas's drawing context
+  (set! gng-dc (send canvas get-dc))
+  (send gng-dc set-pen blue-pen)
+  (send gng-dc set-brush blue-brush)
+  ;; Show the frame
+  (send frame show #t)
+  ;; Wait a second to let the window get ready
+  (sleep/yield 1))
+
+
 ;;; Units
 ;; need a data structure to represent the units
 ;; each unit will have a position in R^n and local error
@@ -72,24 +129,24 @@
 
 ;; 8. remove edges whose age is larger than a-max
 ;; returns nodes whose edges were removed
-(define (remove-edges! edges age-max)
-  (define (remove-edges-acc new-edges removed-nodes edges)
+(define (remove-edges! check-edges age-max)
+  (define (remove-edges-acc new-edges updated-nodes)
     (cond [(empty? edges)
            (set! edges new-edges)
-           removed-nodes]
+           updated-nodes]
           [(> (edge-age (first edges)) age-max) ;; age more than a-max
            (let ([node1 (edge-node1 (first edges))]
                  [node2 (edge-node2 (first edges))])
-             (unless (member removed-nodes node1)
-               (set! removed-nodes
-                     (cons node1 removed-nodes)))
-             (unless (member removed-nodes node2)
-               (set! removed-nodes
-                     (cons node2 removed-nodes)))
-             (remove-edges-acc new-edges removed-nodes (rest edges)))]
+             (unless (member node1 updated-nodes)
+               (set! updated-nodes
+                     (cons node1 updated-nodes)))
+             (unless (member node2 updated-nodes)
+               (set! updated-nodes
+                     (cons node2 updated-nodes)))
+             (remove-edges-acc new-edges updated-nodes (rest edges)))]
           [else ;; everything is fine
            (remove-edges-acc (cons (first edges) new-edges)
-                             removed-nodes
+                             updated-nodes
                              (rest edges))]))
   (remove-edges-acc empty empty edges))
 
@@ -137,19 +194,17 @@
                   edges))
     (set! edge1 (make-edge new-node highest-error-node 0))
     (set! edge2 (make-edge new-node highest-error-neighbor 0))
-    (printf "edge1: ~a~n" edge1)
-    (printf "edge2: ~a~n" edge2)
     (set! edges (cons edge1 (cons edge2 edges)))
     ;; Insert edges connecting the new unit and node, the new unit and neighbor
     ))
 
 ;; final algorithm
-(define (GNG-update nodes edges data)
+(define (GNG-update data)
   ;; 3. find the nearest
   (let ([epsilon-b 0.2] ;; movement fraction for the nearest
         [epsilon-n 0.0006] ;; movement fraction for the neighbors of nearest
         [age-max 50] ;; delete an edge after its age is greater than age-max
-        [node-insertion-interval 100]
+        [global-error-decrease 0.995]
         ;; some variables that will be used eventually
         [nearest #f]
         [second-nearest #f]
@@ -167,11 +222,14 @@
     ;; 5. Update local error
     (set-node-error! nearest (squared-distance (node-position nearest) data))
     ;; find neighbors
+    (set! neighbors (find-neighbors nearest emanating-edges))
+    (printf "neighbors ~a~n" neighbors)
     (map (lambda (node) (set-node-error! node
                                          (squared-distance (node-position node) data)))
-         (find-neighbors nearest emanating-edges))
+         neighbors)
     ;; 6. Move a node towards the input by two different fractions
     (move-by-a-fraction! nearest data epsilon-b)
+    (map (lambda (node) (move-by-a-fraction! node data epsilon-n)) neighbors)
     ;; 7. set the age of the edge to zero, or create if edge nonexistent
     (set! edge-nearest-second-nearest
           (filter (lambda (edge)
@@ -190,19 +248,34 @@
     (set! nodes
           (remove* (map (lambda (node) (find-neighbors node edges)) nodes-to-check)
                    nodes))
-    ;; 9. Insert edge when the node-insertion-interval exceeded
-    (when (zero? (remainder current-iteration node-insertion-interval))
-      (insert-new-node nodes edges))
-    (
+    ;; 10. Decrease all error variables by multiplying them with a constant d
+    (andmap (lambda (node) (set-node-error! node (* (node-error node)
+                                                    global-error-decrease)))
+            nodes)
     ))
 
-;; 10. Decrease all error variables by multiplying them with a constant d
+(define (run-GNG n-times data-fn)
+  (let ([node-insertion-interval 100]
+        [alpha 100]
+        [data #f])
+    (define (run-GNG-aux n)
+      (unless (= n n-times)
+        (set! data (data-fn))
+        (GNG-update data)
+        ;; 9. Insert edge when the node-insertion-interval exceeded
+        (when (zero? (remainder n node-insertion-interval))
+          (insert-new-node alpha))
+        (send gng-dc clear)
+        (plot nodes edges gng-dc)
+        (plot-data-point data gng-dc)
+        (sleep 0.01)
+        (run-GNG-aux (+ n 1))))
+    (create-GNG-network 2)
+    (run-GNG-aux 0)))
 
-
-
-
-;; move a node by fraction epsilon 
-
+(define (data-fn)
+  (vector (random 350)
+          (random 350)))
 
 ;; Squared distance between two vectors
 (define (squared-distance x1 x2)
@@ -237,3 +310,4 @@
 
 (define (vector-process fn vec1 vec2)
   (vector-map fn vec1 vec2))
+
