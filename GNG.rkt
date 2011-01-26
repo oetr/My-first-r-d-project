@@ -93,7 +93,55 @@
                              (rest edges))]))
   (remove-edges-acc empty empty edges))
 
-
+;; 9. Insert a new unit
+(define (insert-new-node alpha)
+  (let ([highest-error-node #f]
+        [highest-error-neighbor #f]
+        [emanating-edges empty]
+        [new-node #f]
+        [edge1 #f]
+        [edge2 #f])
+    ;; 9. Find the node with maximum accumulate error
+    (set! highest-error-node (argmax (lambda (node) (node-error node)) nodes))
+    (set! emanating-edges (find-emanating-edges edges highest-error-node))
+    (set! highest-error-neighbor
+          (argmax (lambda (node) (node-error node))
+                  (find-neighbors highest-error-node emanating-edges)))
+    ;; 9. Decrease the error of node and its neighbors
+    (set-node-error! highest-error-node
+                     (* 0.5 (node-error highest-error-node)))
+    (set-node-error! highest-error-neighbor
+                     (* 0.5 (node-error highest-error-neighbor)))
+    ;; 9. Insert a new node between highest and its neighbor
+    (set! new-node
+          (node (vector-mul
+                 (vector-process
+                  + (node-position highest-error-node)
+                  (node-position highest-error-neighbor))
+                 0.5)
+                ;; error value from the just-changed node
+                (node-error highest-error-node)
+                ;; q-value:: TODO--change that the q value is saved as well
+                0))
+    (set! nodes (cons new-node nodes))
+    ;; Remove the edge between node and neighbor
+    (set! edges
+          (filter (lambda (edge)
+                    (let ([node1 (edge-node1 edge)]
+                          [node2 (edge-node2 edge)])
+                      (not (or
+                            (and (equal? node1 highest-error-node)
+                                 (equal? node2 highest-error-neighbor))
+                            (and (equal? node1 highest-error-neighbor)
+                                 (equal? node2 highest-error-node))))))
+                  edges))
+    (set! edge1 (make-edge new-node highest-error-node 0))
+    (set! edge2 (make-edge new-node highest-error-neighbor 0))
+    (printf "edge1: ~a~n" edge1)
+    (printf "edge2: ~a~n" edge2)
+    (set! edges (cons edge1 (cons edge2 edges)))
+    ;; Insert edges connecting the new unit and node, the new unit and neighbor
+    ))
 
 ;; final algorithm
 (define (GNG-update nodes edges data)
@@ -119,10 +167,8 @@
     ;; 5. Update local error
     (set-node-error! nearest (squared-distance (node-position nearest) data))
     ;; find neighbors
-    
-    (map (lambda (node) (set-node-error!
-                         node
-                         (squared-distance (node-position node) data)))
+    (map (lambda (node) (set-node-error! node
+                                         (squared-distance (node-position node) data)))
          (find-neighbors nearest emanating-edges))
     ;; 6. Move a node towards the input by two different fractions
     (move-by-a-fraction! nearest data epsilon-b)
@@ -147,39 +193,10 @@
     ;; 9. Insert edge when the node-insertion-interval exceeded
     (when (zero? (remainder current-iteration node-insertion-interval))
       (insert-new-node nodes edges))
+    (
     ))
 
-;; 9. Insert edge
-(define (insert-edge node edges))
-
-;; 9. Decrease the error variable by multiplying it with a constant alpha
-(define (decrease-error node alpha))
-
-;; 9. Insert a new unit
-(define (insert-new-node nodes edges alpha)
-  (let ([highest-error-node #f]
-        [highest-error-neighbor #f]
-        [emanating-edges empty])
-    ;; 9. Find the node with maximum accumulate error
-    (set! highest-error-node (argmax (lambda (node) (node-error node)) nodes))
-    (set! emanating-edges (find-emanating-edges edges highest-error-node))
-    (set! highest-error-neighbor
-          (argmax (lambda (node) (node-error node))
-                  (find-neighbors (find-maximum-error) emanating-edges)))
-    ;; 9. Decrease the error of node and its neighbors
-    (set-node-error! highest-error-node
-                     (* 0.5 (node-error highest-error-node)))
-    (set-node-error! highest-error-neighbor
-                     (* 0.5 (node-error highest-error-neighbor)))
-    ;; 9. Insert a new node between highest and its neighbor
-    (node (* 0.5 (+ (node-position highest-error-node)
-                    (node-position highest-error-neighbor)))
-          (node-error highest-error-node) ;; error value from the just-changed node
-          0) ;; q-value:: TODO
-    
-    
-
-          ;; 10. Decrease all error variables by multiplying them with a constant d
+;; 10. Decrease all error variables by multiplying them with a constant d
 
 
 
