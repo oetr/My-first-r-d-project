@@ -58,7 +58,6 @@
                (movable? . ,movable?)
                (name . wall-socket))))
 
-
 ;; Levers
 (define (lever #:color [color #f]
                #:temperature [temperature #f])
@@ -244,21 +243,30 @@
       (hash-set! object-in-front 'color (make-color 0 255 0))
       (hash-set! object-in-front 'open? #f))))
 
+(define (charge-battery! agent environment movements)
+  (let* ([next-position (+ (agent-position agent)
+                           (& movements (agent-orientation agent)))]
+         [object-in-front (tile-object-on-top (& environment next-position))])
+    (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'wall-socket))
+      (reduce-energy! agent 'charge-battery!))))
+
 ;; Reduce the energy of the agent through movements
 (define (reduce-energy! agent fn-name)
   (let ([current-amount (agent-energy agent)])
-    (unless (zero? current-amount)
-      (let ([next-energy (- current-amount (hash-ref cost fn-name))])
-        (if (< next-energy 0)
-            (set-agent-energy! A 0)
-            (set-agent-energy! A next-energy))))))
+    (let ([next-energy (- current-amount (hash-ref cost fn-name))])
+      (cond [(< next-energy 0)
+             (set-agent-energy! A 0)]
+            [(< next-energy max-energy)
+             (set-agent-energy! A next-energy)]
+            [else (set-agent-energy! A max-energy)]))))
 
 (define actions (vector move! turn-left! turn-right!
-                        open-door! close-door!))
+                        open-door! close-door! charge-battery!))
 
 ;; TODO: hash table that shows how every action changes the energy of the agent
 (define cost (hash 'move! 5 'turn-left! 0.1 'turn-right! 0.1
                    'open-door! 1 'close-door! 1
+                   'charge-battery! -200
                    'move-back! 1 'do-nothing! 0.001))
 
 ;;; Sensors
@@ -538,10 +546,12 @@
 
 ;;; Instantiate environment and agent
 ;; let's build an environment
-(define WORLD-SIZE 100)
+(define WORLD-SIZE 30)
 (define env (build-environment WORLD-SIZE))
 (define movements (make-movements WORLD-SIZE))
-(define A (make-agent 0 0 3000 3000 void))
+
+(define max-energy 30000)
+(define A (make-agent 0 0 max-energy 3000 void))
 (set-agent-fn! A (random-as A actions))
 
 (define B (make-agent 0 0 100 100 void))
@@ -676,10 +686,15 @@
                     restore-structure
                     (vector-drop description 1)))))]
         [(hash? description)
-         (let ([c (hash-ref description 'color)])
-           (hash-set description
-                     'color
-                     (apply make-color (vector->list (vector-drop c 1)))))]
+         (begin
+           ;; Racket' reader converts #hash(...) expressions into immutable tables
+           ;; I need the objects of the world to be mutable
+           (set! description (make-hash (hash->list description)))
+           (let ([c (hash-ref description 'color)])
+             (hash-set! description
+                        'color
+                        (apply make-color (vector->list (vector-drop c 1))))))
+         description]
         [(number? description) description]
         [else #f]))
 
@@ -700,4 +715,4 @@
 (load "GUI_Prototype.rkt")
 ;;(make-gui)
 ;;(save-environment "env1.txt")
-;;(Load-and-set-environment "env1.txt")
+(load-and-set-environment "env1.txt")
