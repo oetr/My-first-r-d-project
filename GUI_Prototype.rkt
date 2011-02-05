@@ -36,25 +36,26 @@
 (define backup-pen #f)
 (define backup-brush #f)
 ;; A frame
-(define frame (new frame% [label ""]))
+(define frame #f);;(new frame% [label ""]))
 (define white-pen (make-object pen% "WHITE" 1 'solid))
 (define black-pen (make-object pen% "BLACK" 1 'solid))
 (define white-brush (make-object brush% "WHITE" 'solid))
 (define black-brush (make-object brush% "BLACK" 'solid))
 (define red-brush (make-object brush% "RED" 'solid))
+(define energy-color (make-object color% 211 211 211))
 (define dc #f)
-(define slider (new slider% [label ""] [min-value 0] [max-value 10] [parent frame]))
-(define step-button (new button% [label "Start"] [parent frame]))
+(define slider #f);;(new slider% [label ""] [min-value 0] [max-value 10] [parent frame]))
+(define step-button #f);;(new button% [label "Start"] [parent frame]))
 ;; Sensor canvas' drawing contexts
 (define vision-dc #f)
 (define temperature-dc #f)
 (define energy-dc #f)
-(define life-dc #f)
 
 (define commands (hash #\w wall
                        #\b box
                        #\s wall-socket
                        #\d door))
+
 
 (define (handle-key key)
   (let ([cmd (hash-ref commands key #f)])
@@ -83,8 +84,8 @@
               [h (/ height WORLD-SIZE)])
           ;; (printf "(~a; ~a)~n" new-x new-y)
           (place-object! current-object-to-insert
-                        (coordinates->position WORLD-SIZE (make-posn new-x new-y))
-                        env WORLD-SIZE)
+                         (coordinates->position WORLD-SIZE (make-posn new-x new-y))
+                         env WORLD-SIZE)
           (let ([position (coordinates->position WORLD-SIZE (make-posn new-x new-y))])
             (local-erase new-x new-y w h)
             (draw-object (& env position) (make-posn new-x new-y) w h)))))))
@@ -121,10 +122,11 @@
   ;; Make a w x h frame
   (set! frame (new my-frame% [label "ValueSim"]
                    [width w]
-                   [height (+ h 72)])) ;; + 72 to make the canvas have proper height
+                   [height (+ h 72)] ;; + 72 to make the canvas have proper height
+                   [style '(metal)])) 
   (define main-panel (new horizontal-panel%
-                               [parent frame]
-                               [alignment '(center center)]))
+                          [parent frame]
+                          [alignment '(center center)]))
   (define world-panel (new vertical-panel%
                            [parent main-panel]
                            [alignment '(left center)]
@@ -214,40 +216,22 @@
                                   [stretchable-width #f]
                                   [stretchable-height #f]))
   (set! temperature-dc (send temperature-canvas get-dc))
-  ;; Life and energy panel
-  (define energy-life-panel (new vertical-panel%
+  ;; Energy panel
+  (define energy-panel (new vertical-panel%
                                  [parent sensor-panel]
-                                 [alignment '(left top)]
+                                 [alignment '(center top)]
                                  [vert-margin marg]
                                  [min-width 75]
                                  [stretchable-width #f]))
   (new message%
-       [parent energy-life-panel]
+       [parent energy-panel]
        [label "Energy"])
   (define energy-canvas (new canvas%
-                             [parent energy-life-panel]
+                             [parent energy-panel]
                              [style '(no-focus)]
                              [min-height 30]
                              [stretchable-height #f]))
   (set! energy-dc (send energy-canvas get-dc))
-  (new panel%
-       [parent energy-life-panel]
-       [alignment '(left center)]
-       [min-height 20]
-       [stretchable-height #f])
-  (new message%
-       [parent energy-life-panel]
-       [label "Life"])
-  (define life-canvas (new canvas%
-                           [parent energy-life-panel]
-                           [style '(no-focus)]
-                           [min-height 30]
-                           [stretchable-height #f]))
-  (set! life-dc (send life-canvas get-dc))
-  (new panel%
-       [parent sensor-panel]
-       [min-width 10]
-       [stretchable-width #f])
   ;; draw frame
   (send frame show #t)
   (send dc set-smoothing 'unsmoothed)
@@ -274,7 +258,7 @@
           (begin
             (thread-suspend simulation)
             (draw-agent A)
-;;            (draw-elements)
+            ;;            (draw-elements)
             (send button set-label "Start")
             ;; (draw-grid)
             (send step-button enable #t))
@@ -325,23 +309,27 @@
       (draw-agent A))))
 
 (define (draw-object object posn w h)
-  (cond [(and (hash? (tile-object-on-top object))
-              (symbol=? 'wall (hash-ref (tile-object-on-top object) 'name)))
-         (draw-rectangle (* w (posn-x posn))
-                         (* h (posn-y posn))
-                         w h 'black 0 'black)]
-        [(and (hash? (tile-object-on-top object))
-              (symbol=? 'box (hash-ref (tile-object-on-top object) 'name)))
-         (draw-shapes box-design (posn-x posn) (posn-y posn) w h)]
-        [(and (hash? (tile-object-on-top object))
-              (symbol=? 'door (hash-ref (tile-object-on-top object) 'name)))
-         (let ([design #f])
-           (if (hash-ref (tile-object-on-top object) 'open?)
-               (set! design (& door-design 1))
-               (set! design (& door-design 0)))
-           (draw-shapes design (posn-x posn) (posn-y posn) w h))]
-        [else
-         (draw-shapes erase-rectangle-design (posn-x posn) (posn-y posn) w h)]))
+  (let ([is-a-hash? (hash? (tile-object-on-top object))])
+    (cond [(and is-a-hash?
+                (symbol=? 'wall (hash-ref (tile-object-on-top object) 'name)))
+           (draw-rectangle (* w (posn-x posn))
+                           (* h (posn-y posn))
+                           w h 'black 0 'black)]
+          [(and is-a-hash?
+                (symbol=? 'box (hash-ref (tile-object-on-top object) 'name)))
+           (draw-shapes box-design (posn-x posn) (posn-y posn) w h)]
+          [(and is-a-hash?
+                (symbol=? 'door (hash-ref (tile-object-on-top object) 'name)))
+           (let ([design #f])
+             (if (hash-ref (tile-object-on-top object) 'open?)
+                 (set! design (& door-design 1))
+                 (set! design (& door-design 0)))
+             (draw-shapes design (posn-x posn) (posn-y posn) w h))]
+          [(and is-a-hash?
+                (symbol=? 'wall-socket (hash-ref (tile-object-on-top object) 'name)))
+           (draw-shapes wall-socket-design (posn-x posn) (posn-y posn) w h)]
+          [else
+           (draw-shapes erase-rectangle-design (posn-x posn) (posn-y posn) w h)])))
 
 (define (draw-shapes shapes x y width height)
   (andmap (lambda (a-shape)
@@ -414,6 +402,12 @@
      (line 0.1 0.1 0.85 0.1 Orange 1.5)
      (line 0.9 0.1 0.9 0.95 Orange 1.5))))
 
+(define wall-socket-design
+  '((rectangle 0.0 0.0 1.0 1.0 black 0 Gray)
+    (ellipse 0.2 0.2 0.6 0.6 Black 0 White)
+    (ellipse 0.32 0.45 0.1 0.1 Black 0 Black)
+    (ellipse 0.58 0.45 0.1 0.1 Black 0 Black)))
+
 (define box-design
   '((rectangle 0.3 0.3 0.4 0.4 Green 0.1 Green)))
 
@@ -441,9 +435,6 @@
   (cond [(symbol=? 'rectangle (first shape))
          (let ([base-x (+ x (* scale-x (second shape)))]
                [base-y (+ y (* scale-y (third shape)))])
-           ;; (printf "base-x ~a, base-y ~a, a ~a, b ~a, scale-x ~a, scale-y ~a~n"
-           ;;         base-x base-y (* scale-x (fourth shape)) (* scale-y (fifth shape))
-           ;;         scale-x scale-y)
            (apply draw-rectangle
                   (append (list base-x base-y
                                 (* scale-x (fourth shape))
@@ -458,17 +449,13 @@
                                 (* scale-y (fifth shape)))
                           (drop shape 5))))]
         [else ;; line
-;;         (send dc set-smoothing 'smoothed)
          (let ([p1-x (+ x (* scale-x (second shape)))]
                [p1-y (+ y (* scale-y (third shape)))]
                [p2-x (+ x (* scale-x (fourth shape)))]
                [p2-y (+ y (* scale-y (fifth shape)))])
            (apply draw-line
-                  ;;(printf "~a~n" (list
                   (append (list p1-x p1-y p2-x p2-y)
-                          (drop shape 5))))
-;;         (send dc set-smoothing 'unsmoothed)
-         ]))
+                          (drop shape 5))))]))
 
 (define (make-gui)
   (create-view)
@@ -505,91 +492,7 @@
         (draw-object (& env position) (make-posn x y) W H))
       (printf "invalid location -- DRAW-LOCATION x=~a, y=~a~n" x y)))
 
-
-;;; Add sensory readings to the panel
-;; adding all sensory readings to the panel on the right
-;; energy, integrity, temperature, vision, proximity (sonar)
-;; show current action
-;; show initial values of life and energy
-;; show current simulation step
-
-
-
-(define (sensory-panel)
-
-  (define frame (new frame%
-                     [label "Sensory Readings"]
-                     [width 500]
-                     [height 500]
-                     [style '(no-resize-border toolbar-button metal)]))
-  (define mainest-panel (new vertical-panel%
-                             [parent frame]
-                             [alignment '(center center)]))
-  (define main-panel (new horizontal-panel%
-                      [parent mainest-panel]
-                      [alignment '(center center)]
-                      [min-height 200]
-                      [stretchable-height #f]
-                      [spacing 10]))
-  (define down-panel (new horizontal-panel%
-                      [parent mainest-panel]
-                      [alignment '(center top)]
-                      [vert-margin 100]))
-  ;; Vision panel
-  (define vision-panel (new vertical-panel%
-                            [parent main-panel]
-                            [alignment '(center top)]
-                            [vert-margin marg]))
-  (new message%
-       [parent vision-panel]
-       [label "Vision"])
-  ;; canvas for the vision panel
-  (define vision-canvas (new canvas% [parent vision-panel]))
-  (set! vision-dc (send vision-canvas get-dc))
-  (send vision-dc set-pen black-pen)
-  ;; Temperature panel
-  (define temperature-panel (new vertical-panel%
-                                 [parent main-panel]
-                                 [alignment '(center top)]
-                                 [vert-margin marg]))
-  (new message% [parent temperature-panel]
-       [label "Temperature"])
-  ;; canvas for the temperature panel
-  (define temperature-canvas (new canvas% [parent temperature-panel]))
-  (set! temperature-dc (send temperature-canvas get-dc))
-  ;; Life and energy panel
-  (define energy-life-panel (new vertical-panel%
-                                 [parent main-panel]
-                                 [alignment '(left top)]
-                                 [vert-margin marg]
-                                 [min-width 100]
-                                 [stretchable-width #f]))
-  (new message%
-       [parent energy-life-panel]
-       [label "Energy"])
-  (define energy-canvas (new canvas%
-                             [parent energy-life-panel]
-                             [style '(no-focus)]))
-  (set! energy-dc (send energy-canvas get-dc))
-  (new panel%
-        [parent energy-life-panel]
-        [alignment '(left center)]
-        [min-height 10]
-        [stretchable-height #f])
-  (new message%
-       [parent energy-life-panel]
-       [label "Life"])
-  (define life-canvas (new canvas%
-                           [parent energy-life-panel]
-                           [style '(no-focus)]))
-  (set! life-dc (send life-canvas get-dc))
-  ;; draw frame
-  (send frame show #t)
-  (sleep/yield 1))
-
-
 ;;; Testing the individual panels
-
 (define (draw-data-rectangles rows columns x y w h sw sh dc data)
   (let ([colors #f]
         [positions #f])
@@ -630,25 +533,15 @@
 
 (define (draw-energy energy-dc)
   (let-values ([(width height) (send energy-dc get-size)])
-    (send energy-dc clear)
-    (send energy-dc set-pen "Black" 1 'solid)
+    ;;    (send energy-dc clear)
+    (send energy-dc set-pen "White" 1 'transparent)
     (send energy-dc set-brush "White" 'solid)
-    (send energy-dc draw-rectangle 0 0 width height)
+    (let-values ([(dc-width dc-height) (send energy-dc get-size)])
+      (send energy-dc draw-rectangle 0 0 dc-width dc-height))
     (send energy-dc set-pen "Black" 1 'transparent)
-    (send energy-dc set-brush "Red" 'solid)
-    (send energy-dc draw-rectangle 1 1 (/ (* (agent-energy A) width) 3000)
-          (- height 2))))
-
-(define (draw-life life-dc)
-  (let-values ([(width height) (send life-dc get-size)])
-    (send life-dc clear)
-    (send life-dc set-pen "Black" 1 'solid)
-    (send life-dc set-brush "White" 'solid)
-    (send life-dc draw-rectangle 0 0 width height)
-    (send life-dc set-pen "Black" 0 'transparent)
-    (send life-dc set-brush "Blue" 'solid)
-    (send life-dc draw-rectangle 1 1 (- (/ (* (agent-life A) width) 3000) 2)
-          (- height 2))))
+    (send energy-dc set-brush energy-color 'solid)
+    (send energy-dc draw-rectangle 0 0 (/ (* (agent-energy A) width) 30000) height)
+    ))
 
 (define (draw-temperature temperature-dc)
   (let-values ([(width height) (send temperature-dc get-size)])
@@ -668,8 +561,8 @@
     (let ([vision (compute-vision A env movements)]
           [sw 5]
           [sh 5]
-          [w1 (/ (- width 10 (* 4 5)) 6)]
-          [start-x 18]
+          [w1 (/ (- width 10 (* 4 5)) 7)]
+          [start-x 30]
           [start-y (/ (- height 10 (* 3 5)) 9)])
       (send vision-dc clear)
       (draw-data-rectangles 1 5 start-x start-y w1 w1 sw sh vision-dc
@@ -683,7 +576,6 @@
 
 (define (draw-sensors)
   (draw-energy energy-dc)
-  (draw-life life-dc)
   (draw-vision vision-dc)
   (draw-temperature temperature-dc))
 
@@ -696,8 +588,7 @@
   (draw-grid)
   (draw-elements))
 
-(make-gui)
-
+;;(make-gui)
 ;;(load-environment-gui "env3.txt")
 ;;(save-environment "env3.txt")
 
@@ -712,6 +603,4 @@
   (draw-elements))
 
 ;;(send dc set-smoothing 'aligned)
-(change-size 30)
-
-;;; Objects Visual Design
+;;(change-size 30)
