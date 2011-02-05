@@ -10,6 +10,55 @@
 (define-struct color (r g b)
   #:mutable #:transparent)
 
+;; Walls
+(define (wall #:color [color #f]
+              #:temperature [temperature #f])
+  (unless color
+    (set! color (make-color 0 0 0)))
+  (unless temperature
+    (set! temperature (+ 15 (random 10))))
+  (make-hash `((color . ,color)
+               (temperature . ,temperature)
+               (name . wall))))
+
+;; Doors
+(define (door #:color [color #f]
+              #:temperature [temperature #f]
+              #:open? [open? #f])
+  (unless color
+    (set! color (make-color 0 255 0)))
+  (unless temperature
+    (set! temperature (+ 15 (random 10))))
+  (make-hash `((color . ,color)
+               (temperature . ,temperature)
+               (open? . ,open?)
+               (name . door))))
+
+;; Boxes
+(define (box #:color [color #f]
+             #:temperature [temperature #f])
+  (unless color
+    (set! color (make-color 255 255 0)))
+  (unless temperature
+    (set! temperature (+ 15 (random 10))))
+  (make-hash `((color . ,color)
+               (temperature . ,temperature)
+               (name . box))))
+
+;; Wall sockets
+(define (wall-socket #:color [color #f]
+                     #:temperature [temperature #f]
+                     #:movable? [movable? #f])
+  (unless color
+    (set! color (make-color 211 211 211)))
+  (unless temperature
+    (set! temperature (+ 15 (random 10))))
+  (make-hash `((color . ,color)
+               (temperature . ,temperature)
+               (movable? . ,movable?)
+               (name . wall-socket))))
+
+
 ;; Levers
 (define (lever #:color [color #f]
                #:temperature [temperature #f])
@@ -35,54 +84,6 @@
   (make-hash `((color . ,color)
                (temperature . ,temperature)
                (name . button))))
-
-;; Rocks
-(define (wall #:color [color #f]
-              #:temperature [temperature #f])
-  (unless color
-    (set! color (make-color 0 0 0)))
-  (unless temperature
-    (set! temperature (+ 15 (random 10))))
-  (make-hash `((color . ,color)
-               (temperature . ,temperature)
-               (name . wall))))
-
-;; Boxes
-(define (door #:color [color #f]
-              #:temperature [temperature #f]
-              #:open? [open? #f])
-  (unless color
-    (set! color (make-color 0 255 0)))
-  (unless temperature
-    (set! temperature (+ 15 (random 10))))
-  (make-hash `((color . ,color)
-               (temperature . ,temperature)
-               (open? . ,open?)
-               (name . door))))
-
-;; Boxes
-(define (box #:color [color #f]
-             #:temperature [temperature #f])
-  (unless color
-    (set! color (make-color 255 255 0)))
-  (unless temperature
-    (set! temperature (+ 15 (random 10))))
-  (make-hash `((color . ,color)
-               (temperature . ,temperature)
-               (name . box))))
-
-;; Battery packs
-(define (wall-socket #:color [color #f]
-                     #:temperature [temperature #f]
-                     #:movable? [movable? #f])
-  (unless color
-    (set! color (make-color 211 211 211)))
-  (unless temperature
-    (set! temperature (+ 15 (random 10))))
-  (make-hash `((color . ,color)
-               (temperature . ,temperature)
-               (movable? . ,movable?)
-               (name . wall-socket))))
 
 ;;; Environment
 (define (build-environment world-size)
@@ -350,7 +351,9 @@
              (quotient position world-size)))
 
 (define (coordinates->position world-size posn)
-  (+ (posn-x posn) (* (posn-y posn) world-size)))
+  (+ (posn-x posn)
+     (* (posn-y posn)
+        world-size)))
 
 (define x-y-movements (vector (make-posn 0 -1) (make-posn 1 0)
                               (make-posn 0 1) (make-posn -1 0)))
@@ -413,7 +416,7 @@
          (print-comma-separated (log-position log) file-out ", " ", ")
          (print-comma-separated (log-orientation log) file-out "," ", ")
          (print-comma-separated (posn-x pos) file-out ", " ", ")
-         (print-comma-separated (posn-y pos) file-out ", " ", ")
+         (print-comma-separated (- world-size 1 (posn-y pos)) file-out ", " ", ")
          (print-comma-separated (vector-member (log-decision log) actions)
                                 file-out ", " ", ")
          (print-comma-separated (log-percepts log) file-out ", " ", ")
@@ -535,7 +538,7 @@
 
 ;;; Instantiate environment and agent
 ;; let's build an environment
-(define WORLD-SIZE 30)
+(define WORLD-SIZE 100)
 (define env (build-environment WORLD-SIZE))
 (define movements (make-movements WORLD-SIZE))
 (define A (make-agent 0 0 3000 3000 void))
@@ -697,4 +700,4 @@
 (load "GUI_Prototype.rkt")
 ;;(make-gui)
 ;;(save-environment "env1.txt")
-;;(load-and-set-environment "env1.txt")
+;;(Load-and-set-environment "env1.txt")
