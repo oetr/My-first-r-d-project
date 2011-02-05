@@ -43,10 +43,6 @@
     (set! color (make-color 0 0 0)))
   (unless temperature
     (set! temperature (+ 15 (random 10))))
-  ;; (when (empty? movable?)
-  ;;   (if (zero? (random 2))
-  ;;       (set! movable? #t)
-  ;;       (set! movable? #f)))
   (make-hash `((color . ,color)
                (temperature . ,temperature)
                (name . wall))))
@@ -80,15 +76,13 @@
                      #:temperature [temperature #f]
                      #:movable? [movable? #f])
   (unless color
-    (set! color (make-color (random 256)
-                            (random 256)
-                            (random 256))))
+    (set! color (make-color 211 211 211)))
   (unless temperature
     (set! temperature (+ 15 (random 10))))
   (make-hash `((color . ,color)
                (temperature . ,temperature)
                (movable? . ,movable?)
-               (name . battery-pack))))
+               (name . wall-socket))))
 
 ;;; Environment
 (define (build-environment world-size)
@@ -252,8 +246,7 @@
 
 (define actions (vector
                  move! turn-left! turn-right!
-                 do-nothing! open-door! close-door!
-                 move-back!))
+                 do-nothing! open-door! close-door!))
 
 ;;; Sensors
 (define (compute-surrounding-temperatures agent environment movements)
@@ -490,9 +483,18 @@
           (begin
             ;; sense
             (set! percepts (sense agent environment movements))
+            ;; energy life temperature vision
             ;; TODO: run the value system on the percepts
             ;; TODO: run the learning on the values and percepts
             ;; TODO: make decision considering all above
+            ;; the only problem is that of data structure flying there and back again
+            ;;(set! value-system-labels ((agent-vs agent) percepts))
+            ;; (set! decision (action-selection )
+            ;; TODO: or decide to link the agent in the beginning
+            ;; TODO: motivation--what if the agent does not learn?
+            ;; ANSWER: then return a dummy function back...because learning should
+            ;; be just a function with a side-effect...it should not produce any
+            ;; output
             ;; let the agent make decision combining new percepts
             (set!-values (value-system-label decision)
                          (agent-live agent percepts))
@@ -596,7 +598,6 @@
         (error "No arguments provided in " vector-apply)
         (vector-apply-aux (& v 0) 1))))
 
-
 ;;(require macro-debugger/expand)
 ;;(require macro-debugger/stepper-text)
 
@@ -681,5 +682,7 @@
     (set! movements (make-movements WORLD-SIZE))
     (set! env new-env)))
 
+(load "GUI_Prototype.rkt")
+;;(make-gui)
 ;;(save-environment "env1.txt")
 ;;(load-and-set-environment "env1.txt")
