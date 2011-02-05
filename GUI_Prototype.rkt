@@ -13,11 +13,13 @@
 ;; - step
 ;; - slower -- faster
 
-(define W #f)
-(define H #f)
-(define WIDTH #f)
+(define WIDTH #f) ;; width of the canvas
 (define HEIGHT #f)
+(define W #f) ;; width of a tile to draw on the canvas
+(define H #f)
 
+;; This procedure is called when initiating the canvas
+;; or changing the number of tiles
 (define (set-global-variables)
   (let-values ([(width height) (send dc get-size)])
     (set! WIDTH width)
@@ -28,19 +30,19 @@
     (set! old-x (posn-x posn))
     (set! old-y (posn-y posn))))
 
-;; agent backup information
+;; Agent's backup information about its old position
 (define old-x #f)
 (define old-y #f)
 
-;; Useful pen and brush backup utility
+;; Used for backing up the pens and brushes during the painting
 (define backup-pen #f)
 (define backup-brush #f)
-;; A frame
+;; Main frame
 (define frame #f)
-(define slider #f)
-(define step-button #f)
-;; Sensor canvas' drawing contexts
 (define dc #f) ;; main drawing context
+(define slider #f) ;; slider to change the simulation speed
+(define step-button #f) ;; button to step
+;; Sensor canvas' drawing contexts
 (define vision-dc #f)
 (define temperature-dc #f)
 (define energy-dc #f)
@@ -111,6 +113,7 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
   (draw-shapes erase-rectangle-design x y width height))
 
 ;; Making my own frame to be able to handle keyboard events
+;; TODO: how about overriding the "on-paint" method
 (define my-frame%
   (class frame%
     (define/override (on-subwindow-char receiver event)
@@ -128,7 +131,8 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
 (define (init-frame w h)
   (define marg 5)
   ;; Make a w x h frame
-  (set! frame (new my-frame% [label "ValueSim"]
+  (set! frame (new my-frame%
+                   [label "ValueSim"]
                    [width w]
                    [height (+ h 72)] ;; + 72 to make the canvas have proper height
                    [style '(metal)])) 
@@ -164,12 +168,11 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
        [callback (lambda (button event)
                    (toggle-fn button))])
   ;; Step button
-  (set! step-button (new button% [parent down-left-panel]
+  (set! step-button (new button%
+                         [parent down-left-panel]
                          [label "Step"]
                          ;; Callback procedure for a button click:
-                         (callback (lambda (button event)
-                                     (step)
-                                     (draw-world)))))
+                         [callback (lambda (button event) (step) (draw-world))]))
   ;; Slider
   (set! slider (new slider% [parent down-left-panel]
                     [label "Delay (ms)"]
@@ -226,11 +229,11 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
   (set! temperature-dc (send temperature-canvas get-dc))
   ;; Energy panel
   (define energy-panel (new vertical-panel%
-                                 [parent sensor-panel]
-                                 [alignment '(center top)]
-                                 [vert-margin marg]
-                                 [min-width 75]
-                                 [stretchable-width #f]))
+                            [parent sensor-panel]
+                            [alignment '(center top)]
+                            [vert-margin marg]
+                            [min-width 75]
+                            [stretchable-width #f]))
   (new message%
        [parent energy-panel]
        [label "Energy"])
@@ -244,7 +247,7 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
   (send frame show #t)
   (send dc set-smoothing 'unsmoothed)
   (sleep/yield 1)
-  ;; Set some global variables
+  ;; Set some global variables like WIDTH, HEIGHT, W, H
   (set-global-variables))
 
 (define (restore-pen-brush)
