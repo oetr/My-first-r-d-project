@@ -36,60 +36,68 @@
 (define backup-pen #f)
 (define backup-brush #f)
 ;; A frame
-(define frame #f);;(new frame% [label ""]))
+(define frame #f)
+(define slider #f)
+(define step-button #f)
+;; Sensor canvas' drawing contexts
+(define dc #f) ;; main drawing context
+(define vision-dc #f)
+(define temperature-dc #f)
+(define energy-dc #f)
+;; pens and brushes
 (define white-pen (make-object pen% "WHITE" 1 'solid))
 (define black-pen (make-object pen% "BLACK" 1 'solid))
 (define white-brush (make-object brush% "WHITE" 'solid))
 (define black-brush (make-object brush% "BLACK" 'solid))
 (define red-brush (make-object brush% "RED" 'solid))
 (define energy-color (make-object color% 211 211 211))
-(define dc #f)
-(define slider #f);;(new slider% [label ""] [min-value 0] [max-value 10] [parent frame]))
-(define step-button #f);;(new button% [label "Start"] [parent frame]))
-;; Sensor canvas' drawing contexts
-(define vision-dc #f)
-(define temperature-dc #f)
-(define energy-dc #f)
 
-(define commands (hash #\w wall
-                       #\b box
-                       #\s wall-socket
-                       #\d door))
-
-
+;; Handles keyboard keys that define which object is to be inserted
 (define (handle-key key)
   (let ([cmd (hash-ref commands key #f)])
     (unless (and (symbol? key) (symbol=? key 'release))
       (set! current-object-to-insert cmd)
       (printf "object-to-insert: ~a~n" current-object-to-insert))))
 
-(define current-object-to-insert wall)
-(define draw? #f)
+;; Key mappings for inserting objects
+(define commands (hash #\w wall
+                       #\b box
+                       #\s wall-socket
+                       #\d door))
 
+#|
+When a mouse is pressed, check whether the coordinates are valid--inside
+of the main drawing canvas (dc)
+Then keep track of mouse releases and presses--toggles "started-drawing?"
+
+|#
 (define (handle-mouse-event event)
   (let-values ([(width height) (send dc get-size)])
     (define (set-draw! event-type)
-      (cond [(symbol=? event-type 'left-down) (set! draw? #t)]
-            [(symbol=? event-type 'left-up) (set! draw? #f)]
+      (cond [(symbol=? event-type 'left-down) (set! started-drawing? #t)]
+            [(symbol=? event-type 'left-up) (set! started-drawing? #f)]
             [else (void)]))
     (let ([event-type (send event get-event-type)]
           [x (send event get-x)]
           [y (send event get-y)])
       (set-draw! event-type)
-      ;;(printf "mouse-event = ~a; state = ~a~n" event-type mouse-event)
-      (when (and draw? (position-valid? x y))
+      (when (and started-drawing? (position-valid? x y))
+        ;; find the tile corresponding to the mouse' coordinates
         (let ([new-x (inexact->exact (floor (/ x (/ width WORLD-SIZE))))]
-              [new-y (inexact->exact (floor (/ y (/ height WORLD-SIZE))))]
-              [w (/ width WORLD-SIZE)]
-              [h (/ height WORLD-SIZE)])
-          ;; (printf "(~a; ~a)~n" new-x new-y)
+              [new-y (inexact->exact (floor (/ y (/ height WORLD-SIZE))))])
+          ;; using "place-object!" procedure  provided by the simulator model
           (place-object! current-object-to-insert
                          (coordinates->position WORLD-SIZE (make-posn new-x new-y))
                          env WORLD-SIZE)
           (let ([position (coordinates->position WORLD-SIZE (make-posn new-x new-y))])
-            (local-erase new-x new-y w h)
-            (draw-object (& env position) (make-posn new-x new-y) w h)))))))
+            (local-erase new-x new-y W H)
+            (draw-object (& env position) (make-posn new-x new-y) W H)))))))
 
+;; Need to know what to insert
+(define current-object-to-insert wall)
+;; Should we draw or not?--the mouse being pressed and released triggers drawing
+(define started-drawing? #f)
+;; Are the x and y inside of the main canvas defined by (WIDTH; HEIGHT)
 (define (position-valid? x y)
   (and (>= x 0.0) (>= y 0)
        (< x WIDTH) (< y HEIGHT)))
