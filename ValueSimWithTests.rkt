@@ -148,16 +148,19 @@
 
 ;;; Actions
 (define (turn-left! agent environment movements)
-  (set-agent-energy! agent (reduce-energy (agent-energy agent) 0.5))
+  (reduce-energy! agent 'turn-left!)
   (set-agent-orientation! agent (remainder
                                  (+ (agent-orientation agent) 3)
                                  4)))
 
 (define (turn-right! agent environment movements)
-  (set-agent-energy! agent (reduce-energy (agent-energy agent) 0.5))
+  (reduce-energy! agent 'turn-right!)
   (set-agent-orientation! agent (remainder
                                  (+ (agent-orientation agent) 1)
                                  4)))
+
+;; save information about whether the box/door was moved/changed or not
+;; false if not, the hash representing the object if yes
 (define box-moved #f)
 (define door-changed #f)
 
@@ -168,7 +171,7 @@
          [moved? #f]
          [next-box-position #f])
     ;; reduce energy
-    (set-agent-energy! agent (reduce-energy (agent-energy agent) 10))
+    (reduce-energy! agent 'move!)
     ;; dealing with boxes
     (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'box))
       (set! next-box-position (+ next-position (& movements (agent-orientation agent))))
@@ -194,6 +197,7 @@
          [object-in-back (tile-object-on-top (& environment next-position))]
          [moved? #f]
          [next-box-position #f])
+    (reduce-energy! agent 'move-back!)
     (when (and object-in-back (symbol=? (hash-ref object-in-back 'name) 'box))
       (set! next-box-position (- next-position (& movements (agent-orientation agent))))
       (unless (tile-object-on-top (& environment next-box-position))
@@ -213,18 +217,18 @@
       (set-agent-position! agent next-position))))
 
 (define (do-nothing! agent environment movements)
-  (set-agent-energy! agent (reduce-energy (agent-energy agent) 0.01))
-  (void))
+  (reduce-energy! agent 'do-nothing!))
 
 (define (open-door! agent environment movements)
   (let* ([next-position (+ (agent-position agent)
                            (& movements (agent-orientation agent)))]
          [object-in-front (tile-object-on-top (& environment next-position))])
     ;; a door in front of the agent
+    (reduce-energy! agent 'open-door!)
     (set! door-changed #f)
     (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'door))
       (set! door-changed next-position)
-      (hash-set! object-in-front 'color (make-color 190 190 190))
+      (hash-set! object-in-front 'color (make-color 200 255 200))
       (hash-set! object-in-front 'open? #t))))
 
 (define (close-door! agent environment movements)
@@ -232,21 +236,29 @@
                            (& movements (agent-orientation agent)))]
          [object-in-front (tile-object-on-top (& environment next-position))])
     ;; a door in front of the agent
+    (reduce-energy! agent 'close-door!)
     (set! door-changed #f)
     (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'door))
       (set! door-changed next-position)
-      (hash-set! object-in-front 'color (make-color 255 255 0))
+      (hash-set! object-in-front 'color (make-color 0 255 0))
       (hash-set! object-in-front 'open? #f))))
 
-(define (reduce-energy current-amount amount)
-  (let ([next-energy (- current-amount amount)])
-    (if (< next-energy 0)
-        0
-        next-energy)))
+;; Reduce the energy of the agent through movements
+(define (reduce-energy! agent fn-name)
+  (let ([current-amount (agent-energy agent)])
+    (unless (zero? current-amount)
+      (let ([next-energy (- current-amount (hash-ref cost fn-name))])
+        (if (< next-energy 0)
+            (set-agent-energy! A 0)
+            (set-agent-energy! A next-energy))))))
 
-(define actions (vector
-                 move! turn-left! turn-right!
-                 do-nothing! open-door! close-door!))
+(define actions (vector move! turn-left! turn-right!
+                        open-door! close-door!))
+
+;; TODO: hash table that shows how every action changes the energy of the agent
+(define cost (hash 'move! 5 'turn-left! 0.1 'turn-right! 0.1
+                   'open-door! 1 'close-door! 1
+                   'move-back! 1 'do-nothing! 0.001))
 
 ;;; Sensors
 (define (compute-surrounding-temperatures agent environment movements)
