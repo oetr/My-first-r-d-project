@@ -278,17 +278,17 @@
           (hash-ref object-on-top 'temperature)
           (tile-temperature a-tile))))
   (define (surrounding-tiles)
-    (let* ([position (agent-position agent)]
-           [north-position (+ position (& movements 0))]
-           [south-position (+ position (& movements 2))])
-      (vector
-       ;; upper 3 tiles
-       (- north-position 1) north-position (+ north-position 1)
-       ;; middle tiles
-       (- position 1) position (+ position 1)
-       ;; middle tiles
-       (- south-position 1) south-position (+ south-position 1))))
-  (vector-map compute-temperature (surrounding-tiles)))
+    (let ([position (agent-position agent)])
+      (let ([north-position (+ position (& movements 0))]
+            [south-position (+ position (& movements 2))])
+        (vector
+         ;; upper 3 tiles
+         (- north-position 1) north-position (+ north-position 1)
+         ;; middle tiles
+         (- position 1) position (+ position 1)
+         ;; middle tiles
+         (- south-position 1) south-position (+ south-position 1)))))
+    (vector-map compute-temperature (surrounding-tiles)))
 
 (define (compute-vision agent environment movements)
   (let ([world-size (sqrt (vector-length environment))])
