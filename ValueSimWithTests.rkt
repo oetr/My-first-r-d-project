@@ -308,6 +308,8 @@
                                   (+ 1 n-inspected-tiles))])))
   (send-sonar-beam-aux start-position 0))
 
+;; sends 4 beams to front, right, back and left
+;; returns a vector of 4 numbers
 (define (sense-proximity agent environment movements)
   (let ([position (agent-position agent)]
         [orientation (agent-orientation agent)])
@@ -340,26 +342,26 @@
                 (tile-color a-tile)))))
     (define (visible-tiles)
       ;; return 9 positions that are in front of the agent
-      (let* ([position (position->coordinates world-size
-                                              (agent-position agent))]
-             [orientation (agent-orientation agent)]
-             [front (& x-y-movements orientation)]
-             [left (& x-y-movements (turn-left orientation))]
-             [right (& x-y-movements (turn-right orientation))]
-             [start (posn+ position front)])
-        (vector
-         ;; third row -- 5 elements
-         (posn+ start front front left left)
-         (posn+ start front front left)
-         (posn+ start front front)
-         (posn+ start front front right)
-         (posn+ start front front right right)
-         ;; second row -- 3 elements
-         (posn+ start front left)
-         (posn+ start front)
-         (posn+ start front right)
-         ;; first row -- 1 element
-         start)))
+      (let ([position (position->coordinates world-size
+                                             (agent-position agent))]
+            [orientation (agent-orientation agent)])
+        (let ([front (& x-y-movements orientation)])
+          (let ([left (& x-y-movements (turn-left orientation))]
+                [right (& x-y-movements (turn-right orientation))]
+                [start (posn+ position front)])
+            (vector
+             ;; third row -- 5 elements
+             (posn+ start front front left left)
+             (posn+ start front front left)
+             (posn+ start front front)
+             (posn+ start front front right)
+             (posn+ start front front right right)
+             ;; second row -- 3 elements
+             (posn+ start front left)
+             (posn+ start front)
+             (posn+ start front right)
+             ;; first row -- 1 element
+             start)))))
     (vector-map compute-color (visible-tiles))))
 
 ;; produces a vector of values
@@ -380,7 +382,8 @@
                                   (color-g color)
                                   (color-b color)))
                (compute-vision agent environment movements))))
-     vector-append)))
+     vector-append)
+   (sense-proximity agent environment movements)))
 
 ;; function converting the number of grid into x and y coordinates of the agent
 ;; assume a square environment
