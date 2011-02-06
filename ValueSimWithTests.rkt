@@ -288,7 +288,38 @@
          (- position 1) position (+ position 1)
          ;; middle tiles
          (- south-position 1) south-position (+ south-position 1)))))
-    (vector-map compute-temperature (surrounding-tiles)))
+  (vector-map compute-temperature (surrounding-tiles)))
+
+;; find if there are obstacles in a straight line
+;; returns a number if there was one obstacle in its way, and 0 otherwise
+(define (send-sonar-beam start-position direction environment)
+  (define (send-sonar-beam-aux current-position n-inspected-tiles)
+    (let ([object-on-top (tile-object-on-top (& environment current-position))])
+      (cond
+       ;; dealing with the doors
+       [(and object-on-top (symbol=? (hash-ref object-on-top 'name) 'door))
+        (if (hash-ref object-on-top 'open?) ;; door open?
+            (send-sonar-beam-aux (+ current-position direction)
+                                 (+ 1 n-inspected-tiles))
+            n-inspected-tiles)] ;; door closed
+       [object-on-top n-inspected-tiles] ;; any other object
+       [(= n-inspected-tiles 4) 5] ;; 5 is returned if the sonar doesn't receive a reply
+       [else (send-sonar-beam-aux (+ current-position direction) ;; beam goes to next tile
+                                  (+ 1 n-inspected-tiles))])))
+  (send-sonar-beam-aux start-position 0))
+
+(define (sense-proximity agent environment movements)
+  (let ([position (agent-position agent)]
+        [orientation (agent-orientation agent)])
+    (let ([front (& movements orientation)]
+          [right (& movements (modulo (+ 1 orientation) 4))]
+          [back (& movements (modulo (+ 2 orientation) 4))]
+          [left (& movements (modulo (+ 3 orientation) 4))])
+      (vector
+       (send-sonar-beam (+ position front) front environment)
+       (send-sonar-beam (+ position right) right environment)
+       (send-sonar-beam (+ position back) back environment)
+       (send-sonar-beam (+ position left) left environment)))))
 
 (define (compute-vision agent environment movements)
   (let ([world-size (sqrt (vector-length environment))])
@@ -366,6 +397,9 @@
 (define x-y-movements (vector (make-posn 0 -1) (make-posn 1 0)
                               (make-posn 0 1) (make-posn -1 0)))
 
+;; to sum up the all positions
+;; example: (posn+ (posn 1 2) (posn 3 4) ... )
+;; accepts an endless number of parameters
 (define (posn+ . pars)
   (define (posn+-acc result a-list)
     (cond [(empty? a-list) result]
@@ -378,10 +412,13 @@
   (let ([result (posn+-acc '(0 0) pars)])
     (make-posn (first result) (second result))))
 
+;; To multiply a posn by a scalar
 (define (posn* posn1 n)
   (make-posn (* (posn-x posn1) n)
              (* (posn-y posn1) n)))
 
+;; Move in the Eucledean coordinate system
+;; given a starting position
 (define (move-in-x-y posn orientation coordinate-movements)
   (posn+ posn (& coordinate-movements orientation)))
 
@@ -710,7 +747,8 @@
     (printf "~a~n" (vector-length new-env))
     (set! WORLD-SIZE (sqrt (vector-length new-env)))
     (set! movements (make-movements WORLD-SIZE))
-    (set! env new-env)))
+    (set! env new-env)
+    (set! A (place-agent-randomly A env WORLD-SIZE))))
 
 (load "GUI_Prototype.rkt")
 ;;(make-gui)
