@@ -45,6 +45,7 @@
 ;; Sensor canvas' drawing contexts
 (define vision-dc #f)
 (define temperature-dc #f)
+(define proximity-dc #f)
 (define energy-dc #f)
 ;; pens and brushes
 (define white-pen (make-object pen% "WHITE" 1 'solid))
@@ -82,6 +83,7 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
     (let ([event-type (send event get-event-type)]
           [x (send event get-x)]
           [y (send event get-y)])
+      ;;(printf "(~a, ~a)~n" x y)
       (set-draw! event-type)
       (when (and started-drawing? (position-valid? x y))
         ;; find the tile corresponding to the mouse' coordinates
@@ -129,13 +131,13 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
     (super-new)))
 
 (define (init-frame w h)
-  (define marg 5)
+  (define marg 4)
   ;; Make a w x h frame
   (set! frame (new my-frame%
                    [label "ValueSim"]
                    [width w]
                    [height (+ h 72)] ;; + 72 to make the canvas have proper height
-                   [style '(metal)])) 
+                   [style '(metal no-resize-border)])) 
   (define main-panel (new horizontal-panel%
                           [parent frame]
                           [alignment '(center center)]))
@@ -181,10 +183,10 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
   ;; Sensors panel
   (define right-panel (new vertical-panel%
                            [parent main-panel]
-                           [alignment '(center center)]))
+                           [alignment '(left center)]))
   (define sensor-panel (new horizontal-panel%
                             [parent right-panel]
-                            [alignment '(center center)]
+                            [alignment '(left center)]
                             [min-height 100]
                             [min-width 424]
                             [stretchable-height #f]
@@ -201,13 +203,21 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
   ;; Vision panel
   (define vision-panel (new vertical-panel%
                             [parent sensor-panel]
-                            [alignment '(center top)]
-                            [vert-margin marg]))
+                            [min-width 120]
+                            [vert-margin marg]
+                            [horiz-margin marg]
+                            [stretchable-width #f]
+                            [alignment '(center top)]))
   (new message%
        [parent vision-panel]
        [label "Vision"])
   ;; canvas for the vision panel
-  (define vision-canvas (new canvas% [parent vision-panel]))
+  (define vision-canvas (new canvas%
+                             [parent vision-panel]
+                             [min-width 120]
+                             [min-height 100]
+                             [stretchable-width #f]
+                             [stretchable-height #f]))
   (set! vision-dc (send vision-canvas get-dc))
   (send vision-dc set-pen black-pen)
   ;; Temperature panel
@@ -227,6 +237,23 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
                                   [stretchable-width #f]
                                   [stretchable-height #f]))
   (set! temperature-dc (send temperature-canvas get-dc))
+  ;; Proximity panel
+  (define proximity-panel (new vertical-panel%
+                               [parent sensor-panel]
+                               [alignment '(center top)]
+                               [vert-margin marg]
+                               [horiz-margin marg]
+                               [min-width 100]
+                               [stretchable-width #f]))
+  (new message% [parent proximity-panel] [label "Proximity"])
+  ;; canvas for the temperature panel
+  (define proximity-canvas (new canvas% [parent proximity-panel]
+                                  [min-width 100]
+                                  [min-height 100]
+                                  [stretchable-width #f]
+                                  [stretchable-height #f]))
+  (set! proximity-dc (send proximity-canvas get-dc))
+  (send proximity-dc set-smoothing 'smoothed)
   ;; Energy panel
   (define energy-panel (new vertical-panel%
                             [parent sensor-panel]
@@ -544,15 +571,13 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
 
 (define (draw-energy energy-dc)
   (let-values ([(width height) (send energy-dc get-size)])
-    ;;    (send energy-dc clear)
     (send energy-dc set-pen "White" 1 'transparent)
     (send energy-dc set-brush "White" 'solid)
     (let-values ([(dc-width dc-height) (send energy-dc get-size)])
       (send energy-dc draw-rectangle 0 0 dc-width dc-height))
     (send energy-dc set-pen "Black" 1 'transparent)
     (send energy-dc set-brush energy-color 'solid)
-    (send energy-dc draw-rectangle 0 0 (/ (* (agent-energy A) width) 30000) height)
-    ))
+    (send energy-dc draw-rectangle 0 0 (/ (* (agent-energy A) width) 30000) height)))
 
 (define (draw-temperature temperature-dc)
   (let-values ([(width height) (send temperature-dc get-size)])
@@ -570,12 +595,12 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
 (define (draw-vision vision-dc)
   (let-values ([(width height) (send vision-dc get-size)])
     (let ([vision (compute-vision A env movements)]
-          [sw 5]
-          [sh 5]
-          [w1 (/ (- width 10 (* 4 5)) 7)]
-          [start-x 30]
-          [start-y (/ (- height 10 (* 3 5)) 9)])
-      (send vision-dc clear)
+          [sw 5.0]
+          [sh 5.0]
+          [w1 (/ (- width 10 (* 4 5)) 6)]
+          [start-x 13]
+          [start-y (/ (- height 10 (* 3 5)) 3)])
+      ;;(send vision-dc clear)
       (draw-data-rectangles 1 5 start-x start-y w1 w1 sw sh vision-dc
                             (vector-take vision 5))
       (draw-data-rectangles 1 3 (+ start-x w1 sw)
@@ -585,10 +610,81 @@ Then keep track of mouse releases and presses--toggles "started-drawing?"
                             (+ start-y w1 w1 sh sh) w1 w1 sw sh
                             vision-dc (vector-drop vision 8)))))
 
+;; TODO -- the sensors are computed twice. 1) when asking the agent to act;
+;; 2) when plotting sensory data
 (define (draw-sensors)
   (draw-energy energy-dc)
   (draw-vision vision-dc)
-  (draw-temperature temperature-dc))
+  (draw-temperature temperature-dc)
+  (draw-proximity proximity-dc))
+
+(define (draw-proximity proximity-dc)
+  (let-values ([(width height) (send proximity-dc get-size)])
+    (let ([proximity (sense-proximity A env movements)]
+          [dot-center-x (- (/ width 2) 2.5)]
+          [dot-center-y (- (/ height 2) 2.5)]
+          [center-x (/ width 2)]
+          [center-y (/ height 2)]
+          [block-length 6] ;; size of each block visualized by this sensor
+          [span 6]) ;; size of the basis of each sensory triangle 
+      (let ([center-x- (- center-x span)]
+            [center-x+ (+ center-x span)]
+            [right-x (+ center-x (* (+ 1 (& proximity 1)) block-length))]
+            [left-x (- center-x (* (+ (& proximity 3) 1) block-length))]
+            [center-y- (- center-y span)]
+            [center-y+ (+ center-y span)]
+            [up-y (- center-y (* (+ (& proximity 0) 1) block-length))]
+            [down-y (+ center-y (* (+ (& proximity 2) 1) block-length))])
+        (send proximity-dc clear)
+        ;; (send proximity-dc set-pen "White" 0 'transparent)
+        ;; (send proximity-dc set-brush "Red" 'solid)
+        ;; (send proximity-dc draw-rectangle dot-center-x dot-center-y 5 5)
+        (send proximity-dc set-pen "Black" 1 'solid)
+        (send proximity-dc set-brush "Gray" 'solid)
+        (when (< (& proximity 0) 5)
+            ;; (begin 
+            ;;   (send proximity-dc draw-line center-x center-y center-x up-y))
+              ;;(send proximity-dc draw-text ">4" (- dot-center-x 6) 1))
+              (send proximity-dc draw-polygon
+                    (list
+                     (make-object point% center-x center-y)
+                     (make-object point% center-x- up-y)
+                     (make-object point% center-x+ up-y)))
+              (send proximity-dc draw-text (number->string (& proximity 0))
+                    (- dot-center-x 1) 1))
+        (when (< (& proximity 1) 5)
+            ;; (begin 
+            ;;   (send proximity-dc draw-line center-x center-y right-x center-y))
+              ;;(send proximity-dc draw-text ">4" (- width 20) (- (/ height 2) 9)))
+              (send proximity-dc draw-polygon
+                    (list
+                     (make-object point% center-x center-y)
+                     (make-object point% right-x center-y-)
+                     (make-object point% right-x center-y+)))
+              (send proximity-dc draw-text (number->string (& proximity 1))
+                    (- width 15) (- (/ height 2) 9)))
+        (when (< (& proximity 2) 5)
+            ;; (begin
+            ;;   (send proximity-dc draw-line center-x center-y center-x down-y))
+              ;;(send proximity-dc draw-text ">4" (- dot-center-x 6) (- height 17)))
+              (send proximity-dc draw-polygon
+                    (list
+                     (make-object point% center-x center-y)
+                     (make-object point% center-x- down-y)
+                     (make-object point% center-x+ down-y)))
+              (send proximity-dc draw-text (number->string (& proximity 2))
+                    (- dot-center-x 1) (- height 17)))
+        (when (< (& proximity 3) 5)
+            ;; (begin 
+            ;;   (send proximity-dc draw-line center-x center-y left-x center-y))
+              ;;(send proximity-dc draw-text " " 0 (- (/ height 2) 9)))
+          (send proximity-dc draw-polygon
+                (list
+                 (make-object point% center-x center-y)
+                 (make-object point% left-x center-y-)
+                 (make-object point% left-x center-y+)))
+          (send proximity-dc draw-text (number->string (& proximity 3))
+                7 (- (/ height 2) 9)))))))
 
 ;;; Saving and Loading
 (define (load-environment-gui file)
