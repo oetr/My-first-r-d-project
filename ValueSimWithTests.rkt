@@ -201,7 +201,8 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
     (reduce-energy! agent 'move!)
     ;; dealing with boxes
     (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'box))
-      (set! next-box-position (+ next-position (& movements (agent-orientation agent))))
+      (set! next-box-position (+ next-position (& movements
+                                                  (agent-orientation agent))))
       (unless (tile-object-on-top (& environment next-box-position))
         (take-object! next-position env WORLD-SIZE)
         (place-object! temp-object next-box-position environment WORLD-SIZE)
@@ -217,33 +218,6 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
                (symbol=? (hash-ref object-in-front 'name) 'door)
                (hash-ref object-in-front 'open?)) ;; door open
       (set-agent-position! agent next-position))))
-
-;; move-back! is the opposite of the move function, however, it is not used
-;; (define (move-back! agent environment movements)
-;;   (let* ([next-position (- (agent-position agent)
-;;                            (& movements (agent-orientation agent)))]
-;;          [object-in-back (tile-object-on-top (& environment next-position))]
-;;          [moved? #f]
-;;          [next-box-position #f])
-;;     (reduce-energy! agent 'move-back!)
-;;     (when (and object-in-back (symbol=? (hash-ref object-in-back 'name) 'box))
-;;       (set! next-box-position (- next-position (& movements (agent-orientation agent))))
-;;       (unless (tile-object-on-top (& environment next-box-position))
-;;         (take-object! next-position env WORLD-SIZE)
-;;         (place-object! temp-object next-box-position environment WORLD-SIZE)
-;;         (set! moved? #t)
-;;         (set-agent-position! agent next-position)))
-;;     (unless (or object-in-back moved?)
-;;       (set-agent-position! agent next-position))
-;;     (if moved?
-;;         (set! box-moved next-box-position)
-;;         (set! box-moved #f))
-;;     ;; going through open doors
-;;     (when (and object-in-back
-;;                (symbol=? (hash-ref object-in-back 'name) 'door)
-;;                (hash-ref object-in-back 'open?)) ;; door open
-;;       (set-agent-position! agent next-position))))
-
 
 ;; Doing nothing reduces the energy nevertheless
 (define (do-nothing! agent environment movements)
@@ -304,6 +278,9 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
                    'move-back! 1 'do-nothing! 0.001))
 
 ;;; Sensors
+;; TODO : give the agent a dedicated temperature sensor and make it decrease or
+;; TODO : increase based on the temperature that surrounds the agent
+;; Computes 8 tiles around the agent and the agent's own temperature
 (define (compute-surrounding-temperatures agent environment movements)
   (define (compute-temperature pos)
     (let* ([a-tile (& environment pos)]
@@ -326,6 +303,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 
 ;; find if there are obstacles in a straight line
 ;; returns a number if there was one obstacle in its way, and 0 otherwise
+;; Works only to the distance of 4 tiles; returns 5 if the distance is greater than 4
 (define (send-sonar-beam start-position direction environment)
   (define (send-sonar-beam-aux current-position n-inspected-tiles)
     (let ([object-on-top (tile-object-on-top (& environment current-position))])
@@ -337,16 +315,19 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
                                  (+ 1 n-inspected-tiles))
             n-inspected-tiles)] ;; door closed
        [object-on-top n-inspected-tiles] ;; any other object
-       [(= n-inspected-tiles 4) 5] ;; 5 is returned if the sonar doesn't receive a reply
-       [else (send-sonar-beam-aux (+ current-position direction) ;; beam goes to next tile
+       ;; 5 is returned if the sonar doesn't receive a reply
+       [(= n-inspected-tiles 4) 5]
+       ;; beam goes to next tile
+       [else (send-sonar-beam-aux (+ current-position direction) 
                                   (+ 1 n-inspected-tiles))])))
   (send-sonar-beam-aux start-position 0))
 
-;; sends 4 beams to front, right, back and left
-;; returns a vector of 4 numbers
+;; Send 4 beams to front, right, back and left
+;; Return a vector of 4 numbers
 (define (sense-proximity agent environment movements)
   (let ([position (agent-position agent)]
         [orientation (agent-orientation agent)])
+    ;; find the beam directions based on the agent's current orientation
     (let ([front (& movements orientation)]
           [right (& movements (modulo (+ 1 orientation) 4))]
           [back (& movements (modulo (+ 2 orientation) 4))]
@@ -357,6 +338,14 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
        (send-sonar-beam (+ position back) back environment)
        (send-sonar-beam (+ position left) left environment)))))
 
+;; Compute what colors do objects/tiles have that are in front of the agent
+;; The agent can see the tiles as shown below:
+;;  x x x x x
+;;    x x x
+;;      x
+;;      A
+;; TODO : make the function return a vector of numbers, and not a vector of vectors of
+;; numbers
 (define (compute-vision agent environment movements)
   (let ([world-size (sqrt (vector-length environment))])
     (define (turn-left orientation)
@@ -376,6 +365,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
                 (tile-color a-tile)))))
     (define (visible-tiles)
       ;; return 9 positions that are in front of the agent
+      ;; TODO : make the functino use positions and not x/y coordinates
       (let ([position (position->coordinates world-size
                                              (agent-position agent))]
             [orientation (agent-orientation agent)])
@@ -419,22 +409,20 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
      vector-append)
    (sense-proximity agent environment movements)))
 
-;; function converting the number of grid into x and y coordinates of the agent
-;; assume a square environment
+;; Function converting the number of grid into x and y coordinates of the agent
+;; Assume a square environment
 ;; position->coordinates : N x N -> posn
 (define (position->coordinates world-size position)
   (make-posn (remainder position world-size)
              (quotient position world-size)))
 
+;; Does the opposite of position->coordinates
 (define (coordinates->position world-size posn)
   (+ (posn-x posn)
      (* (posn-y posn)
         world-size)))
 
-(define x-y-movements (vector (make-posn 0 -1) (make-posn 1 0)
-                              (make-posn 0 1) (make-posn -1 0)))
-
-;; to sum up the all positions
+;; To sum up the all positions
 ;; example: (posn+ (posn 1 2) (posn 3 4) ... )
 ;; accepts an endless number of parameters
 (define (posn+ . pars)
@@ -460,33 +448,39 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
   (posn+ posn (& coordinate-movements orientation)))
 
 ;;; Data logger
+;; A log is a structure that contains all the necessary information about the agent
+;; and the environment at some time
 (define-struct log (percepts value-system-label decision position orientation)
-  #:transparent #:mutable )
+  #:transparent #:mutable)
 
+;; data is a vector that will save the time-series of the agent in a run
+;; TODO : make the agent save the data on the fly, to reduce the memory usage
 (define data #())
 
+;; Take all the sensory data, wrap it into a log data structure and save it in data
 (define (log-data! percepts value-system-label decision agent data n)
   (! data n
      (make-log percepts value-system-label decision (agent-position agent)
                (agent-orientation agent))))
 
-(define (print-comma-separated data a-file separator end)
+;; Print the data into a port
+(define (print-comma-separated data a-port separator end)
   (if (or (number? data) (procedure? data))
-      (fprintf a-file "~a~a" data end)
+      (fprintf a-port "~a~a" data end)
       (begin
         (let ([length (vector-length data)])
           (define (print-comma-separated-aux i)
             (when (< i length)
-              (fprintf a-file "~a" (& data i))
+              (fprintf a-port "~a" (& data i))
               (if (= i (- length 1))
-                  (fprintf a-file "~a" end)
-                  (fprintf a-file "~a" separator))
+                  (fprintf a-port "~a" end)
+                  (fprintf a-port "~a" separator))
               (print-comma-separated-aux (+ i 1))))
           (print-comma-separated-aux 0)))))
 
-;; data format
-;; 0 1 2 3 4 ...
-;; p o x y a e l
+;; The format of the saved data is as follows
+;; 0 1 2 3 4 5 6 7 ...
+;; p o x y a e l percepts
 ;; pos orienation x y action energy life
 (define (save-log data world-size)
   (let ([file-out #f])
@@ -507,6 +501,8 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
     (data-file-close file-out)))
 
 ;;; Saving logs into a file
+;; timestamp : -> string
+;; To create a string of 
 (define (timestamp)
   (let ([now (current-date)]
         [n (open-output-string)])
@@ -519,6 +515,9 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
              (date-second now))
     (get-output-string n)))
 
+;; TODO : check if the function can be written in a better way
+;; for example, don't split directory and filename
+;; opens a file port (creates a new file, or overwrites the file if it exists)
 (define (data-file-open dir)
   (open-output-file (string-append dir
                                    (timestamp)
@@ -526,7 +525,8 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
                     #:mode 'text
                     #:exists 'replace))
 
-(define (data-file-close file-out)
+;; Close the file port
+(define (data-file-close output-port)
   (close-output-port file-out))
 
 
@@ -544,23 +544,10 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
     (let ([decision (& actions (random (vector-length actions)))])
       (values (vector 0) decision))))
 
-
-;;; Utility functions
-;; fixed set points Konidaris and Barto
-;; mapping energy to values
-;; keep the values between 0.0 and 1.0
-(define (energy->value energy priority)
-  (- 1 (expt energy (tan (/ (* priority pi) 2)))))
-;; need generic functions whose inputs are values or vectors of values
-;; will map parts of the sensory stream into values
-
-;; adding priorities
-;; simple mappings
-
-;; reconsider the way how agent makes decisions
-;; extend the agent that it has value system, learning and action selection
+;;; Utility functions TODO
 
 ;;; Run simulator
+;; Updates the environment based on the action (decision) of the agent
 (define (update-world! decision agent environment movements)
   (decision agent environment movements))
 
@@ -607,69 +594,46 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
     (set! data (make-vector steps #f))
     (run-simulation-aux 0)))
 
+;; Run the simulation for just one step
 (define (step)
   (run-simulation A env movements data 1))
 
+;; Run the simulation for n steps and save the data into the log
 (define (run n)
   (set! data (run-simulation A env movements data n))
   (save-log data WORLD-SIZE)
   (void))
 
+;; Generate the movements vector based on the size of the environment
 (define (make-movements world-size)
-  (list->vector `(,(- world-size) +1 ,world-size -1)))
+  `#(,(- world-size) +1 ,world-size -1))
 
 ;;; Instantiate environment and agent
-;; let's build an environment
+;; Let's build the environment
 (define WORLD-SIZE 30)
 (define env (build-environment WORLD-SIZE))
+;; With this vector we know in which tile the agent will end up after one movement
 (define movements (make-movements WORLD-SIZE))
+;; Same as movements, but in x/y coordinates
+(define x-y-movements (vector (make-posn 0 -1) (make-posn 1 0)
+                              (make-posn 0 1) (make-posn -1 0)))
+(define max-energy 1000)
 
-(define max-energy 30000)
 (define A (make-agent 0 0 max-energy 3000 void))
 (set-agent-fn! A (random-as A actions))
-
-(define B (make-agent 0 0 100 100 void))
-(set-agent-fn! B (random-as B actions))
-
 (set! A (place-agent-randomly A env WORLD-SIZE))
 
-;; Create a simulator
-(define STEPS 10)
-
 ;;; Tests
+;; Test all the functions in this file
 (define (test-all)
   (load "Tests.rkt"))
 
-;; (define (random-as probabilities x)
-;;   (when (empty? probabilities)
-;;     (error "probabilities should not be empty" random-as))
-;;   (let ([xnu (- x (car probabilities))])
-;;     (if (< xnu 0)
-;;         0
-;;         (1+ (random-as (cdr probabilities) xnu)))))
-
-;;; Visualization
-(define (print-temperatures environment)
-  (define (aux n)
-    (when (< n (vector-length environment))
-      (let* ([tile (& environment n)]
-             [object-on-top (tile-object-on-top tile)]
-             [symbol #f])
-        (if object-on-top
-            (set! symbol (hash-ref object-on-top 'temperature))
-            (set! symbol (tile-temperature tile)))
-        (when (zero? (modulo n WORLD-SIZE))
-          (printf "\n"))
-        (printf "~a " symbol))
-      (aux (+ n 1))))
-  (aux 0)
-  (printf "~n"))
-
+;;; Console Visualization
 (define (print-environment agent environment world-size)
   (define (aux n)
     (when (< n (sqr world-size))
       (let* ([tile (& environment n)]
-             [symbol (print-symbol n tile agent)])
+             [symbol (console-visualize-object n tile agent)])
         (when (zero? (modulo n WORLD-SIZE))
           (printf "\n"))
         (printf "~a " symbol))
@@ -677,64 +641,33 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
   (aux 0)
   (printf "~n"))
 
-(define (print-symbol n tile agent)
-  (cond [(= n (agent-position agent)) 'A]
-        [(false? (tile-object-on-top tile)) '_]
-        [else 'X]))
+;; This function assigns strings to the objects on the tile
+(define (console-visualize-object n tile agent)
+  (if (= n (agent-position agent))
+      "A"
+      (let ([object-on-top (tile-object-on-top tile)])
+        (cond
+         [(false? object-on-top) "."]
+         [(symbol=? 'wall (hash-ref object-on-top 'name)) "O"]
+         [(symbol=? 'door (hash-ref object-on-top 'name)) "#"]
+         [(symbol=? 'wall-socket (hash-ref object-on-top 'name)) "@"]
+         [else '^]))))
 
+;; prints the environment with the standard global variables (A and env)
 (define (print-world)
   (print-environment A env WORLD-SIZE))
 
-;; Buggy version of the function
-;; works only for the unary operator case
-(define (vector-apply f v)
-  (let ([length (vector-length v)])
-    (define (vector-apply-aux result n)
-      (if (= n length)
-          result
-          (vector-apply-aux (f result (& v n)) (+ n 1))))
-    (if (zero? length)
-        (error "No arguments provided in " vector-apply)
-        (vector-apply-aux (& v 0) 1))))
-
-;;(require macro-debugger/expand)
-;;(require macro-debugger/stepper-text)
-
-;; (require (planet Inaimathi/postscript:1:0))
-;; (ps "test1.ps" (0 0 612 792)
-;;     (page (translate 50 50)
-;;           (text '(0 . 0) "Hello there")
-;;           (stroke (square '(0 . 0) 100))))
-
-;; (require racket/system)
-;; (define (ps->pdf)
-;;   (begin
-;;     (ps "test1.ps" (0 0 0 0 )
-;;         (page
-;;               (text '(100 . 100) "Hello there" #:font (font "Helvetica" 30))
-;;               (stroke (square '(100 . 100) 200))))
-;;     (system "ps2pdf test1.ps")
-;;     (system "rm test1.ps")))
-
-;; (ps->pdf)
 ;;; Saving logs into a file
 (define f #f)
 
-(read-accept-compiled #t)
-
-;;         [o (open-output-string)])
-;;     (set! f (get-output-string o))
-
+;; TODO : why is the mode binary?
+;; TODO : The loading procedure reads the file in a text mode, so why binary here?
 (define (save-environment file)
   (let ([file (open-output-file file
                                 #:mode 'binary
                                 #:exists 'replace)])
     (fprintf file "~s" env)
     (close-output-port file)))
-
-;;(define new-world #f)
-
-;;(define-struct tile (color temperature object-on-top traversable?))
 
 (define (load-environment file)
   (let ([file (open-input-file file #:mode 'text)])
@@ -762,7 +695,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
         [(hash? description)
          (begin
            ;; Racket' reader converts #hash(...) expressions into immutable tables
-           ;; I need the objects of the world to be mutable
+           ;; This simulator need the objects of the world to be mutable
            (set! description (make-hash (hash->list description)))
            (let ([c (hash-ref description 'color)])
              (hash-set! description
@@ -772,16 +705,8 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
         [(number? description) description]
         [else #f]))
 
-(define (environment-eq? e1 e2)
-  (cond [(and (vector? e1) (not (vector e2)))
-         (printf "e1 vector? --  yes; e2 vector? -- no\n")]
-        [(and (not (vector? e1)) (vector e2))
-         (printf "e1 vector? --  no; e2 vector? -- yes\n")]
-        [(vector? e1) (vector-map environment-eq? e1 e2)]))
-
 (define (load-and-set-environment file)
   (let ([new-env (load-environment file)])
-    (printf "~a~n" (vector-length new-env))
     (set! WORLD-SIZE (sqrt (vector-length new-env)))
     (set! movements (make-movements WORLD-SIZE))
     (set! env new-env)
@@ -789,133 +714,5 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 
 (load "GUI_Prototype.rkt")
 ;;(make-gui)
-;;(save-environment "env1.txt")
+;;(save-environment "env12.txt")
 (load-and-set-environment "env1.txt")
-
-
-
-;;; Some Tests
-;; original version
-#|
-(define (substitute1 new old l)
-  (cond [(null? l) '()]
-        [(eq? (car l) old) (cons new (substitute1 new old (cdr l)))]
-        [else (cons (car l) (substitute1 new old (cdr l)))]))
-
-(define (substitute11 new old l)
-  (if (null? l) '()
-      (let ([fst (car l)])
-        (cons (if (eq? fst old)
-                  new
-                  fst)
-              (substitute11 new old (cdr l))))))
-
-;; letrec version (implicitly through a named-let)
-(define (substitute2 new old l)
-  (let loop ([l l])
-    (cond [(null? l) '()]
-          [(eq? (car l) old) (cons new (loop (cdr l)))]
-          [else (cons (car l) (loop (cdr l)))])))
-
-;; making the code a little more compact
-(define (substitute3 new old l)
-  (let loop ([l l])
-    (if (null? l)
-        '()
-        (cons (let ([fst (car l)]) (if (eq? fst old) new fst))
-              (loop (cdr l))))))
-
-;; a tail recursive version
-(define (substitute4 new old l)
-  (let loop ([l l] [r '()])
-    (if (null? l)
-        (reverse r)
-        (loop (cdr l)
-              (cons (let ([fst (car l)]) (if (eq? fst old) new fst)) r)))))
-
-(define (substitute5 new old l)
-  (define (acc l r)
-    (if (null? l)
-        (reverse r)
-        (acc (cdr l)
-             (cons (let ([fst (car l)])
-                     (if (eq? fst old) new fst))
-                   r))))
-  (acc l empty))
-
-(define substitute6
-  (lambda (new old l)
-    (letrec ((acc
-              (lambda (l result)
-                (if (null? l)
-                    (reverse result)
-                    (acc (cdr l)
-                         (cons (let ([first (car l)])
-                                 (if (eq? first old) new first))
-                               result))))))
-      (acc l empty))))
-
-(define substitute7
-  (lambda (new old a-list)
-    (define (substitute7-aux list)
-      (cond [(null? list) empty]
-            [else
-             (cons
-              (let ([first-element (car list)])
-                (if (eq? (car list) old)
-                    new
-                    first-element))
-              (substitute7-aux (cdr list)))]))
-    (substitute7-aux a-list)))
-
-(substitute7 1 10 '(2 10 3))
-
-;; tests and timings
-
-(define (rand-list n)
-  (if (zero? n) '() (cons (random 10) (rand-list (sub1 n)))))
-
-
-(define (my-test tests functions . args)
-  (for ([i functions])
-       (time* tests (apply i args))))
-
-(my-test 100 (list 
-              substitute5
-              substitute11
-              substitute1
-              substitute2
-              substitute3
-              substitute4
-              substitute6
-              substitute7)
-         10 1 (make-list 100000 1))
-
-
-(define fn-list
-  (list
-   substitute1
-   substitute11
-   substitute2
-   substitute3
-   substitute4
-   substitute5
-   substitute6
-   substitute7))
-
-(define (test-my-functions n list-size fn-list)
-  (define l  (rand-list list-size))
-  (define new (random 10))
-  (define old (random 10))
-  (define-syntax-rule (run fun i)
-    (begin (printf "~a: ~a ~n" i (object-name fun))
-           (time* n (fun new old l))))
-  ;; don't time the first one, since it allocates a new list to use later  
-  (define new-list (substitute1 new old l))
-  (newline)
-  (for ([fn fn-list] [i (in-range (length fn-list))])
-       (run fn i))
-  (newline))
-
-(test-my-functions 100 100000 fn-list)
-|#
