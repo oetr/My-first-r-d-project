@@ -497,7 +497,6 @@
         (draw-sensors))
       ;; drawing a door that has been either opened or closed
       (when door-changed
-        (printf "door changed\n")
         (let ([new-door-posn (position->coordinates WORLD-SIZE door-changed)])
           (local-erase (posn-x new-door-posn) (posn-y new-door-posn) W H)
           (draw-location (posn-x new-door-posn) (posn-y new-door-posn)))
