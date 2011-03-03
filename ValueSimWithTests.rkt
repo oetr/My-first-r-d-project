@@ -1,3 +1,14 @@
+#|
+Author: Petr Samarin
+--
+The simulator was created as part of my R&D1 project from 1 Dec. 2010 to 31 May. 2011
+--
+TODO: Describe what the simulator does.
+-- Running the Simulator
+To run the simulator, download Racket from http://racket-lang.org/download
+Evaluate the code either in DrRacket environment, or by running: "racket -f ValueSim.rkt" 
+|#
+
 ;;(load "/Users/petr/Dropbox/Libraries/Racket/utils.rkt")
 (require (planet williams/science/random-distributions/gaussian))
 (require (planet williams/science/random-distributions/flat))
@@ -18,7 +29,7 @@
 (define (wall #:color [color #f]
               #:temperature [temperature #f])
   (unless color
-    (set! color (make-color 0 0 0)))
+    (set! color (make-color 0 0 0))) ;; black
   (unless temperature
     (set! temperature (+ 15 (random 10))))
   (make-hash `((color . ,color)
@@ -74,6 +85,10 @@
                (name . lever))))
 
 ;;; Environment
+;; An environment is represented by a vector of tiles
+
+;; build-environment : N -> vector-of-tiles
+;; to create an environment whose boundaries are walls
 (define (build-environment world-size)
   (let ([environment #f])
     (define (fill-boundaries)
@@ -92,13 +107,19 @@
     (set! environment
           (build-vector (expt world-size 2)
                         (lambda (n)
-                          (tile (make-color 255 255 255) 15 #f 0))))
+                          (tile (make-color 255 255 255) 15 #f 0)))) ;; white color
     (fill-boundaries)))
 
 ;;; Agent
+;; TODO : fix the structure of the agent function--what are its inputs/outputs?
+;; An agent is a structure; fn - is the agent function that returns a decision,
+;; as well as the result of the value system
 (define-struct agent (position orientation energy life fn) #:mutable #:transparent)
+
+;; The position in 2-D space of the agent is represented by a structure
 (define-struct posn (x y) #:mutable #:transparent)
 
+;; To place the agent randomly somewhere in the environment, where there is space
 (define (place-agent-randomly agent environment world-size)
   (let ([position (random (expt world-size 2))])
     (if (tile-object-on-top (& environment position))
@@ -110,7 +131,10 @@
                       (agent-life agent)
                       (agent-fn agent))))))
 
-;; manually place the agent
+;; Manually place the agent
+;; TODO : why does this function return the agent in case where it could not place it?
+;; TODO : why is a new agent created in case where it could place an agent onto the
+;; given position?
 (define (place-agent agent environment position orientation)
   (cond [(> position (vector-length environment)) agent]
         [(tile-object-on-top (& environment position)) agent]
@@ -121,13 +145,16 @@
                      (agent-life agent)
                      (agent-fn agent))]))
 
+;; TODO : where is this used and what is its purpose?
 (define temp-object #f)
 
+;; TODO : is this function even used?
 (define (take-object! position environment world-size)
   (let ([tile (& environment position)])
     (set! temp-object (tile-object-on-top tile))
     (set-tile-object-on-top! tile #f)))
 
+;; TODO : is this function even used?
 (define (place-object! object position environment world-size)
   (let ([tile (& environment position)]
         [obj #f])
@@ -136,23 +163,34 @@
     (set-tile-object-on-top! tile obj)))
 
 ;;; Actions
+;; These actions are procedures that the agent can use
+;; All actions reduce (or increase) the energy of the agent
+;; The reduction and increase are all saved in an array
+
+;; Turn the agent left means changing its orientation
+;; the turning is all modulo 4, since there are only 4 possible orientations
 (define (turn-left! agent environment movements)
   (reduce-energy! agent 'turn-left!)
   (set-agent-orientation! agent (remainder
-                                 (+ (agent-orientation agent) 3)
-                                 4)))
+                                 (+ (agent-orientation agent) 3) 4)))
 
 (define (turn-right! agent environment movements)
   (reduce-energy! agent 'turn-right!)
   (set-agent-orientation! agent (remainder
-                                 (+ (agent-orientation agent) 1)
-                                 4)))
+                                 (+ (agent-orientation agent) 1) 4)))
 
-;; save information about whether the box/door was moved/changed or not
-;; false if not, the hash representing the object if yes
+;; Save information about whether the box/door was moved/changed or not
+;; contains #f if not, the hash representing the object if yes
 (define box-moved #f)
 (define door-changed #f)
 
+
+;; TODO : think about adding operators of the classical planning representation
+;; Moves the agent forward if there is nothing in front of it
+;; If there is only one box in front of the agent, then the box is moved as well
+;; If there is an open door, then the agent can move
+;; If there is more than 2 boxes in front, or any other object other than an empty
+;; tile, then the agent cannot move
 (define (move! agent environment movements)
   (let* ([next-position (+ (agent-position agent)
                            (& movements (agent-orientation agent)))]
@@ -180,31 +218,34 @@
                (hash-ref object-in-front 'open?)) ;; door open
       (set-agent-position! agent next-position))))
 
-(define (move-back! agent environment movements)
-  (let* ([next-position (- (agent-position agent)
-                           (& movements (agent-orientation agent)))]
-         [object-in-back (tile-object-on-top (& environment next-position))]
-         [moved? #f]
-         [next-box-position #f])
-    (reduce-energy! agent 'move-back!)
-    (when (and object-in-back (symbol=? (hash-ref object-in-back 'name) 'box))
-      (set! next-box-position (- next-position (& movements (agent-orientation agent))))
-      (unless (tile-object-on-top (& environment next-box-position))
-        (take-object! next-position env WORLD-SIZE)
-        (place-object! temp-object next-box-position environment WORLD-SIZE)
-        (set! moved? #t)
-        (set-agent-position! agent next-position)))
-    (unless (or object-in-back moved?)
-      (set-agent-position! agent next-position))
-    (if moved?
-        (set! box-moved next-box-position)
-        (set! box-moved #f))
-    ;; going through open doors
-    (when (and object-in-back
-               (symbol=? (hash-ref object-in-back 'name) 'door)
-               (hash-ref object-in-back 'open?)) ;; door open
-      (set-agent-position! agent next-position))))
+;; move-back! is the opposite of the move function, however, it is not used
+;; (define (move-back! agent environment movements)
+;;   (let* ([next-position (- (agent-position agent)
+;;                            (& movements (agent-orientation agent)))]
+;;          [object-in-back (tile-object-on-top (& environment next-position))]
+;;          [moved? #f]
+;;          [next-box-position #f])
+;;     (reduce-energy! agent 'move-back!)
+;;     (when (and object-in-back (symbol=? (hash-ref object-in-back 'name) 'box))
+;;       (set! next-box-position (- next-position (& movements (agent-orientation agent))))
+;;       (unless (tile-object-on-top (& environment next-box-position))
+;;         (take-object! next-position env WORLD-SIZE)
+;;         (place-object! temp-object next-box-position environment WORLD-SIZE)
+;;         (set! moved? #t)
+;;         (set-agent-position! agent next-position)))
+;;     (unless (or object-in-back moved?)
+;;       (set-agent-position! agent next-position))
+;;     (if moved?
+;;         (set! box-moved next-box-position)
+;;         (set! box-moved #f))
+;;     ;; going through open doors
+;;     (when (and object-in-back
+;;                (symbol=? (hash-ref object-in-back 'name) 'door)
+;;                (hash-ref object-in-back 'open?)) ;; door open
+;;       (set-agent-position! agent next-position))))
 
+
+;; Doing nothing reduces the energy nevertheless
 (define (do-nothing! agent environment movements)
   (reduce-energy! agent 'do-nothing!))
 
@@ -232,11 +273,14 @@
       (hash-set! object-in-front 'color (make-color 0 255 0))
       (hash-set! object-in-front 'open? #f))))
 
+;; This action allows the agent to charge its battery, but only if the charger
+;; is right in front of the agent
 (define (charge-battery! agent environment movements)
   (let* ([next-position (+ (agent-position agent)
                            (& movements (agent-orientation agent)))]
          [object-in-front (tile-object-on-top (& environment next-position))])
-    (when (and object-in-front (symbol=? (hash-ref object-in-front 'name) 'wall-socket))
+    (when (and object-in-front
+               (symbol=? (hash-ref object-in-front 'name) 'wall-socket))
       (reduce-energy! agent 'charge-battery!))))
 
 ;; Reduce the energy of the agent through movements
@@ -249,6 +293,7 @@
              (set-agent-energy! A next-energy)]
             [else (set-agent-energy! A max-energy)]))))
 
+;; All the actions that the agent is able to perform
 (define actions (vector move! turn-left! turn-right!
                         open-door! close-door! charge-battery!))
 
