@@ -117,7 +117,8 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 ;; TODO : fix the structure of the agent function--what are its inputs/outputs?
 ;; An agent is a structure; fn - is the agent function that returns a decision,
 ;; as well as the result of the value system
-(define-struct agent (position orientation energy life fn) #:mutable #:transparent)
+(define-struct agent (position orientation energy action-selection utility-fn)
+  #:mutable #:transparent)
 
 ;; The position in 2-D space of the agent is represented by a structure
 (define-struct posn (x y) #:mutable #:transparent)
@@ -131,8 +132,8 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
           (make-agent position
                       (random 4)
                       (agent-energy agent)
-                      (agent-life agent)
-                      (agent-fn agent))))))
+                      (agent-action-selection agent)
+                      (agent-utility-fn agent))))))
 
 ;; Manually place the agent
 ;; TODO : why does this function return the agent in case where it could not place it?
@@ -275,10 +276,10 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
                         open-door! close-door! charge-battery!))
 
 ;; TODO: hash table that shows how every action changes the energy of the agent
-(define cost (hash 'move! 5 'turn-left! 0.1 'turn-right! 0.1
-                   'open-door! 1 'close-door! 1
-                   'charge-battery! -200
-                   'move-back! 1 'do-nothing! 0.001))
+(define cost (hash 'move! 0.05 'turn-left! 0.01 'turn-right! 0.01
+                   'open-door! 0.1 'close-door! 0.1
+                   'charge-battery! -20
+                   'move-back! 0.05 'do-nothing! 0.001))
 
 ;;; Sensors
 ;; TODO : give the agent a dedicated temperature sensor and make it decrease or
@@ -528,7 +529,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 
 ;; Close the file port
 (define (data-file-close output-port)
-  (close-output-port file-out))
+  (close-output-port output-port))
 
 ;;; Value Systems
 ;; value->utility : fn -> fn (values)
@@ -547,7 +548,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
           (loop (+ current step) (cons current result))))))
 
 ;; Some utility functions
-(define utility-of-energy (make-value-function 0.0 100.0 0.0 1.0 0.1))
+(define utility-of-energy (make-value-function 0.0 100.0 0.0 1.0 0.5))
 (define utility-of-temperature (make-gaussian 25.0 7.0))
 (define utility-of-proximity (make-value-function 0.0 5.0 0.0 1.0 0.5))
 
@@ -570,7 +571,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
                          (1.0 1.0 1.0 1.0)))
 ;; Global weights define the relation between the attributes. For example, the attribute
 ;; "energy" is more important than other attributes
-(define global-weights '(0.5 0.4 0.1))
+(define global-weights '(0.5 0.3 0.2))
 
 ;; now we need a procedure to put all the information together!
 ;; 1) get the corresponding region from the sensory stream for each utility function
@@ -578,18 +579,31 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 ;; 3) sum them up by using global weights
 (define compute-utility
   (lambda (utility-functions from-to global-weights local-weights)
+    ;; normalize local and global weights
     (lambda (percepts)
+      ;; TODO : make the design flexible by adding selectors and generators for the
+      ;; sensory stream
       ;; 1) get the right region of the sensory stream
-      ;;
-      
-      'TODO-compute-utility)))
+      ;; 2) compute the utility according to the local weights
+      (apply +
+             (flatten
+              (map (lambda (weights values)
+                     (map * weights values))
+                   (map (lambda (global local) (apply make-weights global local))
+                        global-weights
+                        local-weights)
+                   (map (lambda (fn from-to)
+                          (for/list ([i (in-list from-to)])
+                                    (fn (vector-ref percepts i))))
+                        utility-functions from-to)))))))
+
+(define a (compute-utility utility-functions from-to global-weights local-weights))
 
 ;;; Action selection
 ;; Some simple decision making functions
 (define (random-as agent actions)
   (lambda (percepts)
-    (let ([decision (& actions (random (vector-length actions)))])
-      (values (vector 0) decision))))
+    (vector-ref actions (random (vector-length actions)))))
 
 ;; Generate action selection procedures
 (define (make-action-selection agent actions)
@@ -621,7 +635,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
           (begin
             ;; sense
             (set! percepts (sense agent environment movements))
-            ;; energy life temperature vision
+            ;; energy temperature vision
             ;; TODO: run the value system on the percepts
             ;; TODO: run the learning on the values and percepts
             ;; TODO: make decision considering all above
@@ -634,9 +648,8 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
             ;; be just a function with a side-effect...it should not produce any
             ;; output
             ;; let the agent make decision combining new percepts
-            (set!-values (value-system-label decision)
-                         (agent-live agent percepts))
-            ;;(printf "~a~n" decision)
+            (set! value-system-label ((agent-utility-fn agent) percepts))
+            (set! decision ((agent-action-selection agent) percepts))
             ;; log data
             (log-data! percepts value-system-label decision agent data n)
             ;; TODO test that the content of all the vectors is copied
@@ -671,10 +684,16 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 ;; Same as movements, but in x/y coordinates
 (define x-y-movements (vector (make-posn 0 -1) (make-posn 1 0)
                               (make-posn 0 1) (make-posn -1 0)))
-(define max-energy 1000)
+(define max-energy 100)
 
-(define A (make-agent 0 0 max-energy 3000 void))
-(set-agent-fn! A (random-as A actions))
+(define A (make-agent 0 0 max-energy void void))
+(set-agent-action-selection! A (random-as A actions))
+(set-agent-utility-fn! A (compute-utility
+                          utility-functions
+                          from-to
+                          global-weights
+                          local-weights))
+
 (set! A (place-agent-randomly A env WORLD-SIZE))
 
 ;;; Tests
