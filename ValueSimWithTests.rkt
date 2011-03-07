@@ -8,11 +8,14 @@ TODO: Describe what the simulator does.
 To run the simulator, download Racket from http://racket-lang.org/download
 Evaluate the code either in DrRacket environment, or by running: "racket -f ValueSim.rkt" 
 |#
-
+;; Racket libraries
 ;;(load "/Users/petr/Dropbox/Libraries/Racket/utils.rkt")
 (require (planet williams/science/random-distributions/gaussian))
 (require (planet williams/science/random-distributions/flat))
 (require racket/date)
+
+;; My own files
+(load "UtilityFunctions.rkt")
 
 ;;; Objects
 ;; Every piece of ground is a tile
@@ -393,19 +396,17 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
   (vector-append
    ;; transmitting energy
    (vector
-    (agent-energy agent)
-    ;; life
-    (agent-life agent))
+    (agent-energy agent))
    ;; temperature
    (compute-surrounding-temperatures agent environment movements)
    ;; vision
    (call-with-values
        (lambda () (vector->values
-                   (vector-map
-                    (lambda (color) (vector (color-r color)
-                                            (color-g color)
-                                            (color-b color)))
-                    (compute-vision agent environment movements))))
+              (vector-map
+               (lambda (color) (vector (color-r color)
+                                  (color-g color)
+                                  (color-b color)))
+               (compute-vision agent environment movements))))
      vector-append)
    (sense-proximity agent environment movements)))
 
@@ -529,7 +530,6 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 (define (data-file-close output-port)
   (close-output-port file-out))
 
-
 ;;; Value Systems
 ;; value->utility : fn -> fn (values)
 ;; to produce a function that maps values according to utility-fn
@@ -537,12 +537,66 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
   (lambda (values)
     (utility-fn values)))
 
+;; A function to produce a sequence of numbers starting from one number and finishing
+;; with another one, incrementing by a specified step
+(define range
+  (lambda (from to (step 1))
+    (let loop ([current from] [result empty])
+      (if (>= current to)
+          (reverse result)
+          (loop (+ current step) (cons current result))))))
+
+;; Some utility functions
+(define utility-of-energy (make-value-function 0.0 100.0 0.0 1.0 0.1))
+(define utility-of-temperature (make-gaussian 25.0 7.0))
+(define utility-of-proximity (make-value-function 0.0 5.0 0.0 1.0 0.5))
+
+;; We represent the value system as a set of lists
+;; Here we keep the functions that compute the utility of specific sensors
+(define utility-functions
+  (list utility-of-energy utility-of-temperature utility-of-proximity))
+;; This list tells us where to find the information in the sensory stream
+;; for example, the first list contains only one address--the address in the
+;; sensory stream, under which we can find the current energy of the agent
+(define from-to (list (list 0) (range 1 11) (range 37 41)))
+;; local weights tell us the relationship between the utilities of the same sensor type
+;; for example, they tell us how much more "important" is the utility of one of the
+;; temperature sensory compared to all the others... feel free to use any numbers to
+;; express the importance of each sensory subchannel (e.g. the temperature that the agent
+;; senses underneath itself is 4.0 times as important as all the other temperature utilities
+;; that the agent senses.
+(define local-weights '((1.0)
+                         (1.0 1.0 1.0 1.0 4.0 1.0 1.0 1.0 1.0 1.0)
+                         (1.0 1.0 1.0 1.0)))
+;; Global weights define the relation between the attributes. For example, the attribute
+;; "energy" is more important than other attributes
+(define global-weights '(0.5 0.4 0.1))
+
+;; now we need a procedure to put all the information together!
+;; 1) get the corresponding region from the sensory stream for each utility function
+;; 2) compute utility according to local weights for each utility function
+;; 3) sum them up by using global weights
+(define compute-utility
+  (lambda (utility-functions from-to global-weights local-weights)
+    (lambda (percepts)
+      ;; 1) get the right region of the sensory stream
+      ;;
+      
+      'TODO-compute-utility)))
+
 ;;; Action selection
 ;; Some simple decision making functions
 (define (random-as agent actions)
   (lambda (percepts)
     (let ([decision (& actions (random (vector-length actions)))])
       (values (vector 0) decision))))
+
+;; Generate action selection procedures
+(define (make-action-selection agent actions)
+  (lambda (percepts)
+    (let ([utility (agent-utility-fn percepts)])
+      (let ([decision (agent-action-selection-fn percepts utility actions)])
+        (values utility decision)))))
 
 ;;; Utility functions TODO
 
