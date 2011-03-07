@@ -1,3 +1,5 @@
+;; TODO : fix the drawing of the sensors after stopping a run...they are not
+;; drawn correctly after the stop button is pressed
 ;; TODO : Put the pens and brushes into another file
 (define WIDTH #f) ;; width of the canvas
 (define HEIGHT #f)
