@@ -49,11 +49,29 @@
 
 ;; Handles keyboard keys that define which object is to be inserted
 (define (handle-key key)
-  (let ([cmd (hash-ref commands key #f)])
-    (unless (and (symbol? key) (symbol=? key 'release))
-      (set! current-object-to-insert cmd)
-      (printf "object-to-insert: ~a~n" current-object-to-insert))))
+  (let ([key-is-symbol? (symbol? key)])
+    (unless (and key-is-symbol? (symbol=? key 'release))
+      (cond
+       [key-is-symbol?
+        (case key
+          ('up (set! current-temperature-to-insert
+                     (+ current-temperature-to-insert 1))
+               (printf "temperature: ~a~n" current-temperature-to-insert))
+          ('down (set! current-temperature-to-insert
+                       (- current-temperature-to-insert 1))
+                 (printf "temperature: ~a~n" current-temperature-to-insert)))]
+       [(and (not key-is-symbol?)
+             (or (char=? key #\t) (char=? key #\T)));; prepare to edit temperature
+        (set! insert-temperature? #t)
+        (printf "insert temperature~n")]
+       [else
+        (let ([cmd (hash-ref commands key #f)])
+          (set! insert-temperature? #f)
+          (set! current-object-to-insert cmd)
+          (printf "object-to-insert: ~a~n" current-object-to-insert))]))))
 
+;; Keeps track
+(define insert-temperature? #f)
 ;; Key mappings for inserting objects
 (define commands (hash #\w wall #\b box #\s wall-socket #\d door))
 
@@ -75,12 +93,20 @@
       (let ([tile-x (inexact->exact (floor (/ mouse-x (/ WIDTH WORLD-SIZE))))]
             [tile-y (inexact->exact (floor (/ mouse-y (/ HEIGHT  WORLD-SIZE))))])
         ;; using "place-object!" procedure  provided by the simulator model
-        (place-object! current-object-to-insert
-                       (coordinates->position WORLD-SIZE (make-posn tile-x tile-y))
-                       env WORLD-SIZE)
-        (let ([position (coordinates->position WORLD-SIZE (make-posn tile-x tile-y))])
-          (local-erase tile-x tile-y W H)
-          (draw-object (& env position) (make-posn tile-x tile-y) W H))))))
+        (if insert-temperature?
+            (set-temperature!
+             current-temperature-to-insert
+             (coordinates->position WORLD-SIZE (make-posn tile-x tile-y))
+             env WORLD-SIZE)
+            (begin
+              (place-object!
+               current-object-to-insert
+               (coordinates->position WORLD-SIZE (make-posn tile-x tile-y))
+               env WORLD-SIZE)
+              (let ([position
+                     (coordinates->position WORLD-SIZE (make-posn tile-x tile-y))])
+                (local-erase tile-x tile-y W H)
+                (draw-object (& env position) (make-posn tile-x tile-y) W H))))))))
 
 ;; Are the x and y inside of the main canvas defined by (WIDTH; HEIGHT)
 (define (position-valid? x y)
@@ -89,6 +115,9 @@
 
 ;; Global variable that stores what object to insert next
 (define current-object-to-insert wall)
+
+;; Global variable that stores what object to insert next
+(define current-temperature-to-insert 25)
 
 ;; Should we draw or not?--the mouse being pressed and released triggers drawing
 (define started-drawing? #f)
@@ -304,7 +333,7 @@
 ;; To create the frame of a specific length
 (define (create-view)
   (init-frame 1024 600))
-  
+
 ;; Visualize the grid
 (define (draw-grid)
   (for ([i (in-range (/ WIDTH WORLD-SIZE) WIDTH (/ WIDTH WORLD-SIZE))])
