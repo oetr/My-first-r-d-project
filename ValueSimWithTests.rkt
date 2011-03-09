@@ -166,6 +166,16 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
           [else (set! obj object)])
     (set-tile-object-on-top! tile obj)))
 
+;; set the temperature of the tile (or if it has an object on top, set its temperature
+;; as well)
+(define set-temperature!
+  (lambda (temperature position environment world-size)
+    (let ([tile (& environment position)])
+      (let ([object-on-top (tile-object-on-top tile)])
+        (set-tile-temperature! tile temperature)
+        (when object-on-top
+          (hash-set! object-on-top 'temperature temperature))))))
+
 ;;; Actions
 ;; These actions are procedures that the agent can use
 ;; All actions reduce (or increase) the energy of the agent
@@ -729,6 +739,22 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 ;; prints the environment with the standard global variables (A and env)
 (define (print-world)
   (print-environment A env WORLD-SIZE))
+
+(define (print-temperatures environment)
+  (define (aux n)
+    (when (< n (vector-length environment))
+      (let* ([tile (& environment n)]
+             [object-on-top (tile-object-on-top tile)]
+             [symbol #f])
+        (if object-on-top
+            (set! symbol (hash-ref object-on-top 'temperature))
+            (set! symbol (tile-temperature tile)))
+        (when (zero? (modulo n WORLD-SIZE))
+          (printf "\n"))
+        (printf "~a " symbol))
+      (aux (+ n 1))))
+  (aux 0)
+  (printf "~n"))
 
 ;;; Saving logs into a file
 (define f #f)
