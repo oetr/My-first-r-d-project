@@ -504,6 +504,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
          (print-comma-separated (log-position log) file-out ", " ", ")
          (print-comma-separated (log-orientation log) file-out "," ", ")
          (print-comma-separated (posn-x pos) file-out ", " ", ")
+         ;; the y coordinate is inverted because of the view of the GUI
          (print-comma-separated (- world-size 1 (posn-y pos)) file-out ", " ", ")
          (print-comma-separated (vector-member (log-decision log) actions)
                                 file-out ", " ", ")
@@ -755,6 +756,32 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
       (aux (+ n 1))))
   (aux 0)
   (printf "~n"))
+
+
+;; Temperature map of the environment: Visualization
+;; Open a file in which to write the color information
+;; save all the information in the file
+(define color-information-file "../Data/temperature-map.dat")
+(define (save-color-information file)
+  (let ([port (open-output-file file
+                                #:mode 'binary
+                                #:exists 'replace)])
+    (for ([i (in-range 0 (sqr WORLD-SIZE))])
+         (let ([posn (position->coordinates WORLD-SIZE i)]
+               [tile (& env i)])
+           (let ([object-on-top (tile-object-on-top tile)])
+             (fprintf port "~a\t~a\t~a~n"
+                      (posn-x posn)
+                      (- WORLD-SIZE 1 (posn-y posn))
+                      (if object-on-top
+                          (hash-ref object-on-top 'temperature)
+                          (tile-temperature tile))))))
+    (close-output-port port)))
+
+;; Call the following procedure to save the temperature map
+;;(save-color-information color-information-file)
+;; following command can be used to draw the temperature map
+;; gnuplot plot-temperature.gnu
 
 ;;; Saving logs into a file
 (define f #f)
