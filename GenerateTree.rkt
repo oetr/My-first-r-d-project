@@ -54,41 +54,39 @@
        [else (loop (read-char port))]))))
 
 ;; open some test data set
-(define dataset-file "../Data/ValueSim-2011-3-23-15-32-8.txt")
+(define dataset-file "../Data/ValueSim-2011-3-24-14-28-18.txt")
+;;(define dataset-file "../Data/ValueSim-2011-3-22-23-15-43.txt")
 
 ;; find the number of lines in a dataset
 (define port #f)
 (define DATASET-SIZE 0)
-(time*
- (begin
-   (printf "~n")
-   (printf "Reading the number of lines in the dataset...~n")
-   (set! port (open-input-file dataset-file #:mode 'text))
-   (define port-numberof-lines
-     (lambda (port)
-       (let ([length 0])
-         (for ([c (in-lines port)])
-              (set! length (+ length 1)))
-         length)))
-   (set! DATASET-SIZE (port-numberof-lines port))
-   (printf "The length of the data set: ~a~n" DATASET-SIZE)
-   (close-input-port port)))
+(printf "~n")
+(printf "Reading the number of lines in the dataset...~n")
+(set! port (open-input-file dataset-file #:mode 'text))
+(define port-numberof-lines
+  (lambda (port)
+    (let ([length 0])
+      (for ([c (in-lines port)])
+           (set! length (+ length 1)))
+      length)))
+(set! DATASET-SIZE (port-numberof-lines port))
+(printf "The length of the data set: ~a~n" DATASET-SIZE)
+(close-input-port port)
 
 (define dataset-actions (make-vector DATASET-SIZE #f))
 (define dataset-utilities (make-vector DATASET-SIZE #f))
-(time*
- (begin
-   (printf "~nExtracting actions and utilities from the data set...~n")
-   (set! port (open-input-file dataset-file #:mode 'text))
-   ;; read the some of the important values into a list
-   ;; action is the 5th value
-   ;; utility is the 43rd value in every line
-   (for ([i (in-range 0 DATASET-SIZE)])
-        (vector-set! dataset-actions i (get-nth-csv port 5))
-        (vector-set! dataset-utilities i (get-nth-csv port 43))
-        (read-till-line-break port))
-   (close-input-port port)
-   (printf "Done~n")))
+
+(printf "~nExtracting actions and utilities from the data set...~n")
+(set! port (open-input-file dataset-file #:mode 'text))
+;; read the some of the important values into a list
+;; action is the 5th value
+;; utility is the 43rd value in every line
+(for ([i (in-range 0 DATASET-SIZE)])
+     (vector-set! dataset-actions i (get-nth-csv port 5))
+     (vector-set! dataset-utilities i (get-nth-csv port 43))
+     (read-till-line-break port))
+(close-input-port port)
+(printf "Done~n")
 
 ;; TODO : a faster method, where reading the line is done by using in-build function
 
@@ -99,6 +97,10 @@
 ;;(vector-map number->string #(0 1 2 3 4 5)))
 
 (define NUMBER-OF-CHILDREN 6)
+
+(define numerical-action->meaning
+  (lambda (action)
+    (vector-ref ACTION-MEANINGS action)))
 
 (define action->meaning
   (lambda (action)
@@ -240,7 +242,7 @@
                                          action-occurrences)])
                           (fprintf port "~a  ->  ~a\\n"
                                    occurrence
-                                   (/ (round (* 10000 utility)) 10000.0)))
+                                   (/ (round (* 100000 utility)) 100000.0)))
                      (fprintf port "\" ];\n"))))))
     (fprintf port "}")))
 
@@ -280,7 +282,7 @@
 ;;; Opening and closing files
 (define dot-file "dot-tree.gv")
 
-(define maximum-tree-depth 20)
+(define maximum-tree-depth 100)
 
 ;; Print the tree in a graphviz comformable format and save it in a file
 (define generate-and-print-dataset
@@ -297,32 +299,131 @@
     (system (string-append "dot -Tpdf -Goverlap=false -O " file))))
 
 ;;; Run the functions
-(time*
- (begin
-   (init-vars)
-   ;; Garbage-collect the environment
-   (clear)
-   (printf "~n")
-   (printf "Creating the tree and GC the environment...~n")
-   (for ([i (in-range 0 DATASET-SIZE)])
-        (add-action (& dataset-actions i) i))))
+(init-vars)
+;; Garbage-collect the environment
+(clear)
+(printf "~n")
+(printf "Creating the tree and GC the environment...~n")
+(for ([i (in-range 0 DATASET-SIZE)])
+     (add-action (& dataset-actions i) i))
 
 ;; Saving the tree in a file
 (generate-and-print-dataset dot-file)
 ;; Generating the pdf of the graph
 (generate-pdf dot-file)
+(system "open dot-tree.gv.pdf")
 
 
 ;;; Get all action sequences that have high and low utilities
-(define threshold 0.1)
+(define THRESHOLD 0.001)
 
 ;; traverse the tree and find the good sequences
 ;; 1) compute how good is each action
 ;; 2) get only those whose absolute value exceeds a threshold
 
 ;; Details:
-;; 
+;; start at the root of the tree
+;; for all nodes (that represent actions) emanating from the root do: 
+;; - compute the utilities on all the occurrences of the actions, let's call them
+;;   start utilities
+;; - traverse the tree and check if the numbers along the tree
+;;   are consequent to the previous
+;; - if yes, check difference between the start utility and the utility of the
+;;   current action,
+;;   if no, discard the search along the path
+;; - capture all of the action sequences in a list
+;; - when done, sort the list by grouping the same action sequences together
 
+;; Use this list to store the results
+(define *results* '())
 
-;;; TODO Benchmarks
+(define traverse-tree
+  (lambda (a-node initial-utility initial-index required-index threshold)
+    ;; Several cases are possible here:
+    (cond
+     ;; 1) Node is empty --- Abort the search
+     [(not a-node) empty]
+     ;; 2) Required-index is not the same as any index of a-node -- Abort the search
+     [(not (memq required-index (node-positions a-node))) empty]
+     ;; 3) The absolute value of utility of a-node minus initial-utility is not
+     ;;    exceeding the THRESHOLD -- continue searching in the children
+     [(< (abs (- (vector-ref dataset-utilities required-index)
+                 initial-utility))
+         threshold)
+      (for ([child-node
+             (in-vector (vector-filter-not false? (node-children a-node)))])
+           ;; only check the non-empty nodes
+           (traverse-tree child-node initial-utility initial-index
+                          (+ required-index 1) threshold))]
+     ;; 4) The abs utility of a-node minus the initial utility exceeds the THRESHOLD
+     ;;    save the required-index and continue the search
+     [else
+      (set! *results*
+            (cons (list initial-index
+                        required-index
+                        (- (vector-ref dataset-utilities required-index)
+                           initial-utility))
+                  *results*))
+      (for ([child-node
+             (in-vector
+              (vector-filter-not false? (node-children a-node)))])
+           (traverse-tree child-node initial-utility initial-index
+                          (+ required-index 1) threshold))])))
+
+;; Do the tree traversal for all of the actions in the start nodes
+(define find-interesting-sequences
+  (lambda (a-root-node threshold)
+    (for* ([start-node
+            (in-vector (vector-filter-not false? (node-children a-root-node)))]
+           [start-position (in-list (node-positions start-node))]
+           [a-node (in-vector (vector-filter-not false? (node-children start-node)))])
+          (traverse-tree a-node
+                         (vector-ref dataset-utilities start-position)
+                         start-position
+                         (+ start-position 1)
+                         threshold))))
+
+(set! THRESHOLD 0.001)
+(set! *results* '())
+(find-interesting-sequences *root-node* THRESHOLD)
+(printf "~nFound ~a results exceeding the threshold of ~a~n"
+        (length *results*)
+        THRESHOLD)
+
+#|
+;; printing some of the information
+(begin
+  (newline)
+  (printf "All sequences exceeding the threshold of ~a:~n" THRESHOLD)
+  *results*)
+
+(begin
+  (newline)
+  (printf "All positive sequences exceeding the threshold of ~a:~n" THRESHOLD)
+  (sort 
+   (filter (lambda (a-list) (positive? (caddr a-list))) *results*)
+   (lambda (a-list another-list) (> (caddr a-list) (caddr another-list)))))
+
+(define sort-results
+  (lambda (results)
+    (sort results (lambda (a-list another-list)
+                    (> (caddr a-list) (caddr another-list))))))
+|#
+
+;; To print out information about an action sequence from start to end
+;; in addition, the position in the dataset as well as the utilities of
+;; all the actions are printed as well
+(define print-sequence
+  (lambda (start end)
+    (printf "~ninitial utility:\t    ~a~n" (vector-ref dataset-utilities start))
+    (for ([position (in-range start end)])
+         (let ([action (vector-ref dataset-actions position)])
+           (printf "~a: ~a (~a)\t -> ~a~n"
+                   position
+                   action
+                   (vector-ref ACTION-MEANINGS action)
+                   (vector-ref dataset-utilities (+ position 1)))))))
+
+;;(print-sequence 28 29)
+;;; TODO Benchmarks for performance improvement
 ;; what is faster: reading all values stored in a list or in a vector?
