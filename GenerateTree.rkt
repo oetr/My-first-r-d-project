@@ -300,26 +300,29 @@
 (time*
  (begin
    (init-vars)
+   ;; Garbage-collect the environment
+   (clear)
    (printf "~n")
-   (printf "Creating the tree...~n")
+   (printf "Creating the tree and GC the environment...~n")
    (for ([i (in-range 0 DATASET-SIZE)])
         (add-action (& dataset-actions i) i))))
 
-(time*
- (begin
-   (printf "~n")
-   (printf "Saving the tree in a file and generating the pdf of the graph...~n")
-   (generate-and-print-dataset dot-file)
-   (generate-pdf dot-file)))
+;; Saving the tree in a file
+(generate-and-print-dataset dot-file)
+;; Generating the pdf of the graph
+(generate-pdf dot-file)
 
- (clear)
+
 ;;; Get all action sequences that have high and low utilities
 (define threshold 0.1)
 
-;; compute how good is each action
-;; get only those whose absolute value exceeds a threshold
-
 ;; traverse the tree and find the good sequences
+;; 1) compute how good is each action
+;; 2) get only those whose absolute value exceeds a threshold
+
+;; Details:
+;; 
+
 
 ;;; TODO Benchmarks
 ;; what is faster: reading all values stored in a list or in a vector?
