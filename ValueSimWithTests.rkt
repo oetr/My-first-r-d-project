@@ -13,6 +13,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 (require (planet williams/science/random-distributions/gaussian))
 (require (planet williams/science/random-distributions/flat))
 (require racket/date)
+(require racket/system)
 
 ;; My own files
 (load "UtilityFunctions.rkt")
@@ -30,11 +31,11 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 ;; TODO: why are you using hash tables instead of strutures?
 ;; Walls
 (define (wall #:color [color #f]
-              #:temperature [temperature #f])
+              #:temperature [temperature 20])
   (unless color
     (set! color (make-color 0 0 0))) ;; black
-  (unless temperature
-    (set! temperature (+ 15 (random 10))))
+  ;; (unless temperature
+  ;;   (set! temperature (+ 15 (random 10))))
   (make-hash `((color . ,color)
                (temperature . ,temperature)
                (name . wall))))
@@ -94,30 +95,37 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 ;; to create an environment whose boundaries are walls
 (define (build-environment world-size)
   (let ([environment #f])
-    (define (fill-boundaries)
-      (define (aux n)
-        (cond [(>= n (expt world-size 2)) environment]
-              [(or (zero? (modulo (+ n 1) world-size))
-                   (zero? (modulo n world-size))
-                   (= (quotient n world-size) 0)
-                   (= (quotient n world-size) (- world-size 1)))
-               (set-tile-object-on-top! (& environment n)
-                                        (wall))
-               (aux (+ n 1))]
-              [else
-               (aux (+ n 1))]))
-      (aux 0))
     (set! environment
           (build-vector (expt world-size 2)
                         (lambda (n)
                           (tile (make-color 255 255 255) 15 #f 0)))) ;; white color
-    (fill-boundaries)))
+    (fill-boundaries environment world-size)))
+
+(define (fill-boundaries environment world-size)
+  (define (aux n)
+    (cond [(>= n (expt world-size 2)) environment]
+          [(or (zero? (modulo (+ n 1) world-size))
+               (zero? (modulo n world-size))
+               (= (quotient n world-size) 0)
+               (= (quotient n world-size) (- world-size 1)))
+           (set-tile-object-on-top! (& environment n) (wall))
+           (aux (+ n 1))]
+          [else
+           (aux (+ n 1))]))
+  (aux 0))
+
+
 
 ;;; Agent
 ;; TODO : fix the structure of the agent function--what are its inputs/outputs?
 ;; An agent is a structure; fn - is the agent function that returns a decision,
 ;; as well as the result of the value system
-(define-struct agent (position orientation energy action-selection utility-fn)
+(define-struct agent (position
+                      orientation
+                      energy
+                      temperature
+                      action-selection
+                      utility-fn)
   #:mutable #:transparent)
 
 ;; The position in 2-D space of the agent is represented by a structure
@@ -132,6 +140,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
           (make-agent position
                       (random 4)
                       (agent-energy agent)
+                      (agent-temperature agent)
                       (agent-action-selection agent)
                       (agent-utility-fn agent))))))
 
@@ -146,6 +155,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
          (make-agent position
                      orientation
                      (agent-energy agent)
+                     (agent-temperature agent)
                      (agent-life agent)
                      (agent-fn agent))]))
 
@@ -407,17 +417,18 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
   (vector-append
    ;; transmitting energy
    (vector
-    (agent-energy agent))
+    (agent-energy agent)
+    (agent-temperature agent))
    ;; temperature
    (compute-surrounding-temperatures agent environment movements)
    ;; vision
    (call-with-values
        (lambda () (vector->values
-              (vector-map
-               (lambda (color) (vector (color-r color)
-                                  (color-g color)
-                                  (color-b color)))
-               (compute-vision agent environment movements))))
+                   (vector-map
+                    (lambda (color) (vector (color-r color)
+                                            (color-g color)
+                                            (color-b color)))
+                    (compute-vision agent environment movements))))
      vector-append)
    (sense-proximity agent environment movements)))
 
@@ -570,7 +581,8 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 ;; This list tells us where to find the information in the sensory stream
 ;; for example, the first list contains only one address--the address in the
 ;; sensory stream, under which we can find the current energy of the agent
-(define from-to (list (list 0) (range 1 11) (range 37 41)))
+(define from-to (list (list 0) (range 1 12) (range 38 42)))
+;;(vector-custom-foldr cons '() (sense A env movements) 2 12)
 ;; local weights tell us the relationship between the utilities of the same sensor type
 ;; for example, they tell us how much more "important" is the utility of one of the
 ;; temperature sensory compared to all the others... feel free to use any numbers to
@@ -578,8 +590,8 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 ;; senses underneath itself is 4.0 times as important as all the other temperature utilities
 ;; that the agent senses.
 (define local-weights '((1.0)
-                         (1.0 1.0 1.0 1.0 4.0 1.0 1.0 1.0 1.0 1.0)
-                         (1.0 1.0 1.0 1.0)))
+                        (10 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0)
+                        (1.0 1.0 1.0 1.0)))
 ;; Global weights define the relation between the attributes. For example, the attribute
 ;; "energy" is more important than other attributes
 (define global-weights '(0.5 0.3 0.2))
@@ -608,7 +620,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
                                     (fn (vector-ref percepts i))))
                         utility-functions from-to)))))))
 
-(define a (compute-utility utility-functions from-to global-weights local-weights))
+;;(define a (compute-utility utility-functions from-to global-weights local-weights))
 
 ;;; Action selection
 ;; Some simple decision making functions
@@ -622,6 +634,50 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
     (let ([utility (agent-utility-fn percepts)])
       (let ([decision (agent-action-selection-fn percepts utility actions)])
         (values utility decision)))))
+
+;; assume that the previous action was move
+(define *previous-action* 0)
+
+;; Connectivity matrix of the state machine that defines the probabilities
+;; of performing an action after another action
+;; Columns and rows represent the actions of the agent 
+;; The actions are as follows (in this order):
+;; move turn-left turn-right open-door close-door charge-battery
+;; The numbers tell the likelihood of choosing one action (row action) after
+;; another action (column action) has been executed
+;; The numbers are not the probabilities but just weights, to make it
+;; easier to design the state machine
+;; When computing the actual probability, the weights will be normalized
+(define state-machine-as
+  (lambda (agent actions)
+    (let* ([state-machine
+            ;; previous action specifies the column
+            ;; the probability defines the row
+            (vector (vector 1 1    1    1     0.5   0.001)
+                    (vector 1 0.5  0.01 0.5   1     1)
+                    (vector 1 0.01 0.5  0.5   1     1)
+                    (vector 1 1    1    0.001 0.01  0.001)
+                    (vector 1 1    1    0.01  0.001 0.001)
+                    (vector 1 1    1    0.001 0.001 1))]
+           [sum (vector-foldl
+                 (lambda (vec1 vec2)
+                   (vector-map + vec1 vec2))
+                 (make-vector (vector-length actions) 0)
+                 state-machine)])
+      (define (find-action random-number)
+        (let loop ([current-action 0] [current-sum 0])
+          (let ([next-sum (+ current-sum
+                             (vector-ref (vector-ref state-machine current-action)
+                                         *previous-action*))])
+            (if (<= random-number next-sum)
+                current-action
+                (loop (add1 current-action) next-sum)))))
+      (lambda (percepts)
+        (let ([column-sum (vector-ref sum *previous-action*)])
+          ;; normalize the resulting probability by the sum in the column
+          ;; the last action defines the column
+          ;; find the right action corresponding to the weights
+          (vector-ref actions (find-action (random-flat 0 column-sum))))))))
 
 ;;; Utility functions TODO
 
@@ -662,6 +718,13 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
             (set! value-system-label ((agent-utility-fn agent) percepts))
             (set! decision ((agent-action-selection agent) percepts))
             ;; log data
+            (let ([temperature (agent-temperature agent)])
+              (set-agent-temperature!
+               agent
+               (+ temperature
+                  (* 0.01 (- (/ (vector-custom-foldr + 0 percepts 2 11)
+                                9)
+                             temperature)))))
             (log-data! percepts value-system-label decision agent data n)
             ;; TODO test that the content of all the vectors is copied
             ;; and not the pointers
@@ -671,6 +734,25 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
           data))
     (set! data (make-vector steps #f))
     (run-simulation-aux 0)))
+
+(define (vector-foldl proc init vec)
+  (let ([length (vector-length vec)])
+    (let loop ([result init] [i 0])
+      (if (>= i length)
+          result
+          (loop (proc (vector-ref vec i) result) (+ i 1))))))
+
+(define (vector-custom-foldl proc init vec from to)
+  (let loop ([result init] [i from])
+    (if (>= i to)
+        result
+        (loop (proc (vector-ref vec i) result) (+ i 1)))))
+
+(define (vector-custom-foldr proc init vec from to)
+  (let loop ([result init] [i (- to 1)])
+    (if (< i from)
+        result
+        (loop (proc (vector-ref vec i) result) (- i 1)))))
 
 ;; Run the simulation for just one step
 (define (step)
@@ -697,8 +779,9 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
                               (make-posn 0 1) (make-posn -1 0)))
 (define max-energy 100)
 
-(define A (make-agent 0 0 max-energy void void))
-(set-agent-action-selection! A (random-as A actions))
+(define A (make-agent 0 0 max-energy 25 void void))
+;;(set-agent-action-selection! A (random-as A actions))
+(set-agent-action-selection! A (state-machine-as A actions))
 (set-agent-utility-fn! A (compute-utility
                           utility-functions
                           from-to
@@ -757,31 +840,64 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
   (aux 0)
   (printf "~n"))
 
-
 ;; Temperature map of the environment: Visualization
 ;; Open a file in which to write the color information
 ;; save all the information in the file
-(define color-information-file "../Data/temperature-map.dat")
-(define (save-color-information file)
-  (let ([port (open-output-file file
-                                #:mode 'binary
-                                #:exists 'replace)])
+(define temperature-file "../Data/temperature-map.dat")
+(define gnuplot-file "../Data/plot-temperature.gnu")
+
+(define (save-color-information data-file gnuplot-file)
+  (let ([data-port (open-output-file data-file
+                                     #:mode 'binary
+                                     #:exists 'replace)]
+        [gnuplot-port (open-output-file gnuplot-file
+                                        #:mode 'binary
+                                        #:exists 'replace)])
     (for ([i (in-range 0 (sqr WORLD-SIZE))])
          (let ([posn (position->coordinates WORLD-SIZE i)]
                [tile (& env i)])
            (let ([object-on-top (tile-object-on-top tile)])
-             (fprintf port "~a\t~a\t~a~n"
+             (fprintf data-port "~a\t~a\t~a~n"
                       (posn-x posn)
                       (- WORLD-SIZE 1 (posn-y posn))
                       (if object-on-top
                           (hash-ref object-on-top 'temperature)
                           (tile-temperature tile))))))
-    (close-output-port port)))
+    (close-output-port data-port)
+    ;; save the gnuplot file
+    (fprintf gnuplot-port
+             "set view map
+set style data linespoints
+set xtics border in scale 0,0 mirror norotate  offset character 0, 0, 0
+set ytics border in scale 0,0 mirror norotate  offset character 0, 0, 0
+set ztics border in scale 0,0 nomirror norotate  offset character 0, 0, 0
+#set nocbtics
+set title \"Temperature Map of a ~ax~a Environment\"\n"
+             WORLD-SIZE WORLD-SIZE)
+    (fprintf gnuplot-port "set xrange [ -0.5 : ~a ] noreverse nowriteback\n"
+             (- WORLD-SIZE 0.5))
+    (fprintf gnuplot-port "set yrange [ -0.5 : ~a ] noreverse nowriteback\n"
+             (- WORLD-SIZE 0.5))
+    (fprintf gnuplot-port "set zrange [ * : *  ] noreverse nowriteback
+set cblabel \"Temperature\"
+set cbrange [ * : * ] noreverse nowriteback
+set palette model RGB
+set palette defined ( 0 \"black\", 1 \"white\" )
+#set palette rgbformulae 34,35,36
+splot \"temperature-map.dat\" with image")
+    (close-output-port gnuplot-port)))
 
 ;; Call the following procedure to save the temperature map
-;;(save-color-information color-information-file)
+;; (save-color-information temperature-file gnuplot-file)
 ;; following command can be used to draw the temperature map
-;; gnuplot plot-temperature.gnu
+;; (system "cd ../Data; gnuplot plot-temperature.gnu; cd ../Code")
+;; save the information about the latest temperature map in the gnuplot file
+
+(define save-and-plot-temperature
+  (lambda ()
+    (save-color-information temperature-file gnuplot-file)
+    (system "cd ../Data; gnuplot plot-temperature.gnu; cd ../Code")))
+
 
 ;;; Saving logs into a file
 (define f #f)
@@ -840,5 +956,34 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 
 (load "GUI_Prototype.rkt")
 ;;(make-gui)
-;;(save-environment "env12.txt")
+;;(save-environment "../Data/10_1_.txt")
 (load-and-set-environment "env1.txt")
+
+(save-and-plot-temperature)
+
+;; An approach to vary all the possible parameters
+;; Big, small, medium rooms
+;; Big rooms
+;;   an agent takes one tile
+;;
+
+(define-syntax nth-value
+  (syntax-rules ()
+    ((_ n values-producing-form)
+     '(call-with-values                    ;; Note the quote!
+          (lambda () values-producing-form)
+        (lambda all-values
+          (list-ref all-values n))))))
+
+(define-syntax test-pattern
+  (syntax-rules ()
+    ((test-pattern one two) "match 1")
+    ((test-pattern one two three) "match 2")
+    ((test-pattern . default) "fail")))
+
+(define-syntax nth-value
+  (syntax-rules ()
+    ((_ n values-producing-form)
+     '("Debugging template for nth-value"
+       "n is" n
+       "values-producing-form is" values-producing-form))))
