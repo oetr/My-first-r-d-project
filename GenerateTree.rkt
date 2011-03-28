@@ -14,16 +14,77 @@
                (read-useful-chars (read-char port))
                '()))
           (read-useful-chars (read-char port))))
-    (string->number
-     (list->string
-      (read-useful-chars (read-char port))))))
+    (read-useful-chars (read-char port))))
+
+(define get-nth-str
+  (lambda (str n)
+    (let ([started #f]
+          [counter 0]
+          [result '()])
+      (call-with-current-continuation
+       (lambda (exit)
+         (for ([char (in-string str)])
+              (cond
+               [(symbol=? (char-type char) 'digit)
+                (set! result (cons char result))]
+               [(symbol=? (char-type char) 'comma)
+                (when (= n counter)
+                  (exit (string->number (list->string (reverse result)))))
+                (set! counter (add1 counter))
+                (set! result '())]))
+         (when (= n counter)
+           (string->number (list->string (reverse result)))))))))
+
+;; the user has to make sure not to call the function with arguments out of
+;; range of the csv file
+(define get-nth-strs
+  (lambda (str . n)
+    (let ([started #f]
+          [counter 0] ;; counts the currently processed number
+          [results (make-vector (length n) #f)]
+          [finished-counter 0] ;; counts the number of retrieved strings
+          [temporary-result '()]
+          [fetch-n (sort n <)])
+      (call-with-current-continuation
+       (lambda (exit)
+         (for ([char (in-string str)])
+              (cond
+               [(symbol=? (char-type char) 'digit)
+                (set! temporary-result (cons char temporary-result))]
+               [(symbol=? (char-type char) 'comma)
+                (when (= (first fetch-n) counter)
+                  (vector-set! results finished-counter temporary-result)
+                  (set! fetch-n (rest fetch-n))
+                  (set! finished-counter (add1 finished-counter))
+                  (when (empty? fetch-n)
+                    (exit 
+                     (vector-map (lambda (result)
+                                   (string->number (list->string (reverse result))))
+                                 results))))
+                (set! counter (add1 counter))
+                (set! temporary-result '())]))
+         (when (= (first fetch-n) counter)
+           (vector-set! results finished-counter temporary-result)
+           (set! fetch-n (rest fetch-n))
+           (set! finished-counter (add1 finished-counter))
+           (when (empty? fetch-n)
+             ;; this is the case when the requested number is in the end of the line
+             ;; we need to convert it manually here
+             (exit 
+              (vector-map (lambda (result)
+                            (string->number (list->string (reverse result))))
+                          results))))
+         ;; if not all the elements could be retrieved (list n is not empty)
+         ;; then it means that the user gave wrong parameters
+         ;; TODO : check for the wrong parameters before running over the dataset
+         (error "parameters are out of range in the csv file -- GET-NTH-STRS" n))))))
 
 (define char-type
   (lambda (c)
     (cond
-     [(eof-object? c) 'eof]
-     ;;[(char-alphabetic? c) 'letter]
-     [(or (char=? #\. c) (char-numeric? c)) 'digit]
+     [(eof-object? c) 'eof]     
+     [(or (char=? c #\.) (char-numeric? c)) 'digit]
+     [(char=? c #\,) 'comma]
      [else 'other])))
 
 (define get-nth-csv
@@ -32,7 +93,7 @@
     (let loop ([c (get-next-csv port)]
                [n (- n 1)])
       (if (<= n 0)
-          c
+          (string->number (list->string c))
           (loop (get-next-csv port) (- n 1))))))
 
 ;; TODO : an attempt to make the reading faster---right now it takes 13 seconds to
@@ -54,8 +115,8 @@
        [else (loop (read-char port))]))))
 
 ;; open some test data set
-(define dataset-file "../Data/ValueSim-2011-3-24-14-28-18.txt")
-;;(define dataset-file "../Data/ValueSim-2011-3-22-23-15-43.txt")
+(define dataset-file "../Data/ValueSim-2011-3-28-23-54-22.txt")
+;;(define dataset-file "../Data/ValueSim-2011-3-20-12-54-41.txt")
 
 ;; find the number of lines in a dataset
 (define port #f)
@@ -76,20 +137,48 @@
 (define dataset-actions (make-vector DATASET-SIZE #f))
 (define dataset-utilities (make-vector DATASET-SIZE #f))
 
-(printf "~nExtracting actions and utilities from the data set...~n")
-(set! port (open-input-file dataset-file #:mode 'text))
-;; read the some of the important values into a list
-;; action is the 5th value
-;; utility is the 43rd value in every line
-(for ([i (in-range 0 DATASET-SIZE)])
-     (vector-set! dataset-actions i (get-nth-csv port 5))
-     (vector-set! dataset-utilities i (get-nth-csv port 43))
-     (read-till-line-break port))
-(close-input-port port)
-(printf "Done~n")
+;; this method does not work in weird cases (e.g., the utility is equal to 2, even
+;; though that in the dataset the utility is 0.2something!)
+;; TODO : find out later why! 
+;; (time* 10
+;;  (begin
+;;    (printf "~nExtracting actions and utilities from the data set...~n")
+;;    (set! port (open-input-file dataset-file #:mode 'text))
+;;    ;; read the some of the important values into a list
+;;    ;; action is the 5th value
+;;    ;; utility is the 43rd value in every line
+;;    (for ([i (in-range 0 DATASET-SIZE)])
+;;         (vector-set! dataset-actions i (get-nth-csv port 5))
+;;         (vector-set! dataset-utilities i (get-nth-csv port 43))
+;;         (read-till-line-break port))
+;;    (close-input-port port)
+;;    (printf "Done~n")))
 
-;; TODO : a faster method, where reading the line is done by using in-build function
+;; TODO : a faster method, where reading the line is done by using in-built function
+(define read-values
+  (lambda (port)
+    (for ([a-line (in-lines port)]
+          [i (in-range 0 DATASET-SIZE)])
+         (let ([results (get-nth-strs a-line 4 47)])
+           (vector-set! dataset-actions i (vector-ref results 0))
+           (vector-set! dataset-utilities i (vector-ref results 1))))))
 
+(time*
+ (begin
+   (printf "~nExtracting actions and utilities from the data set...~n")
+   (define dataset-actions (make-vector DATASET-SIZE #f))
+   (define dataset-utilities (make-vector DATASET-SIZE #f))
+   (set! port (open-input-file dataset-file #:mode 'text))
+   (read-values port)
+   (close-input-port port)
+   (printf "Done~n")))
+
+;; make sure that all the utilities are in the interval [0; 1] (inclusive)
+(for ([utility (in-vector dataset-utilities)])
+     (when (or (> utility 1) (< utility 0))
+       (error "utility should be in the interval [0; 1] (inclusive), but instead is" utility)))
+
+;;; Some variables to generate the tree
 ;; make a tree from the data set
 (define ACTION-MEANINGS
   (vector "move" "turn-left" "turn-right"
@@ -246,10 +335,6 @@
                      (fprintf port "\" ];\n"))))))
     (fprintf port "}")))
 
-;; (generate-and-print-dataset dot-file)
-
-;; (generate-pdf dot-file)
-
 ;; a structure to save the count of an action at a depth level
 ;; and its occurrence in the data set
 (define-struct label (counter occurrences) #:transparent #:mutable)
@@ -282,7 +367,7 @@
 ;;; Opening and closing files
 (define dot-file "dot-tree.gv")
 
-(define maximum-tree-depth 100)
+(define maximum-tree-depth 5)
 
 ;; Print the tree in a graphviz comformable format and save it in a file
 (define generate-and-print-dataset
@@ -308,13 +393,15 @@
      (add-action (& dataset-actions i) i))
 
 ;; Saving the tree in a file
-(generate-and-print-dataset dot-file)
+;;(generate-and-print-dataset dot-file)
 ;; Generating the pdf of the graph
-(generate-pdf dot-file)
-(system "open dot-tree.gv.pdf")
+;;(generate-pdf dot-file)
+;;(system "open dot-tree.gv.pdf")
 
 
 ;;; Get all action sequences that have high and low utilities
+;; include the futures library, in order to make use of the parallellism
+(require racket/future)
 (define THRESHOLD 0.001)
 
 ;; traverse the tree and find the good sequences
@@ -383,12 +470,31 @@
                          (+ start-position 1)
                          threshold))))
 
-(set! THRESHOLD 0.001)
+;; To print out information about an action sequence from start to end
+;; In addition, the position in the dataset as well as the utilities of
+;; all the actions are printed as well
+(define print-sequence
+  (lambda (start end)
+    (printf "~ninitial utility: ~a~n" (vector-ref dataset-utilities start))
+    (for ([position (in-range start end)])
+         (let ([action (vector-ref dataset-actions position)])
+           (printf "~a: ~a -> ~a \t (~a)~n"
+                   position
+                   action
+                   (vector-ref dataset-utilities (+ position 1))
+                   (vector-ref ACTION-MEANINGS action))))))
+
+(set! THRESHOLD 0.3)
 (set! *results* '())
 (find-interesting-sequences *root-node* THRESHOLD)
 (printf "~nFound ~a results exceeding the threshold of ~a~n"
         (length *results*)
         THRESHOLD)
+
+(define sorted-list
+  (sort 
+   (filter (lambda (a-list) (positive? (caddr a-list))) *results*)
+   (lambda (a-list another-list) (> (caddr a-list) (caddr another-list)))))
 
 #|
 ;; printing some of the information
@@ -399,7 +505,7 @@
 
 (begin
   (newline)
-  (printf "All positive sequences exceeding the threshold of ~a:~n" THRESHOLD)
+  (printf "All positive sequences exceeding the threshold of ~a, sorted by utility difference:~n" THRESHOLD)
   (sort 
    (filter (lambda (a-list) (positive? (caddr a-list))) *results*)
    (lambda (a-list another-list) (> (caddr a-list) (caddr another-list)))))
@@ -408,22 +514,9 @@
   (lambda (results)
     (sort results (lambda (a-list another-list)
                     (> (caddr a-list) (caddr another-list))))))
+
 |#
 
-;; To print out information about an action sequence from start to end
-;; in addition, the position in the dataset as well as the utilities of
-;; all the actions are printed as well
-(define print-sequence
-  (lambda (start end)
-    (printf "~ninitial utility:\t    ~a~n" (vector-ref dataset-utilities start))
-    (for ([position (in-range start end)])
-         (let ([action (vector-ref dataset-actions position)])
-           (printf "~a: ~a (~a)\t -> ~a~n"
-                   position
-                   action
-                   (vector-ref ACTION-MEANINGS action)
-                   (vector-ref dataset-utilities (+ position 1)))))))
-
-;;(print-sequence 28 29)
-;;; TODO Benchmarks for performance improvement
+;;(print-sequence 1 2)
+;;; TODO : Benchmarks to test the performance
 ;; what is faster: reading all values stored in a list or in a vector?
