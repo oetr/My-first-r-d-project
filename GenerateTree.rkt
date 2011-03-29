@@ -384,13 +384,15 @@
     (system (string-append "dot -Tpdf -Goverlap=false -O " file))))
 
 ;;; Run the functions
-(init-vars)
-;; Garbage-collect the environment
-(clear)
-(printf "~n")
-(printf "Creating the tree and GC the environment...~n")
-(for ([i (in-range 0 DATASET-SIZE)])
-     (add-action (& dataset-actions i) i))
+(time*
+ (begin
+   (init-vars)
+   ;; Garbage-collect the environment
+   (clear)
+   (printf "~n")
+   (printf "Creating the tree and GC the environment...~n")
+   (for ([i (in-range 0 DATASET-SIZE)])
+        (add-action (& dataset-actions i) i))))
 
 ;; Saving the tree in a file
 ;;(generate-and-print-dataset dot-file)
@@ -437,8 +439,7 @@
      [(< (abs (- (vector-ref dataset-utilities required-index)
                  initial-utility))
          threshold)
-      (for ([child-node
-             (in-vector (vector-filter-not false? (node-children a-node)))])
+      (for ([child-node (in-vector (node-children a-node))])
            ;; only check the non-empty nodes
            (traverse-tree child-node initial-utility initial-index
                           (+ required-index 1) threshold))]
@@ -451,24 +452,23 @@
                         (- (vector-ref dataset-utilities required-index)
                            initial-utility))
                   *results*))
-      (for ([child-node
-             (in-vector
-              (vector-filter-not false? (node-children a-node)))])
+      (for ([child-node (in-vector (node-children a-node))])
            (traverse-tree child-node initial-utility initial-index
                           (+ required-index 1) threshold))])))
 
 ;; Do the tree traversal for all of the actions in the start nodes
 (define find-interesting-sequences
   (lambda (a-root-node threshold)
-    (for* ([start-node
-            (in-vector (vector-filter-not false? (node-children a-root-node)))]
-           [start-position (in-list (node-positions start-node))]
-           [a-node (in-vector (vector-filter-not false? (node-children start-node)))])
-          (traverse-tree a-node
-                         (vector-ref dataset-utilities start-position)
-                         start-position
-                         (+ start-position 1)
-                         threshold))))
+    ;; make the function run in parallel
+    (let ([filtered-vector (vector-filter-not false? (node-children a-root-node))])
+      (for* ([start-node (in-vector filtered-vector)]
+             [start-position (in-list (node-positions start-node))]
+             [a-node (in-vector (node-children start-node))])
+            (traverse-tree a-node
+                           (vector-ref dataset-utilities start-position)
+                           start-position
+                           (+ start-position 1)
+                           threshold)))))
 
 ;; To print out information about an action sequence from start to end
 ;; In addition, the position in the dataset as well as the utilities of
@@ -486,7 +486,7 @@
 
 (set! THRESHOLD 0.3)
 (set! *results* '())
-(find-interesting-sequences *root-node* THRESHOLD)
+(time* (find-interesting-sequences *root-node* THRESHOLD))
 (printf "~nFound ~a results exceeding the threshold of ~a~n"
         (length *results*)
         THRESHOLD)
