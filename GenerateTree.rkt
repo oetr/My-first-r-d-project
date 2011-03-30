@@ -1,9 +1,11 @@
+;; Create a tree that contains all subsequences from some data set
+;; Author: Petr Samarin, 29 March 2011
 ;;; Opens a data set and read some specified values from it
 (require racket/system) ;; needed for executing system commands
 
 ;;; Open and read the data set
-;; reading comma separated values
-;; assume the values of importance are all numeric
+;; Reading comma separated values
+;; Assume the values of importance are all numeric
 (define get-next-csv
   (lambda (port)
     (define (read-useful-chars c)
@@ -96,16 +98,6 @@
           (string->number (list->string c))
           (loop (get-next-csv port) (- n 1))))))
 
-;; TODO : an attempt to make the reading faster---right now it takes 13 seconds to
-;; read a file with 100_000 lines
-;; (define get-nth-number
-;;   (lambda (lst n)
-;;     (let ([empty-spaces 0])
-;;       (for ([i (in-list lst)])
-;;            (when (char=? i #\,)
-;;              (if (= n empty-spaces)
-;;              (set! empty-spaces (+ empty-spaces 1)))
-
 (define read-till-line-break
   (lambda (port)
     (let loop ([c (read-char port)])
@@ -115,10 +107,10 @@
        [else (loop (read-char port))]))))
 
 ;; open some test data set
-(define dataset-file "../Data/ValueSim-2011-3-28-23-54-22.txt")
+(define dataset-file "../Data/ValueSim-2011-3-28-16-26-10.txt")
 ;;(define dataset-file "../Data/ValueSim-2011-3-20-12-54-41.txt")
 
-;; find the number of lines in a dataset
+;; Find the length of the dataset
 (define port #f)
 (define DATASET-SIZE 0)
 (printf "~n")
@@ -137,22 +129,6 @@
 (define dataset-actions (make-vector DATASET-SIZE #f))
 (define dataset-utilities (make-vector DATASET-SIZE #f))
 
-;; this method does not work in weird cases (e.g., the utility is equal to 2, even
-;; though that in the dataset the utility is 0.2something!)
-;; TODO : find out later why! 
-;; (time* 10
-;;  (begin
-;;    (printf "~nExtracting actions and utilities from the data set...~n")
-;;    (set! port (open-input-file dataset-file #:mode 'text))
-;;    ;; read the some of the important values into a list
-;;    ;; action is the 5th value
-;;    ;; utility is the 43rd value in every line
-;;    (for ([i (in-range 0 DATASET-SIZE)])
-;;         (vector-set! dataset-actions i (get-nth-csv port 5))
-;;         (vector-set! dataset-utilities i (get-nth-csv port 43))
-;;         (read-till-line-break port))
-;;    (close-input-port port)
-;;    (printf "Done~n")))
 
 ;; TODO : a faster method, where reading the line is done by using in-built function
 (define read-values
@@ -163,15 +139,13 @@
            (vector-set! dataset-actions i (vector-ref results 0))
            (vector-set! dataset-utilities i (vector-ref results 1))))))
 
-(time*
- (begin
-   (printf "~nExtracting actions and utilities from the data set...~n")
-   (define dataset-actions (make-vector DATASET-SIZE #f))
-   (define dataset-utilities (make-vector DATASET-SIZE #f))
-   (set! port (open-input-file dataset-file #:mode 'text))
-   (read-values port)
-   (close-input-port port)
-   (printf "Done~n")))
+(printf "~nExtracting actions and utilities from the data set...~n")
+(define dataset-actions (make-vector DATASET-SIZE #f))
+(define dataset-utilities (make-vector DATASET-SIZE #f))
+(set! port (open-input-file dataset-file #:mode 'text))
+(read-values port)
+(close-input-port port)
+(printf "Done~n")
 
 ;; make sure that all the utilities are in the interval [0; 1] (inclusive)
 (for ([utility (in-vector dataset-utilities)])
@@ -199,7 +173,7 @@
           (loop (+ i 1))))))
 
 ;;; Tree data structure
-(define-struct node (action positions children depth) #:mutable #:transparent)
+(define-struct node (action positions children depth) #:mutable)
 
 ;; returns the node associated with the action
 (define children-ref
@@ -367,7 +341,7 @@
 ;;; Opening and closing files
 (define dot-file "dot-tree.gv")
 
-(define maximum-tree-depth 5)
+(define maximum-tree-depth 10)
 
 ;; Print the tree in a graphviz comformable format and save it in a file
 (define generate-and-print-dataset
@@ -394,6 +368,25 @@
    (for ([i (in-range 0 DATASET-SIZE)])
         (add-action (& dataset-actions i) i))))
 
+;; To transform all positions in the tree, which are represented by
+;; linked lists, into vectors
+;; The way the tree is constructed, the lists are sorted in descending order
+;; this procedure reverses the lists and makes lists to vectors
+;; This allows us to apply binary search on the vectors and make the search faster
+;; by a lot!
+(define tree-positions-make-vectors
+  (lambda (root-node)
+    (set-node-positions!
+     root-node (list->vector (reverse (node-positions root-node))))
+    (vector-map
+     tree-positions-make-vectors
+     (vector-filter-not false? (node-children root-node)))
+    (void)))
+
+;; Transform the lists that represent positions into vectors
+;; this procedure is relatively cost-effective, even for large datasets
+(tree-positions-make-vectors *root-node*)
+
 ;; Saving the tree in a file
 ;;(generate-and-print-dataset dot-file)
 ;; Generating the pdf of the graph
@@ -402,9 +395,10 @@
 
 
 ;;; Get all action sequences that have high and low utilities
+(require "BinaryTrees.rkt")
 ;; include the futures library, in order to make use of the parallellism
-(require racket/future)
-(define THRESHOLD 0.001)
+;;(require racket/future)
+(define THRESHOLD #f)
 
 ;; traverse the tree and find the good sequences
 ;; 1) compute how good is each action
@@ -433,7 +427,7 @@
      ;; 1) Node is empty --- Abort the search
      [(not a-node) empty]
      ;; 2) Required-index is not the same as any index of a-node -- Abort the search
-     [(not (memq required-index (node-positions a-node))) empty]
+     [(not (binary-search (node-positions a-node) required-index)) empty]
      ;; 3) The absolute value of utility of a-node minus initial-utility is not
      ;;    exceeding the THRESHOLD -- continue searching in the children
      [(< (abs (- (vector-ref dataset-utilities required-index)
@@ -462,7 +456,7 @@
     ;; make the function run in parallel
     (let ([filtered-vector (vector-filter-not false? (node-children a-root-node))])
       (for* ([start-node (in-vector filtered-vector)]
-             [start-position (in-list (node-positions start-node))]
+             [start-position (in-vector (node-positions start-node))]
              [a-node (in-vector (node-children start-node))])
             (traverse-tree a-node
                            (vector-ref dataset-utilities start-position)
@@ -475,16 +469,22 @@
 ;; all the actions are printed as well
 (define print-sequence
   (lambda (start end)
-    (printf "~ninitial utility: ~a~n" (vector-ref dataset-utilities start))
-    (for ([position (in-range start end)])
-         (let ([action (vector-ref dataset-actions position)])
-           (printf "~a: ~a -> ~a \t (~a)~n"
-                   position
-                   action
-                   (vector-ref dataset-utilities (+ position 1))
-                   (vector-ref ACTION-MEANINGS action))))))
+    (let ([start-utility (vector-ref dataset-utilities start)]
+          [end-utility 0.0])
+      (printf "~nstarted with utility = ~a~n" start-utility)
+      (for ([position (in-range start end)])
+           (let ([action (vector-ref dataset-actions position)]
+                 [current-utility (vector-ref dataset-utilities (+ position 1))])
+             (set! end-utility current-utility)
+             (printf "~a: ~a -> ~a \t (~a)~n"
+                     position
+                     action
+                     ;; show only 10 numbers after the comma
+                     (/ (round (* current-utility 10000000000.0)) 10000000000.0)
+                     (vector-ref ACTION-MEANINGS action))))
+      (printf "utility gained: ~a~n" (- end-utility start-utility)))))
 
-(set! THRESHOLD 0.3)
+(set! THRESHOLD 0.4)
 (set! *results* '())
 (time* (find-interesting-sequences *root-node* THRESHOLD))
 (printf "~nFound ~a results exceeding the threshold of ~a~n"
