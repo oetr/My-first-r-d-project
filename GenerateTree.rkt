@@ -1,23 +1,73 @@
 ;; Create a tree that contains all subsequences from some data set
-;; Author: Petr Samarin, 29 March 2011
+;; Author: Petr Samarin, 30 March 2011
 ;;; Opens a data set and read some specified values from it
 (require racket/system) ;; needed for executing system commands
 
-;;; Open and read the data set
+;;; Helper functions for reading the numbers from a dataset
+;; Read the port linewise and extract the values of interest from each line
+(define read-values
+  (lambda (port)
+    (let ([counter 0])
+      (for ([a-line (in-lines port)])
+           (let ([results (get-nth-strs a-line 4 47)])
+             (set! dataset-actions (cons (vector-ref results 0) dataset-actions))
+             (set! dataset-utilities (cons (vector-ref results 1) dataset-utilities)))
+           (set! counter (add1 counter)))
+      (printf "The length of the data set: ~a~n" counter)
+      (set! DATASET-SIZE counter)
+      (set! dataset-actions (list->vector (reverse dataset-actions)))
+      (set! dataset-utilities (list->vector (reverse dataset-utilities))))))
+
+;; Get all the substrings in str separated by commas that are of interest
+;; Takes an infinite number of parameters (n) that all will be searched for
+;; The user has to make sure not to call the function with arguments out of
+;; range of the csv file
+(define get-nth-strs
+  (lambda (str . n)
+    (let ([started #f]
+          [counter 0] ;; counts the currently processed number
+          [results (make-vector (length n) #f)]
+          [finished-counter 0] ;; counts the number of retrieved strings
+          [temporary-result '()] ;; save the results here (discard if not useful)
+          [fetch-n (sort n <)]) ;; sorted list of all positions of interest in str
+      (call-with-current-continuation ;; scheme's goto on steroids!
+       (lambda (exit)
+         (for ([char (in-string str)])
+              (cond
+               [(symbol=? (char-type char) 'digit) ;; continue gathering chars
+                (set! temporary-result (cons char temporary-result))]
+               [(symbol=? (char-type char) 'comma) ;; start the next substring
+                (when (= (first fetch-n) counter)
+                  (vector-set! results finished-counter temporary-result)
+                  (set! fetch-n (rest fetch-n))
+                  (set! finished-counter (add1 finished-counter))
+                  ;; Abort the search when all positions found and return them,
+                  ;; but first transform them into numbers
+                  (when (empty? fetch-n)
+                    (exit  
+                     (vector-map (lambda (result)
+                                   (string->number (list->string (reverse result))))
+                                 results))))
+                (set! counter (add1 counter))
+                (set! temporary-result '())]))
+         (when (= (first fetch-n) counter)
+           (vector-set! results finished-counter temporary-result)
+           (set! fetch-n (rest fetch-n))
+           (set! finished-counter (add1 finished-counter))
+           (when (empty? fetch-n)
+             ;; this is the case when the requested number is in the end of the line
+             ;; we need to convert it manually here
+             (exit 
+              (vector-map (lambda (result)
+                            (string->number (list->string (reverse result))))
+                          results))))
+         ;; if not all the elements could be retrieved (list n is not empty)
+         ;; then it means that the user gave wrong parameters
+         ;; TODO : check for the wrong parameters before running over the dataset!
+         (error "parameters are out of range in the csv file -- GET-NTH-STRS" n))))))
+
 ;; Reading comma separated values
 ;; Assume the values of importance are all numeric
-(define get-next-csv
-  (lambda (port)
-    (define (read-useful-chars c)
-      (if (symbol=? (char-type c) 'digit)
-          (cons
-           c
-           (if (symbol=? (char-type (peek-char port)) 'digit)
-               (read-useful-chars (read-char port))
-               '()))
-          (read-useful-chars (read-char port))))
-    (read-useful-chars (read-char port))))
-
 (define get-nth-str
   (lambda (str n)
     (let ([started #f]
@@ -37,50 +87,6 @@
          (when (= n counter)
            (string->number (list->string (reverse result)))))))))
 
-;; the user has to make sure not to call the function with arguments out of
-;; range of the csv file
-(define get-nth-strs
-  (lambda (str . n)
-    (let ([started #f]
-          [counter 0] ;; counts the currently processed number
-          [results (make-vector (length n) #f)]
-          [finished-counter 0] ;; counts the number of retrieved strings
-          [temporary-result '()]
-          [fetch-n (sort n <)])
-      (call-with-current-continuation
-       (lambda (exit)
-         (for ([char (in-string str)])
-              (cond
-               [(symbol=? (char-type char) 'digit)
-                (set! temporary-result (cons char temporary-result))]
-               [(symbol=? (char-type char) 'comma)
-                (when (= (first fetch-n) counter)
-                  (vector-set! results finished-counter temporary-result)
-                  (set! fetch-n (rest fetch-n))
-                  (set! finished-counter (add1 finished-counter))
-                  (when (empty? fetch-n)
-                    (exit 
-                     (vector-map (lambda (result)
-                                   (string->number (list->string (reverse result))))
-                                 results))))
-                (set! counter (add1 counter))
-                (set! temporary-result '())]))
-         (when (= (first fetch-n) counter)
-           (vector-set! results finished-counter temporary-result)
-           (set! fetch-n (rest fetch-n))
-           (set! finished-counter (add1 finished-counter))
-           (when (empty? fetch-n)
-             ;; this is the case when the requested number is in the end of the line
-             ;; we need to convert it manually here
-             (exit 
-              (vector-map (lambda (result)
-                            (string->number (list->string (reverse result))))
-                          results))))
-         ;; if not all the elements could be retrieved (list n is not empty)
-         ;; then it means that the user gave wrong parameters
-         ;; TODO : check for the wrong parameters before running over the dataset
-         (error "parameters are out of range in the csv file -- GET-NTH-STRS" n))))))
-
 (define char-type
   (lambda (c)
     (cond
@@ -89,68 +95,37 @@
      [(char=? c #\,) 'comma]
      [else 'other])))
 
-(define get-nth-csv
-  (lambda (port n)
-    ;;(when (<= n 0) (error "n should be greated than 0 -- READ-NTH-CSV" n))
-    (let loop ([c (get-next-csv port)]
-               [n (- n 1)])
-      (if (<= n 0)
-          (string->number (list->string c))
-          (loop (get-next-csv port) (- n 1))))))
+;;; Reading from the dataset
+;; dataset with a million of lines:
+;;(define dataset-file "../Data/ValueSim-2011-3-30-10-48-53.txt")
 
-(define read-till-line-break
-  (lambda (port)
-    (let loop ([c (read-char port)])
-      (cond
-       [(eq? (char-type c) 'eof) #f]
-       [(char=? c #\newline) #t]
-       [else (loop (read-char port))]))))
+;; dataset with 100000 lines
+;;(define dataset-file "../Data/ValueSim-2011-3-22-16-4-51.txt")
 
-;; open some test data set
-(define dataset-file "../Data/ValueSim-2011-3-28-16-26-10.txt")
-;;(define dataset-file "../Data/ValueSim-2011-3-20-12-54-41.txt")
+;; dataset with 20000 lines
+(define dataset-file "../Data/ValueSim-2011-3-28-16-35-31.txt")
+
+;; dataset with 1000 of lines:
+;;(define dataset-file "../Data/ValueSim-2011-3-28-16-26-10.txt")
 
 ;; Find the length of the dataset
 (define port #f)
 (define DATASET-SIZE 0)
-(printf "~n")
-(printf "Reading the number of lines in the dataset...~n")
-(set! port (open-input-file dataset-file #:mode 'text))
-(define port-numberof-lines
-  (lambda (port)
-    (let ([length 0])
-      (for ([c (in-lines port)])
-           (set! length (+ length 1)))
-      length)))
-(set! DATASET-SIZE (port-numberof-lines port))
-(printf "The length of the data set: ~a~n" DATASET-SIZE)
-(close-input-port port)
-
-(define dataset-actions (make-vector DATASET-SIZE #f))
-(define dataset-utilities (make-vector DATASET-SIZE #f))
-
-
-;; TODO : a faster method, where reading the line is done by using in-built function
-(define read-values
-  (lambda (port)
-    (for ([a-line (in-lines port)]
-          [i (in-range 0 DATASET-SIZE)])
-         (let ([results (get-nth-strs a-line 4 47)])
-           (vector-set! dataset-actions i (vector-ref results 0))
-           (vector-set! dataset-utilities i (vector-ref results 1))))))
+(define dataset-actions '())
+(define dataset-utilities '())
 
 (printf "~nExtracting actions and utilities from the data set...~n")
-(define dataset-actions (make-vector DATASET-SIZE #f))
-(define dataset-utilities (make-vector DATASET-SIZE #f))
 (set! port (open-input-file dataset-file #:mode 'text))
 (read-values port)
 (close-input-port port)
 (printf "Done~n")
 
-;; make sure that all the utilities are in the interval [0; 1] (inclusive)
+;; Make sure that all the utilities are in the interval [0; 1] (inclusive)
 (for ([utility (in-vector dataset-utilities)])
      (when (or (> utility 1) (< utility 0))
-       (error "utility should be in the interval [0; 1] (inclusive), but instead is" utility)))
+       (error
+        "utility should be in the interval [0; 1] (inclusive), but instead is"
+        utility)))
 
 ;;; Some variables to generate the tree
 ;; make a tree from the data set
@@ -233,6 +208,8 @@
     (set! *root-node* (make-node '() '() (make-children) 0))
     (set! *fringe* (list *root-node*))))
 
+;; FIXME : the graphviz interface does not work at the moment!
+;; TODO : make the graphviz interface work with the new implementation
 ;; Write the tree in graphviz format into a port
 (define (print-tree->graphviz root-node number-of-actions max-sequence-length port)
   ;; Action counters show what actions have been executed in each depth level
@@ -341,7 +318,7 @@
 ;;; Opening and closing files
 (define dot-file "dot-tree.gv")
 
-(define maximum-tree-depth 10)
+(define maximum-tree-depth 100)
 
 ;; Print the tree in a graphviz comformable format and save it in a file
 (define generate-and-print-dataset
@@ -358,15 +335,15 @@
     (system (string-append "dot -Tpdf -Goverlap=false -O " file))))
 
 ;;; Run the functions
-(time*
- (begin
-   (init-vars)
-   ;; Garbage-collect the environment
-   (clear)
-   (printf "~n")
-   (printf "Creating the tree and GC the environment...~n")
-   (for ([i (in-range 0 DATASET-SIZE)])
-        (add-action (& dataset-actions i) i))))
+
+(init-vars)
+;; Garbage-collect the environment
+(clear)
+(printf "~n")
+(printf "Creating the tree with maximum depth of ~a ...~n" maximum-tree-depth)
+(for ([i (in-range 0 DATASET-SIZE)])
+     (add-action (& dataset-actions i) i))
+(printf "Done~n")
 
 ;; To transform all positions in the tree, which are represented by
 ;; linked lists, into vectors
@@ -385,7 +362,10 @@
 
 ;; Transform the lists that represent positions into vectors
 ;; this procedure is relatively cost-effective, even for large datasets
+(printf "~n")
+(printf "Transforming the positions from lists into vectors...~n")
 (tree-positions-make-vectors *root-node*)
+(printf "Done~n")
 
 ;; Saving the tree in a file
 ;;(generate-and-print-dataset dot-file)
@@ -480,19 +460,22 @@
                      position
                      action
                      ;; show only 10 numbers after the comma
-                     (/ (round (* current-utility 10000000000.0)) 10000000000.0)
+                     (/ (round (* current-utility 100000000.0)) 100000000.0)
                      (vector-ref ACTION-MEANINGS action))))
       (printf "utility gained: ~a~n" (- end-utility start-utility)))))
 
-(set! THRESHOLD 0.4)
+(set! THRESHOLD 0.32)
 (set! *results* '())
-(time* (find-interesting-sequences *root-node* THRESHOLD))
-(printf "~nFound ~a results exceeding the threshold of ~a~n"
-        (length *results*)
+(printf "~n")
+(printf "Searching for action sequences that exceed the threshold ~a...~n"
         THRESHOLD)
+(find-interesting-sequences *root-node* THRESHOLD)
+(printf "~nFound ~a action sequences~n" (length *results*))
+(printf "Done~n")
 
 (define sorted-list
-  (sort 
+  (sort
+   ;; filter out the negative utilities
    (filter (lambda (a-list) (positive? (caddr a-list))) *results*)
    (lambda (a-list another-list) (> (caddr a-list) (caddr another-list)))))
 
@@ -511,12 +494,8 @@
    (lambda (a-list another-list) (> (caddr a-list) (caddr another-list)))))
 
 (define sort-results
-  (lambda (results)
+  (lambda (results fn)
     (sort results (lambda (a-list another-list)
-                    (> (caddr a-list) (caddr another-list))))))
+                    (fn (caddr a-list) (caddr another-list))))))
 
 |#
-
-;;(print-sequence 1 2)
-;;; TODO : Benchmarks to test the performance
-;; what is faster: reading all values stored in a list or in a vector?
