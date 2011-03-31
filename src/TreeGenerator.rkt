@@ -375,7 +375,7 @@
 
 
 ;;; Get all action sequences that have high and low utilities
-(require "BinaryTrees.rkt")
+(require "BinarySearch.rkt")
 ;; include the futures library, in order to make use of the parallellism
 ;;(require racket/future)
 (define THRESHOLD #f)
