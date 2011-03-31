@@ -1,0 +1,8 @@
+Author: Petr Samarin
+
+This code was created as part of my R&D1 project. The goal of the project is to develop a 2D grid based simulator with simple objects and an agent that could perform some high-level actions. The agent is equipped with a simple value system, that labels every situation that the agent encounters. The output of the value system is normalized in the interval [0; 1].
+
+The action selection of the agent is random with some minor modifications to reduce the amount of inplausible actions.
+The agent is being run for a certain amount of time steps while all the data that the agent experiences, along with the actions that it executes and the labelings of its value sytem.
+
+In the second part of the project, the goal is to find if there are statistical connections between action sequences and the utility that is produced by the value system of the agent.
