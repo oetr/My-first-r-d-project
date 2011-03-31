@@ -955,10 +955,10 @@ splot \"temperature-map.dat\" with image")
     (set! env new-env)
     (set! A (place-agent-randomly A env WORLD-SIZE))))
 
-(load "GUI_Prototype.rkt")
+(load "GUI.rkt")
 ;;(make-gui)
-;;(save-environment "../data/10_1_.txt")
-(load-and-set-environment "../data/env1.txt")
+;;(save-environment "../environments/test.txt")
+(load-and-set-environment "../environments/env1.txt")
 
 (save-and-plot-temperature)
 
