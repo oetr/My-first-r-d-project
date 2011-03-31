@@ -1,0 +1,2249 @@
+col(1,2,3,4)
+col[1]
+[1]
+[1 2]
+[1,2]
+()1,2)
+c(1,2)
+logfile="ValueSim-2011-1-17-15-9-42.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(1,2))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-1-17-15-9-42.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,20), ylim=c(0,20))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-1-17-15-9-42.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-1-17-15-28-45.txt"
+logfile="ValueSim-2011-1-17-15-28-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-1-20-48-49.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+min(data$V3)
+max(data$V3)
+V3
+data$V3
+logfile="ValueSim-2011-2-1-21-15-42.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-1-21-15-42.csv"
+logfile="ValueSim-2011-2-1-21-15-42.csv"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+length(data$V3)
+data
+data$
+V3
+history(data$V3)
+summary(data)
+logfile="ValueSim-2011-2-5-15-17-7.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-15-26-15.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-15-53-21.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-16-5-21.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-16-6-39.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-16-7-3.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-16-8-54.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-16-11-34.txt"#
+data <- read.table(file(logfile), sep=",")#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,30), ylim=c(0,30))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-16-11-34.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 100#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-16-54-44.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 100#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-0-7.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 100#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-0-7.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 600#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-2-7.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 600#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-11-14.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 600#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-11-14.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-30-58.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-30-58.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:1000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-30-58.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:100000, data$V41, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-30-58.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:100000, data$V42, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-30-58.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:100000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-35-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:100000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-40-14.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:1000, data$V40, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:100000, data$V6, type="l", pch=21, col="blue", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-40-14.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+plot( 1:number_of_runs, data$V3, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=0.75)#
+plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=0.75)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=0.75)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-40-14.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+plot( 1:number_of_runs, data$V3, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=0.75)#
+plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=0.75)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=3)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-17-40-14.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=3)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-18-8-5.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=3)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-5-18-8-5.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=3)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-7-15-19-15.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=3)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-2-7-15-19-15.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-0-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+#plot(1:10000, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-0-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V7, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+data
+summary(data)
+logfile="ValueSim-2011-3-7-13-0-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+#par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-0-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(2,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+mean(1 2 3)
+mean(1,2,3)
+mean(c(1,2,3))
+p
+ls
+ls()
+logfile="ValueSim-2011-3-7-13-0-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, mean(c(data$V46,data$V45,data$V44,data$V43)), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+mean(1,2,3)
+mean(1,2,3,4,5,6)
+mean(c(data$V41,data$V42))
+sum(1)
+sum(1,2,3)
+sum(data$V41)
+data$V41 + data$V42
+(data$V41 + data$V42) / 2
+logfile="ValueSim-2011-3-7-13-0-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(3,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 4, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+mean(data$V7)
+mean(data$V6)
+mean(data$V7)
+mean(data$V8)
+mean(data$V9)
+mean(data$V10)
+logfile="ValueSim-2011-3-7-13-0-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 4, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 9, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 100000#
+#
+par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 4, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 9, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 4, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 9, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Utility", xlab="n", lwd=0.75)#
+plot(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 4, type="l", pch=21, col="blue", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 9, type="l", pch=21, col="blue", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Utility", xlab="n", lwd=0.75)#
+plot(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="blue", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="blue", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+help
+help()
+hold on
+pause
+hold
+par(new=TRUE)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+par(new=TRUE)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Utility", xlab="n", lwd=0.75)#
+plot(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="blue", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="blue", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+par(new=FALSE)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Utility", xlab="n", lwd=0.75)#
+plot(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="blue", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="blue", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)par(new=FALSE)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Utility", xlab="n", lwd=0.75)par(new=FALSE)#
+plot(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="blue", lty=1, ylab="Proximity", xlab="X", lwd=0.75)par(new=FALSE)#
+plot(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="blue", lty=1, ylab="Temperature", xlab="n", lwd=0.75)par(new=FALSE)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+par(new=FALSE)#
+plot(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Utility", xlab="n", lwd=0.75)#
+par(new=FALSE)#
+plot(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="blue", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+par(new=FALSE)#
+plot(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="blue", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+par(new=FALSE)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="blue", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="blue", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="green", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="magenta", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=21, col="red", lty=1, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="green", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="green", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="green", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="green", lty=4, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="green", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="green", lty=10, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="yellow", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-20-30.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-36-18.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/1000, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-36-18.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-40-7.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 1000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-41-5.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 10000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-42-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-42-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+help(plot)
+logfile="ValueSim-2011-3-7-13-42-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, yaxp=c(0, 1, 0.2))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-42-53.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-48-34.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=0.75)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-48-34.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-49-52.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-52-41.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-52-40.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-52-39.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 180, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-52-39.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+cor
+cor(data)
+plot(cor(data))
+plot(cor(data$V47,data$V4))
+cor(data$V47,data$V4)
+cor(data$V47,data$V5)
+cor(data$V47,data$V6)
+cor(data$V47,(data$V46 + data$V45 + data$V44 + data$V43) / 20)
+cor(data$V47,(data$V46 + data$V45 + data$V44 + data$V43))
+cor(data$V47,(data$V46 + data$V45 + data$V44 + data$V43)*1000)
+cor(data$V47,(data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15))
+logfile="ValueSim-2011-3-7-13-52-39.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+cor((data$V46 + data$V45 + data$V44 + data$V43),(data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) )
+corr(data$V47, data$V6)
+cor(data$V47, data$V6)
+logfile="ValueSim-2011-3-7-13-52-39.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=0.75)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=0.75)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-7-13-52-39.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=2)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=2)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-22-40.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=2)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=2)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-22-39.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=2)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=2)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-22-39.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=2)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=2)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-44.txt"
+logfile="ValueSim-2011-3-9-18-25-44.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=2)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=2, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=2)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=2)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=2, ylab="Proximity", xlab="X", lwd=2)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2)#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=2)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+legend(1,1.5, c("odometry", "actual"), col=c("green", "magenta"), lty=c(1, 1), cex=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(1,1.5, c("odometry", "actual"), col=c("green", "magenta"), lty=c(1, 1), cex=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+# we are not very familiar with R, but we use it because MATLAB takes just so much time to load and because R is free :)#
+logfile = "odometry.log"#
+number_of_runs = 5#
+run_repetitions = 10#
+run_steps = 9#
+error_start = 0.01#
+error_end = 0.1#
+error = error_start#
+error_increase = (error_start + error_end)/number_of_runs;#
+#
+# read in the log file#
+data <- read.table(file(logfile), sep="\t")#
+#
+par(mfrow=c(3,2)) # split the plot into 3x2 rows*cols#
+#
+# plot for each error separately#
+start = 1#
+end = run_repetitions*run_steps#
+for (i in 1:number_of_runs){#
+	plot(data$V1[start:end], data$V2[start:end], type="o", pch=20, col="green", lty=1, ylab="Y", xlab="X", ylim=c(-0.15, 2), lwd=0.75)#
+	lines(data$V4[start:end], data$V5[start:end], type="o", pch=20, lty=1, col="magenta", lwd=0.5) # the actual position of the robot#
+	title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+	legend(1,1.5, c("odometry", "actual"), col=c("green", "magenta"), lty=c(1, 1), cex=1)#
+	#
+	start = end + 1#
+	end = end + run_repetitions*run_steps#
+	error = error + error_increase#
+}#
+#
+## plot the whole data set first#
+#plot(data$V1, data$V2, type="l", col="green", pch=21, lty=1, xlab="X", ylab="Y", ylim=c(-0.15, 2), lwd=0.75)#
+#lines(data$V4, data$V5, type="b", pch=20, lty=1, col="magenta", lwd=0.5) # the actual position of the robot#
+#title("All data", cex.main=1.3)#
+#legend(1,1.5, c("odometry", "actual"), col=c("green", "magenta"), lty=c(1, 1), cex=1)
+# we are not very familiar with R, but we use it because MATLAB takes just so much time to load and because R is free :)#
+logfile = "odometry.log.bak"#
+number_of_runs = 5#
+run_repetitions = 10#
+run_steps = 9#
+error_start = 0.01#
+error_end = 0.1#
+error = error_start#
+error_increase = (error_start + error_end)/number_of_runs;#
+#
+# read in the log file#
+data <- read.table(file(logfile), sep="\t")#
+#
+par(mfrow=c(3,2)) # split the plot into 3x2 rows*cols#
+#
+# plot for each error separately#
+start = 1#
+end = run_repetitions*run_steps#
+for (i in 1:number_of_runs){#
+	plot(data$V1[start:end], data$V2[start:end], type="o", pch=20, col="green", lty=1, ylab="Y", xlab="X", ylim=c(-0.15, 2), lwd=0.75)#
+	lines(data$V4[start:end], data$V5[start:end], type="o", pch=20, lty=1, col="magenta", lwd=0.5) # the actual position of the robot#
+	title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+	legend(1,1.5, c("odometry", "actual"), col=c("green", "magenta"), lty=c(1, 1), cex=1)#
+	#
+	start = end + 1#
+	end = end + run_repetitions*run_steps#
+	error = error + error_increase#
+}#
+#
+## plot the whole data set first#
+#plot(data$V1, data$V2, type="l", col="green", pch=21, lty=1, xlab="X", ylab="Y", ylim=c(-0.15, 2), lwd=0.75)#
+#lines(data$V4, data$V5, type="b", pch=20, lty=1, col="magenta", lwd=0.5) # the actual position of the robot#
+#title("All data", cex.main=1.3)#
+#legend(1,1.5, c("odometry", "actual"), col=c("green", "magenta"), lty=c(1, 1), cex=1)
+yes
+1
+2
+3
+1 + 2
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(10, 10, c("odometry", "actual"), col=c("green", "magenta"), lty=c(1, 1), cex=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="black", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(10, 10, c("odometry", "actual"), col=c("green", "magenta"), lty=c(1, 1), cex=1)#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-9-18-25-45.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V47, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V46 + data$V45 + data$V44 + data$V43) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V7 + data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15) / 225, type="l", pch=21, col="magenta", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(600, 0.2, c("utility", "energy", "proximity","temperature"), col=c("red","blue","orange","cyan"), text.col = "green4", lty=c(1, 1), lwd=c(2,1,1,1), cex=1, merge = TRUE, bg = 'gray90')#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+library(pltree)
+library(cluster)
+help(pltree)
+data(votes.repub)#
+agn <- agnes(votes.repub)
+pltree(agn)
+summary(agn)
+agn
+agnes(data)
+a <- agnes(data)
+pltree(a)
+agnes(data$V47)
+a <- agnes(data$V47)
+pltree(a)
+require(graphics)#
+#
+hc <- hclust(dist(USArrests), "ave")#
+plot(hc)#
+plot(hc, hang = -1)
+a
+hclust(a)
+pltree(a, 1)
+logfile="ValueSim-2011-3-20-13-0-33.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 2000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="magenta", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="Temperature2", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(600, 0.2, c("utility", "energy", "proximity","temperature"), col=c("red","blue","orange","cyan"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-20-13-0-33.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 10000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="magenta", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="Temperature2", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(600, 0.2, c("utility", "energy", "proximity","temperature"), col=c("red","blue","orange","cyan"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-20-13-0-33.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 10000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="Temperature2", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(600, 0.2, c("utility", "energy", "proximity","temperature"), col=c("red","blue","orange","cyan"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+length(data)
+length(data$1)
+logfile="ValueSim-2011-3-20-13-0-33.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- 10000#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="Temperature2", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(600, 0.2, c("utility", "energy", "proximity","temperature"), col=c("red","blue","orange","cyan"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+length(data$1)
+length(data$V1)
+length(data)
+length(data.1)
+length(data.)
+length(data.manager)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="Temperature2", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(600, 0.2, c("utility", "energy", "proximity","temperature"), col=c("red","blue","orange","cyan"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="Temperature2", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(50, 0.2, c("utility", "energy", "proximity","temperature"), col=c("red","blue","orange","cyan"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="Temperature2", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature"), col=c("red","blue","orange","cyan"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "InternalTemperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile=ValueSim-2011-3-23-15-32-8.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-23-15-32-8.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+data$V7
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(4,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(2,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(2,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x", xlab="number of runs", lwd=1)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(2,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1, ylab="y", xlab="number of runs", lwd=1)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(2,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x", xlab="number of runs", lwd=1)#
+lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1, ylab="y", xlab="number of runs", lwd=1)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(2,1)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x", xlab="number of runs", lwd=1)#
+lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1, ylab="y")
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x", xlab="number of runs", lwd=1)#
+lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1, ylab="y")
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1, ylab="y")
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x", xlab="number of runs", lwd=1)#
+lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1, ylab="y")
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+#title(main=paste("error = [", error, " ", error, " ", error, "]"), cex.main=1.3)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#legend(1000,0.5, c("sin", "cos", "tan"), col = c(3,4,6),text.col = "green4", lty = c(2, -1, 1), pch = c(-1, 3, 4), merge = TRUE, bg = 'gray90')#
+#plot(1:10000, data$V6, type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+#plot(sort(data$V5), type="l", pch=21, col="red", lty=1, ylab="Y", xlab="X", lwd=0.75)#
+plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+plot(1:number_of_runs, data$V4, type="l", pch=21, col="red", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+par(mfrow=c(2,1))#
+plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+plot(1:number_of_runs, data$V4, type="l", pch=21, col="red", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="Y", xlab="n", xlim=c(0,world_size), ylim=c(0,world_size))#
+lines(1:number_of_runs, data$V4, type="l", pch=21, col="red", ylab="Y", xlab="n", xlim=c(0,world_size), ylim=c(0,world_size))
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="Y", xlab="n", ylim=c(0,world_size))#
+lines(1:number_of_runs, data$V4, type="l", pch=21, col="red", ylab="Y", xlab="n", ylim=c(0,world_size))
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="X and Y", xlab="n", ylim=c(0,world_size))#
+lines(1:number_of_runs, data$V4, type="l", pch=21, col="red", xlab="n", ylim=c(0,world_size))#
+legend(number_of_runs/2, 0.2, c("X", "Y"), col=c("blue","red"), text.col = "green4", lty=c(1,1), lwd=c(1,1), cex=1)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="X and Y", xlab="n", ylim=c(0,world_size))#
+lines(1:number_of_runs, data$V4, type="l", pch=21, col="red", xlab="n", ylim=c(0,world_size))#
+legend(number_of_runs/2, world_size/3, c("X", "Y"), col=c("blue","red"), text.col = "green4", lty=c(1,1), lwd=c(1,1), cex=1)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.2, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="X and Y", xlab="n", ylim=c(0,world_size))#
+lines(1:number_of_runs, data$V4, type="l", pch=21, col="red", xlab="n", ylim=c(0,world_size))#
+legend(number_of_runs/2, world_size/3, c("x", "y"), col=c("blue","red"), text.col = "green4", lty=c(1,1), lwd=c(1,1), cex=1)
+logfile="ValueSim-2011-3-22-23-15-43.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.3, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="X and Y", xlab="n", ylim=c(0,world_size))#
+lines(1:number_of_runs, data$V4, type="l", pch=21, col="red", xlab="n", ylim=c(0,world_size))#
+legend(number_of_runs/2, world_size/3, c("x", "y"), col=c("blue","red"), text.col = "green4", lty=c(1,1), lwd=c(1,1), cex=1)
+logfile="ValueSim-2011-3-20-12-54-41.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.3, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+#plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="X and Y", xlab="n", ylim=c(0,world_size))#
+#lines(1:number_of_runs, data$V4, type="l", pch=21, col="red", xlab="n", ylim=c(0,world_size))#
+#legend(number_of_runs/2, world_size/3, c("x", "y"), col=c("blue","red"), text.col = "green4", lty=c(1,1), lwd=c(1,1), cex=1)
+logfile="ValueSim-2011-3-28-16-41-54.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.3, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+#plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="X and Y", xlab="n", ylim=c(0,world_size))#
+#lines(1:number_of_runs, data$V4, type="l", pch=21, col="red", xlab="n", ylim=c(0,world_size))#
+#legend(number_of_runs/2, world_size/3, c("x", "y"), col=c("blue","red"), text.col = "green4", lty=c(1,1), lwd=c(1,1), cex=1)
+data$48
+data$V48
+data$V48(2581)
+data$V48.2581
+data$V48
+data$V48
+data$V48(1)
+data$V48[1]
+data$V48[2580]
+data$V48[2581]
+data$V48[2582]
+data$V48[2583]
+data$V48[2579]
+data$V48[2580]
+data$V48[2581]
+data$V48[2582]
+data$V48[2582]
+data$V48[2583]
+data$V48[2580:2589]
+data$V48[2580:2589]
+data$V48[2580:2589]
+data$V48[2580:2589]
+data$V5[2580:2589]
+data$V4[2580:2589]
+data$V1[2580:2589]
+logfile="ValueSim-2011-3-28-16-41-54.txt"#
+data <- read.table(file(logfile), sep=",")#
+world_size <- 30#
+number_of_runs <- length(data$V1);#
+#
+#par(mfrow=c(1,2)) # split the plot into 3x2 rows*cols#
+#plot(data$V3, data$V4, type="l", pch=21, col="blue", ylab="Y", xlab="X", xlim=c(0,world_size), ylim=c(0,world_size))#
+#plot( 1:number_of_runs, data$V3, type="l", pch=21, col="cyan", lty=1, ylab="Y", xlab="number of runs", lwd=3)#
+#plot( 1:number_of_runs, data$V4, type="l", pch=21, col="green", lty=1, ylab="Y", xlab="number of runs", lwd=2)#
+#plot(1:number_of_runs, data$V6	, type="l", pch=21, col="blue", lty=1, ylab="energy", xlab="number of runs", lwd=1)#
+plot(1:number_of_runs, data$V48, type="l", pch=20, col="red", lty=1, ylab="Utility", xlab="n", lwd=2, ylim=c(0, 1))#
+lines(1:number_of_runs, data$V6/100, type="l", pch=21, col="blue", lty=1, ylab="Energy", xlab="n", lwd=1)#
+lines(1:number_of_runs, (data$V47 + data$V46 + data$V45 + data$V44) / 20, type="l", pch=21, col="orange", lty=1, ylab="Proximity", xlab="X", lwd=1)#
+lines(1:number_of_runs, (data$V8 + data$V9 + data$V10 + data$V11 + data$V12 + data$V13 + data$V14 + data$V15 + data$V16) / 225, type="l", pch=21, col="cyan", lty=1, ylab="Temperature", xlab="n", lwd=1)#
+lines(1:number_of_runs, data$V7 / 25, type="l", pch=21, col="yellow", lty=1, ylab="InternalTemperature", xlab="n", lwd=1)#
+legend(number_of_runs/2, 0.3, c("utility", "energy", "proximity","temperature", "internal temperature"), col=c("red","blue","orange","cyan", "yellow"), text.col = "green4", lty=c(1,1,1,1), lwd=c(2,1,1,1), cex=1)#
+#
+#plot(1:number_of_runs, data$V3	, type="l", pch=21, col="blue", lty=1, ylab="x and y", xlab="number of runs", lwd=1)#
+#lines(1:number_of_runs, data$V4	, type="l", pch=21, col="blue", lty=1)#
+#plot(1:number_of_runs, data$V3, type="l", pch=21, col="blue", ylab="X and Y", xlab="n", ylim=c(0,world_size))#
+#lines(1:number_of_runs, data$V4, type="l", pch=21, col="red", xlab="n", ylim=c(0,world_size))#
+#legend(number_of_runs/2, world_size/3, c("x", "y"), col=c("blue","red"), text.col = "green4", lty=c(1,1), lwd=c(1,1), cex=1)
