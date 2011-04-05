@@ -8,8 +8,9 @@ TODO: Describe what the simulator does.
 To run the simulator, download Racket from http://racket-lang.org/download
 Evaluate the code either in DrRacket environment, or by running: "racket -f ValueSim.rkt" 
 |#
+
 ;; Racket libraries
-;;(load "/Users/petr/Dropbox/Libraries/Racket/utils.rkt")
+;; (load "/Users/petr/Dropbox/Libraries/Racket/utils.rkt")
 (require (planet williams/science/random-distributions/gaussian))
 (require (planet williams/science/random-distributions/flat))
 (require racket/date)
@@ -90,7 +91,6 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 
 ;;; Environment
 ;; An environment is represented by a vector of tiles
-
 ;; build-environment : N -> vector-of-tiles
 ;; to create an environment whose boundaries are walls
 (define (build-environment world-size)
@@ -113,8 +113,6 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
           [else
            (aux (+ n 1))]))
   (aux 0))
-
-
 
 ;;; Agent
 ;; TODO : fix the structure of the agent function--what are its inputs/outputs?
@@ -207,7 +205,6 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
 ;; contains #f if not, the hash representing the object if yes
 (define box-moved #f)
 (define door-changed #f)
-
 
 ;; TODO : think about adding operators of the classical planning representation
 ;; Moves the agent forward if there is nothing in front of it
@@ -325,30 +322,29 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
          (- south-position 1) south-position (+ south-position 1)))))
   (vector-map compute-temperature (surrounding-tiles)))
 
-;; find if there are obstacles in a straight line
-;; returns a number if there was one obstacle in its way, and 0 otherwise
-;; Works only to the distance of 4 tiles; returns 5 if the distance is greater than 4
-(define (send-sonar-beam start-position direction environment)
-  (define (send-sonar-beam-aux current-position n-inspected-tiles)
-    (let ([object-on-top (tile-object-on-top (& environment current-position))])
-      (cond
-       ;; dealing with the doors
-       [(and object-on-top (symbol=? (hash-ref object-on-top 'name) 'door))
-        (if (hash-ref object-on-top 'open?) ;; door open?
-            (send-sonar-beam-aux (+ current-position direction)
-                                 (+ 1 n-inspected-tiles))
-            n-inspected-tiles)] ;; door closed
-       [object-on-top n-inspected-tiles] ;; any other object
-       ;; 5 is returned if the sonar doesn't receive a reply
-       [(= n-inspected-tiles 4) 5]
-       ;; beam goes to next tile
-       [else (send-sonar-beam-aux (+ current-position direction) 
-                                  (+ 1 n-inspected-tiles))])))
-  (send-sonar-beam-aux start-position 0))
-
 ;; Send 4 beams to front, right, back and left
 ;; Return a vector of 4 numbers
 (define (sense-proximity agent environment movements)
+  ;; find if there are obstacles in a straight line
+  ;; returns a number if there was one obstacle in its way, and 0 otherwise
+  ;; Works only to the distance of 4 tiles; returns 5 if the distance is greater than 4
+  (define (send-sonar-beam start-position direction)
+    (define (send-sonar-beam-aux current-position n-inspected-tiles)
+      (let ([object-on-top (tile-object-on-top (& environment current-position))])
+        (cond
+         ;; dealing with the doors
+         [(and object-on-top (symbol=? (hash-ref object-on-top 'name) 'door))
+          (if (hash-ref object-on-top 'open?) ;; door open?
+              (send-sonar-beam-aux (+ current-position direction)
+                                   (+ 1 n-inspected-tiles))
+              n-inspected-tiles)] ;; door closed
+         [object-on-top n-inspected-tiles] ;; any other object
+         ;; 5 is returned if the sonar doesn't receive a reply
+         [(= n-inspected-tiles 4) 5]
+         ;; beam goes to next tile
+         [else (send-sonar-beam-aux (+ current-position direction) 
+                                    (+ 1 n-inspected-tiles))])))
+    (send-sonar-beam-aux start-position 0))
   (let ([position (agent-position agent)]
         [orientation (agent-orientation agent)])
     ;; find the beam directions based on the agent's current orientation
@@ -357,10 +353,10 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
           [back (& movements (modulo (+ 2 orientation) 4))]
           [left (& movements (modulo (+ 3 orientation) 4))])
       (vector
-       (send-sonar-beam (+ position front) front environment)
-       (send-sonar-beam (+ position right) right environment)
-       (send-sonar-beam (+ position back) back environment)
-       (send-sonar-beam (+ position left) left environment)))))
+       (send-sonar-beam (+ position front) front)
+       (send-sonar-beam (+ position right) right)
+       (send-sonar-beam (+ position back) back)
+       (send-sonar-beam (+ position left) left)))))
 
 ;; Compute what colors do objects/tiles have that are in front of the agent
 ;; The agent can see the tiles as shown below:
@@ -960,31 +956,4 @@ splot \"temperature-map.dat\" with image")
 ;;(save-environment "../environments/test.txt")
 (load-and-set-environment "../environments/env1.txt")
 
-(save-and-plot-temperature)
-
-;; An approach to vary all the possible parameters
-;; Big, small, medium rooms
-;; Big rooms
-;;   an agent takes one tile
-;;
-
-(define-syntax nth-value
-  (syntax-rules ()
-    ((_ n values-producing-form)
-     '(call-with-values                    ;; Note the quote!
-          (lambda () values-producing-form)
-        (lambda all-values
-          (list-ref all-values n))))))
-
-(define-syntax test-pattern
-  (syntax-rules ()
-    ((test-pattern one two) "match 1")
-    ((test-pattern one two three) "match 2")
-    ((test-pattern . default) "fail")))
-
-(define-syntax nth-value
-  (syntax-rules ()
-    ((_ n values-producing-form)
-     '("Debugging template for nth-value"
-       "n is" n
-       "values-producing-form is" values-producing-form))))
+;; (save-and-plot-temperature) ;; visualize the temperature map of the environment
