@@ -2,6 +2,9 @@
 ;; Author: Petr Samarin, 30 March 2011
 ;;; Opens a data set and read some specified values from it
 (require racket/system) ;; needed for executing system commands
+(require "BinarySearch.rkt")
+;; TODO : speed up the coomputation by using multicore parallelism
+;; (require racket/future)
 
 ;;; Helper functions for reading the numbers from a dataset
 ;; Read the port linewise and extract the values of interest from each line
@@ -375,9 +378,6 @@
 
 
 ;;; Get all action sequences that have high and low utilities
-(require "BinarySearch.rkt")
-;; include the futures library, in order to make use of the parallellism
-;;(require racket/future)
 (define THRESHOLD #f)
 
 ;; traverse the tree and find the good sequences
