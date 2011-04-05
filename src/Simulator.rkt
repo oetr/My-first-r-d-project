@@ -419,11 +419,11 @@ Author: Petr Samarin
    ;; vision
    (call-with-values
        (lambda () (vector->values
-                   (vector-map
-                    (lambda (color) (vector (color-r color)
-                                            (color-g color)
-                                            (color-b color)))
-                    (compute-vision agent environment movements))))
+              (vector-map
+               (lambda (color) (vector (color-r color)
+                                  (color-g color)
+                                  (color-b color)))
+               (compute-vision agent environment movements))))
      vector-append)
    (sense-proximity agent environment movements)))
 
