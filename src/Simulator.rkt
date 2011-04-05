@@ -1,12 +1,11 @@
 #|
-Author: Petr Samarin
---
-The simulator was created as part of my R&D1 project from 1 Dec. 2010 to 31 May. 2011
---
 TODO: Describe what the simulator does.
--- Running the Simulator
+===== Running the Simulator =====
 To run the simulator, download Racket from http://racket-lang.org/download
-Evaluate the code either in DrRacket environment, or by running: "racket -f ValueSim.rkt" 
+Evaluate the code either in DrRacket environment, or by running: "racket -f Simulator.rkt"
+
+The simulator was created as part of my R&D1 project from 1 Dec. 2010 to 31 May. 2011
+Author: Petr Samarin
 |#
 
 ;; Racket libraries
@@ -837,6 +836,7 @@ Evaluate the code either in DrRacket environment, or by running: "racket -f Valu
   (aux 0)
   (printf "~n"))
 
+;;; Gnuplot
 ;; Temperature map of the environment: Visualization
 ;; Open a file in which to write the color information
 ;; save all the information in the file
@@ -894,7 +894,6 @@ splot \"temperature-map.dat\" with image")
   (lambda ()
     (save-color-information temperature-file gnuplot-file)
     (system "cd ../data; gnuplot plot-temperature.gnu; cd ../src")))
-
 
 ;;; Saving logs into a file
 (define f #f)
