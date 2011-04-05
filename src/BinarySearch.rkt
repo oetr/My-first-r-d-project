@@ -1,5 +1,5 @@
 ;; Helper module to allow binary search on vectors
-;; Author: Petr Samarin, 29 March 2011
+;; Author: Petr Samarin
 
 (module binary-search racket/gui
   (require rackunit)
