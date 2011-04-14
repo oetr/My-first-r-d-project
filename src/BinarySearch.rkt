@@ -40,7 +40,7 @@
   (check-false (binary-search test-vector 12))
   (check-false (binary-search test-vector 321))
   (check-false (binary-search test-vector 5213))
-  (check-false (binary-search test-vector 6500001)) 
+  (check-false (binary-search test-vector 6500001)))
 
   ;; eof
   
