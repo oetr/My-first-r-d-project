@@ -444,7 +444,7 @@
 ;; Do the tree traversal for all of the actions in the start nodes
 (define find-interesting-sequences
   (lambda (a-root-node threshold)
-    ;; make the function run in parallel
+    ;; TODO: make the function use multiple processors
     (let ([filtered-vector (vector-filter-not false? (node-children a-root-node))])
       (for* ([start-node (in-vector filtered-vector)]
              [start-position (in-vector (node-positions start-node))]
@@ -511,3 +511,67 @@
                     (fn (caddr a-list) (caddr another-list))))))
 
 |#
+
+;; The algorithm to find the averages of each action sequence and see
+;; whether the average exceeds some prespecified threshold
+;; 1) take a node
+;; 2) keep the depth of the current node saved (to know the beginning of the AS)
+;; 3) for each node, find the utility of the action sequence that appears multiple
+;; times in the data set
+;; 4) compute the average utility of that action sequence
+;; 5) compare the average with some threshold
+;; 6) return the action sequence if it exceeds the threshold
+;; 7) the format for the action sequence is:
+;;    average utility; length; sequence of actions
+;; 8) print format:
+;;    sequence of actions; average utility; start positions
+(define average-action-sequences
+  (lambda (a-root-node threshold)
+    (define (average-AS-aux a-node depth)
+      (if (= 0 depth)
+          (vector-map   ;; root node
+           (lambda (a-node)
+             (average-AS-aux a-node (+ depth 1)))
+           (vector-filter-not false? (node-children a-node)))
+          (let ([positions (node-positions a-node)])
+            (let ([average
+                   (/ (vector-foldl
+                       (lambda (position sum)
+                         (+ (abs (- (vector-ref dataset-utilities position)
+                                    (vector-ref dataset-utilities (- position depth))))
+                            sum))
+                       0
+                       positions)
+                      (vector-length positions))])
+              (when (> (abs average) threshold)
+                (set! *averages*
+                      (cons (list
+                             (- (vector-ref positions 0) depth)
+                             (vector-ref positions 0)
+                             average
+                             ;;positions
+                             )
+                            *averages*)))))))
+    (vector-map
+     (lambda (a-node)
+       (average-AS-aux a-node 0))
+     (vector-filter-not false? (node-children a-root-node)))
+    *averages*))
+
+(define (vector-foldl proc init vec)
+  (let ([length (vector-length vec)])
+    (let loop ([result init] [i 0])
+      (if (>= i length)
+          result
+          (loop (proc (vector-ref vec i) result) (+ i 1))))))
+
+(define AVERAGE-THRESHOLD #f)
+(define *averages* '())
+(set! AVERAGE-THRESHOLD 0.0001)
+(set! *averages* '())
+(printf "~n")
+(printf "Searching for action sequences whose average exceeds the threshold ~a...~n"
+        AVERAGE-THRESHOLD)
+(average-action-sequences *root-node* AVERAGE-THRESHOLD)
+(printf "~nFound ~a action sequences~n" (length *averages*))
+(printf "Done~n")
