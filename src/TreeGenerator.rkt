@@ -114,8 +114,11 @@
 ;; data set with 15 lines
 ;;(define dataset-file "../data/ValueSim-2011-3-23-15-29-0.txt")
 
+;; test data set
+;;(define dataset-file "../data/TestDataset.txt")
+
 ;; 3000 lines
-(define dataset-file "../data/ValueSim-2011-4-20-10-4-33.txt")
+(define dataset-file "../data/ValueSim-2011-4-20-13-54-14.txt")
 
 ;; Find the length of the dataset
 (define port #f)
@@ -556,7 +559,7 @@
      (lambda (a-node)
        (average-AS-aux a-node 0))
      (vector-filter-not false? (node-children a-root-node)))
-    *averages*))
+    (void)))
 
 (define (vector-foldl proc init vec)
   (let ([length (vector-length vec)])
@@ -567,7 +570,7 @@
 
 (define AVERAGE-THRESHOLD #f)
 (define *averages* '())
-(set! AVERAGE-THRESHOLD 0.0001)
+(set! AVERAGE-THRESHOLD 0.001)
 (set! *averages* '())
 (printf "~n")
 (printf "Searching for action sequences whose average exceeds the threshold ~a...~n"
@@ -575,3 +578,10 @@
 (average-action-sequences *root-node* AVERAGE-THRESHOLD)
 (printf "~nFound ~a action sequences~n" (length *averages*))
 (printf "Done~n")
+
+#|
+(sort
+ ;; filter out the negative utilities
+ (filter (lambda (a-list) (positive? (caddr a-list))) *averages*)
+ (lambda (a-list another-list) (> (caddr a-list) (caddr another-list))))
+|#
