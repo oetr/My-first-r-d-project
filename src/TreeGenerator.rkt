@@ -106,10 +106,16 @@
 ;;(define dataset-file "../data/ValueSim-2011-3-22-16-4-51.txt")
 
 ;; dataset with 20000 lines
-(define dataset-file "../data/ValueSim-2011-3-28-16-35-31.txt")
+;;(define dataset-file "../data/ValueSim-2011-3-28-16-35-31.txt")
 
 ;; dataset with 1000 of lines:
 ;;(define dataset-file "../data/ValueSim-2011-3-28-16-26-10.txt")
+
+;; data set with 15 lines
+;;(define dataset-file "../data/ValueSim-2011-3-23-15-29-0.txt")
+
+;; 3000 lines
+(define dataset-file "../data/ValueSim-2011-4-20-10-4-33.txt")
 
 ;; Find the length of the dataset
 (define port #f)
@@ -337,8 +343,13 @@
   (lambda (file)
     (system (string-append "dot -Tpdf -Goverlap=false -O " file))))
 
+;;(generate-and-print-dataset dot-file)
+;;(generate-pdf dot-file)
+
 ;;; Run the functions
 
+;; (generate-and-print-dataset dot-file)
+;; (generate-pdf dot-file)
 (init-vars)
 ;; Garbage-collect the environment
 (clear)
@@ -462,7 +473,8 @@
                      ;; show only 10 numbers after the comma
                      (/ (round (* current-utility 100000000.0)) 100000000.0)
                      (vector-ref ACTION-MEANINGS action))))
-      (printf "utility gained: ~a~n" (- end-utility start-utility)))))
+      (printf "utility gained: ~a~n" (- end-utility start-utility))
+      (printf "sequence length: ~a~n" (- end start)))))
 
 (set! THRESHOLD 0.32)
 (set! *results* '())
