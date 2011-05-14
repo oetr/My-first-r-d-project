@@ -103,7 +103,7 @@
 ;;(define dataset-file "../data/ValueSim-2011-3-30-10-48-53.txt")
 
 ;; dataset with 100000 lines
-;;(define dataset-file "../data/ValueSim-2011-3-22-16-4-51.txt")
+(define dataset-file "../data/ValueSim-2011-3-22-16-4-51.txt")
 
 ;; dataset with 20000 lines
 ;;(define dataset-file "../data/ValueSim-2011-3-28-16-35-31.txt")
@@ -118,7 +118,7 @@
 ;;(define dataset-file "../data/TestDataset.txt")
 
 ;; 3000 lines
-(define dataset-file "../data/ValueSim-2011-4-20-13-54-14.txt")
+;(define dataset-file "../data/ValueSim-2011-4-20-13-54-14.txt")
 
 ;; Find the length of the dataset
 (define port #f)
@@ -186,7 +186,7 @@
 ;; The fringe keeps track of ongoing action sequences
 (define *fringe* (list *root-node*))
 
-;;; Creting the tree
+;;; Creating the tree
 (define tree
   (lambda (node action position)
     (let ([child-node (children-ref node action)])
@@ -422,27 +422,20 @@
      [(not a-node) empty]
      ;; 2) Required-index is not the same as any index of a-node -- Abort the search
      [(not (binary-search (node-positions a-node) required-index)) empty]
-     ;; 3) The absolute value of utility of a-node minus initial-utility is not
-     ;;    exceeding the THRESHOLD -- continue searching in the children
-     [(< (abs (- (vector-ref dataset-utilities required-index)
-                 initial-utility))
-         threshold)
-      (for ([child-node (in-vector (node-children a-node))])
-           ;; only check the non-empty nodes
-           (traverse-tree child-node initial-utility initial-index
-                          (+ required-index 1) threshold))]
-     ;; 4) The abs utility of a-node minus the initial utility exceeds the THRESHOLD
-     ;;    save the required-index and continue the search
      [else
-      (set! *results*
-            (cons (list initial-index
-                        required-index
-                        (- (vector-ref dataset-utilities required-index)
-                           initial-utility))
-                  *results*))
-      (for ([child-node (in-vector (node-children a-node))])
-           (traverse-tree child-node initial-utility initial-index
-                          (+ required-index 1) threshold))])))
+      ;; 4) The abs utility of a-node minus the initial utility exceeds the THRESHOLD
+      ;;    save the required-index and continue the search
+      (when (> (abs (- (vector-ref dataset-utilities required-index) initial-utility))
+               threshold)
+        (set! *results*
+              (cons (list initial-index
+                          required-index
+                          (- (vector-ref dataset-utilities required-index)
+                             initial-utility))
+                    *results*)))
+        (for ([child-node (in-vector (node-children a-node))])
+             (traverse-tree child-node initial-utility initial-index
+                            (+ required-index 1) threshold))])))
 
 ;; Do the tree traversal for all of the actions in the start nodes
 (define find-interesting-sequences
@@ -479,12 +472,12 @@
       (printf "utility gained: ~a~n" (- end-utility start-utility))
       (printf "sequence length: ~a~n" (- end start)))))
 
-(set! THRESHOLD 0.32)
+(set! THRESHOLD 0.35)
 (set! *results* '())
 (printf "~n")
 (printf "Searching for action sequences that exceed the threshold ~a...~n"
         THRESHOLD)
-(find-interesting-sequences *root-node* THRESHOLD)
+(time* 1 (find-interesting-sequences *root-node* THRESHOLD))
 (printf "~nFound ~a action sequences~n" (length *results*))
 (printf "Done~n")
 
@@ -515,6 +508,41 @@
 
 |#
 
+;; This procedure finds action sequences that exceed some threshold
+;; it should be faster than the previous version, but it isnt!!!
+;; However, it is easier to understand, and therefore will appear in the report.
+;; TODO : find out why this procedure is slower than the previous one.
+(define find-sequences
+  (lambda (a-root-node threshold)
+    (define (find-sequences-aux a-node depth)
+      (let ([positions (node-positions a-node)])
+        (for ([position (in-vector positions)])
+             (let ([utility-increase
+                    (- (vector-ref dataset-utilities position)
+                       (vector-ref dataset-utilities (- position depth)))])
+               (when (> (abs utility-increase) threshold)
+                 (set! *found*
+                       (cons (list
+                              (- (vector-ref positions 0) depth)
+                              (vector-ref positions 0)
+                              utility-increase)
+                             *found*))))))
+      (for ([a-node (in-vector (vector-filter-not false? (node-children a-node)))])
+           (find-sequences-aux a-node (+ depth 1))))
+    (for* ([a-node (in-vector (vector-filter-not false? (node-children a-root-node)))]
+           [node (in-vector (vector-filter-not false? (node-children a-node)))])
+          (find-sequences-aux node 1))
+    (void)))
+
+(define *found* '())
+(define AVERAGE-THRESHOLD 0.35)
+(printf "~n")
+(printf "Searching for action sequences whose average exceeds the threshold ~a...~n"
+        AVERAGE-THRESHOLD)
+(time* 1 (find-sequences *root-node* AVERAGE-THRESHOLD))
+(printf "~nFound ~a action sequences~n" (length *found*))
+(printf "Done~n")
+
 ;; The algorithm to find the averages of each action sequence and see
 ;; whether the average exceeds some prespecified threshold
 ;; 1) take a node
@@ -541,7 +569,8 @@
                    (/ (vector-foldl
                        (lambda (position sum)
                          (+ (abs (- (vector-ref dataset-utilities position)
-                                    (vector-ref dataset-utilities (- position depth))))
+                                    (vector-ref dataset-utilities (- position
+                                                                     depth))))
                             sum))
                        0
                        positions)
@@ -551,9 +580,8 @@
                       (cons (list
                              (- (vector-ref positions 0) depth)
                              (vector-ref positions 0)
-                             average
-                             ;;positions
-                             )
+                             average)
+                            ;;positions
                             *averages*)))))))
     (vector-map
      (lambda (a-node)
