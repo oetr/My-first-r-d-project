@@ -103,7 +103,7 @@
 ;;(define dataset-file "../data/ValueSim-2011-3-30-10-48-53.txt")
 
 ;; dataset with 100000 lines
-(define dataset-file "../data/ValueSim-2011-3-22-16-4-51.txt")
+;;(define dataset-file "../data/ValueSim-2011-3-22-16-4-51.txt")
 
 ;; dataset with 20000 lines
 ;;(define dataset-file "../data/ValueSim-2011-3-28-16-35-31.txt")
@@ -118,7 +118,7 @@
 ;;(define dataset-file "../data/TestDataset.txt")
 
 ;; 3000 lines
-;(define dataset-file "../data/ValueSim-2011-4-20-13-54-14.txt")
+(define dataset-file "../data/ValueSim-2011-4-20-13-54-14.txt")
 
 ;; Find the length of the dataset
 (define port #f)
