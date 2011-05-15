@@ -183,8 +183,8 @@
 
 (define *root-node* (make-node '() '() (make-children) 0))
 
-;; The fringe keeps track of ongoing action sequences
-(define *fringe* (list *root-node*))
+;; The frontier keeps track of ongoing action sequences
+(define *frontier* (list *root-node*))
 
 ;;; Creating the tree
 (define tree
@@ -208,17 +208,17 @@
 ;; Appends the action to every sequence on the fringe
 (define add-action
   (lambda (action position)
-    (set! *fringe*
+    (set! *frontier*
           (cons *root-node*
                 (filter (lambda (a) (not (void? a)))
                         (map (lambda (node) (tree node action position))
-                             *fringe*))))))
+                             *frontier*))))))
 
-;; Initialize global variables *root-node* and *fringe*
+;; Initialize global variables *root-node* and *frontier*
 (define init-vars
   (lambda ()
     (set! *root-node* (make-node '() '() (make-children) 0))
-    (set! *fringe* (list *root-node*))))
+    (set! *frontier* (list *root-node*))))
 
 ;; FIXME : the graphviz interface does not work at the moment!
 ;; TODO : make the graphviz interface work with the new implementation
@@ -361,6 +361,7 @@
 (for ([i (in-range 0 DATASET-SIZE)])
      (add-action (& dataset-actions i) i))
 (printf "Done~n")
+(set! *frontier* #f) ;; free up some space
 
 ;; To transform all positions in the tree, which are represented by
 ;; linked lists, into vectors
@@ -472,7 +473,7 @@
       (printf "utility gained: ~a~n" (- end-utility start-utility))
       (printf "sequence length: ~a~n" (- end start)))))
 
-(set! THRESHOLD 0.35)
+(set! THRESHOLD 0.37)
 (set! *results* '())
 (printf "~n")
 (printf "Searching for action sequences that exceed the threshold ~a...~n"
@@ -523,8 +524,8 @@
                (when (> (abs utility-increase) threshold)
                  (set! *found*
                        (cons (list
-                              (- (vector-ref positions 0) depth)
-                              (vector-ref positions 0)
+                              (- position depth)
+                              position
                               utility-increase)
                              *found*))))))
       (for ([a-node (in-vector (vector-filter-not false? (node-children a-node)))])
@@ -535,11 +536,11 @@
     (void)))
 
 (define *found* '())
-(define AVERAGE-THRESHOLD 0.35)
+(define AVERAGE-THRESHOLD 0.37)
 (printf "~n")
 (printf "Searching for action sequences whose average exceeds the threshold ~a...~n"
         AVERAGE-THRESHOLD)
-(time* 1 (find-sequences *root-node* AVERAGE-THRESHOLD))
+(time* 10 (find-sequences *root-node* AVERAGE-THRESHOLD))
 (printf "~nFound ~a action sequences~n" (length *found*))
 (printf "Done~n")
 
