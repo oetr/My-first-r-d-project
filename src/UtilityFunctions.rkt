@@ -2,7 +2,7 @@
 #|
 1. Write a procedure to create concave and convex procedures
 2. Apply the procedure onto the current state (as defined by the sensor readings) to get the value of the state
-3. That's it? Yep
+3. That's it? Yep.
 |#
 (define make-value-function
   (lambda (attribute-min attribute-max new-min new-max degree-of-convexity)
