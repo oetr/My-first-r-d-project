@@ -117,8 +117,11 @@
 ;; test data set
 ;;(define dataset-file "../data/TestDataset.txt")
 
+;; 5 lines
+(define dataset-file "../data/5_Actions.txt")
+
 ;; 3000 lines
-(define dataset-file "../data/ValueSim-2011-4-20-13-54-14.txt")
+;;(define dataset-file "../data/ValueSim-2011-4-20-13-54-14.txt")
 
 ;; Find the length of the dataset
 (define port #f)
@@ -268,7 +271,7 @@
     (vector-map
      (lambda (child)
        (when child
-         (generate-nodes child 0 "start")))
+         (generate-nodes child 0 "root")))
      (node-children root-node))
     ;; reverse all the lists in the action-counters matrix
     (matrix-map
@@ -288,13 +291,19 @@
                               "\"~a_~a_~a\" [label=\"~a (~a)\\n" i j k
                               i
                               (vector-ref ACTION-MEANINGS i))
-                     (for ([occurrence (in-list action-occurrences)]
-                           [utility (map (lambda (index)
-                                           (vector-ref dataset-utilities index))
-                                         action-occurrences)])
-                          (fprintf port "~a  ->  ~a\\n"
-                                   occurrence
-                                   (/ (round (* 100000 utility)) 100000.0)))
+                     (fprintf port "(")
+                     (for ([occurrence (in-list (drop-right action-occurrences 1))])
+                          (fprintf port "~a; " occurrence))
+                     (fprintf port "~a)\\n" (last action-occurrences))
+                     (fprintf port "[")
+                     (for ([occurrence (in-list (drop-right action-occurrences 1))])
+                          (fprintf port "~a; "
+                                   (/ (round
+                                       (* 100000
+                                          (vector-ref dataset-utilities occurrence)))
+                                       100000.0)))
+                     (fprintf port "~a]" (vector-ref dataset-utilities
+                                                     (last action-occurrences)))
                      (fprintf port "\" ];\n"))))))
     (fprintf port "}")))
 
@@ -426,11 +435,11 @@
      [else
       ;; 4) The abs utility of a-node minus the initial utility exceeds the THRESHOLD
       ;;    save the required-index and continue the search
-      (when (> (abs (- (vector-ref dataset-utilities required-index) initial-utility))
+      (when (>= (abs (- (vector-ref dataset-utilities required-index) initial-utility))
                threshold)
         (set! *results*
               (cons (list initial-index
-                          required-index
+                          (- required-index initial-index)
                           (- (vector-ref dataset-utilities required-index)
                              initial-utility))
                     *results*)))
@@ -456,24 +465,25 @@
 ;; In addition, the position in the dataset as well as the utilities of
 ;; all the actions are printed as well
 (define print-sequence
-  (lambda (start end)
+  (lambda (start length)
     (let ([start-utility (vector-ref dataset-utilities start)]
           [end-utility 0.0])
       (printf "~nstarted with utility = ~a~n" start-utility)
-      (for ([position (in-range start end)])
-           (let ([action (vector-ref dataset-actions position)]
-                 [current-utility (vector-ref dataset-utilities (+ position 1))])
-             (set! end-utility current-utility)
-             (printf "~a: ~a -> ~a \t (~a)~n"
-                     position
-                     action
-                     ;; show only 10 numbers after the comma
-                     (/ (round (* current-utility 100000000.0)) 100000000.0)
-                     (vector-ref ACTION-MEANINGS action))))
-      (printf "utility gained: ~a~n" (- end-utility start-utility))
-      (printf "sequence length: ~a~n" (- end start)))))
+      (for ([i (in-range 0 length)])
+           (let ([position (+ start i)])
+             (let ([action (vector-ref dataset-actions position)]
+                   [current-utility (vector-ref dataset-utilities (+ position 1))])
+               (set! end-utility current-utility)
+               (printf "~a: ~a -> ~a \t (~a)~n"
+                       position
+                       action
+                       ;; show only 10 numbers after the comma
+                       (/ (round (* current-utility 100000000.0)) 100000000.0)
+                       (vector-ref ACTION-MEANINGS action)))))
+           (printf "utility gained: ~a~n" (- end-utility start-utility))
+           (printf "sequence length: ~a~n" length))))
 
-(set! THRESHOLD 0.37)
+(set! THRESHOLD 0.0)
 (set! *results* '())
 (printf "~n")
 (printf "Searching for action sequences that exceed the threshold ~a...~n"
@@ -515,32 +525,35 @@
 ;; TODO : find out why this procedure is slower than the previous one.
 (define find-sequences
   (lambda (a-root-node threshold)
-    (define (find-sequences-aux a-node depth)
-      (let ([positions (node-positions a-node)])
-        (for ([position (in-vector positions)])
-             (let ([utility-increase
-                    (- (vector-ref dataset-utilities position)
-                       (vector-ref dataset-utilities (- position depth)))])
-               (when (> (abs utility-increase) threshold)
-                 (set! *found*
-                       (cons (list
-                              (- position depth)
-                              position
-                              utility-increase)
-                             *found*))))))
-      (for ([a-node (in-vector (vector-filter-not false? (node-children a-node)))])
-           (find-sequences-aux a-node (+ depth 1))))
-    (for* ([a-node (in-vector (vector-filter-not false? (node-children a-root-node)))]
-           [node (in-vector (vector-filter-not false? (node-children a-node)))])
-          (find-sequences-aux node 1))
-    (void)))
+    (define (recursive-find-sequences a-node depth)
+      (let ([children (vector-filter-not false? (node-children a-node))])
+        (for* ([child (in-vector children)]
+               [position (in-vector (node-positions child))])
+                  (let ([utility-increase
+                         (- (vector-ref dataset-utilities position)
+                            (vector-ref dataset-utilities (- position depth)))])
+                    (when (>= (abs utility-increase) threshold)
+                      (set! *found*
+                            (cons (list
+                                   (- position depth)
+                                   depth
+                                   utility-increase)
+                                  *found*)))))
+        ;; search the children
+        (for ([child (in-vector children)])
+             (recursive-find-sequences child (+ depth 1)))))
+    (for ([a-node (in-vector (vector-filter-not false? (node-children a-root-node)))])
+         (recursive-find-sequences a-node 1))))
 
 (define *found* '())
-(define AVERAGE-THRESHOLD 0.37)
+(define THRESHOLD 0.0)
 (printf "~n")
-(printf "Searching for action sequences whose average exceeds the threshold ~a...~n"
-        AVERAGE-THRESHOLD)
-(time* 10 (find-sequences *root-node* AVERAGE-THRESHOLD))
+(printf "Searching for action sequences whose utility change exceeds threshold ~a...~n"
+        THRESHOLD)
+(time* 1
+       (begin
+         (set! *found* '())
+         (find-sequences *root-node* THRESHOLD)))
 (printf "~nFound ~a action sequences~n" (length *found*))
 (printf "Done~n")
 
@@ -557,6 +570,9 @@
 ;;    average utility; length; sequence of actions
 ;; 8) print format:
 ;;    sequence of actions; average utility; start positions
+;; TODO : The search is wrong!
+
+#|
 (define average-action-sequences
   (lambda (a-root-node threshold)
     (define (average-AS-aux a-node depth)
@@ -607,6 +623,7 @@
 (average-action-sequences *root-node* AVERAGE-THRESHOLD)
 (printf "~nFound ~a action sequences~n" (length *averages*))
 (printf "Done~n")
+|#
 
 #|
 (sort
