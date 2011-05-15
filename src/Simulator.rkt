@@ -153,8 +153,8 @@ Author: Petr Samarin
                      orientation
                      (agent-energy agent)
                      (agent-temperature agent)
-                     (agent-life agent)
-                     (agent-fn agent))]))
+                     (agent-action-selection agent)
+                     (agent-utility-fn agent))]))
 
 ;; TODO : where is this used and what is its purpose?
 (define temp-object #f)
@@ -298,8 +298,6 @@ Author: Petr Samarin
                    'move-back! 0.05 'do-nothing! 0.001))
 
 ;;; Sensors
-;; TODO : give the agent a dedicated temperature sensor and make it decrease or
-;; TODO : increase based on the temperature that surrounds the agent
 ;; Computes 8 tiles around the agent and the agent's own temperature
 (define (compute-surrounding-temperatures agent environment movements)
   (define (compute-temperature pos)
@@ -339,7 +337,7 @@ Author: Petr Samarin
               n-inspected-tiles)] ;; door closed
          [object-on-top n-inspected-tiles] ;; any other object
          ;; 5 is returned if the sonar doesn't receive a reply
-         [(= n-inspected-tiles 4) 5]
+         [(>= n-inspected-tiles 4) 5]
          ;; beam goes to next tile
          [else (send-sonar-beam-aux (+ current-position direction) 
                                     (+ 1 n-inspected-tiles))])))
@@ -498,8 +496,8 @@ Author: Petr Samarin
 
 ;; The format of the saved data is as follows
 ;; 0 1 2 3 4 5 6 7 ...
-;; p o x y a e l percepts
-;; pos orienation x y action energy life
+;; p o x y a e l percepts utility
+;; pos orienation x y action energy
 (define (save-log data world-size)
   (let ([file-out #f])
     (set! file-out (data-file-open "../data/"))
@@ -564,7 +562,7 @@ Author: Petr Samarin
           (reverse result)
           (loop (+ current step) (cons current result))))))
 
-;; Some utility functions
+;; The utility functions
 (define utility-of-energy (make-value-function 0.0 100.0 0.0 1.0 0.5))
 (define utility-of-temperature (make-gaussian 25.0 7.0))
 (define utility-of-proximity (make-value-function 0.0 5.0 0.0 1.0 0.5))
@@ -576,7 +574,7 @@ Author: Petr Samarin
 ;; This list tells us where to find the information in the sensory stream
 ;; for example, the first list contains only one address--the address in the
 ;; sensory stream, under which we can find the current energy of the agent
-(define from-to (list (list 0) (range 1 12) (range 38 42)))
+(define from-to (list (list 0) (range 1 11) (range 38 42)))
 ;;(vector-custom-foldr cons '() (sense A env movements) 2 12)
 ;; local weights tell us the relationship between the utilities of the same sensor type
 ;; for example, they tell us how much more "important" is the utility of one of the
@@ -585,7 +583,7 @@ Author: Petr Samarin
 ;; senses underneath itself is 4.0 times as important as all the other temperature utilities
 ;; that the agent senses.
 (define local-weights '((1.0)
-                        (10 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0)
+                        (10 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0 1.0)
                         (1.0 1.0 1.0 1.0)))
 ;; Global weights define the relation between the attributes. For example, the attribute
 ;; "energy" is more important than other attributes
@@ -719,7 +717,7 @@ Author: Petr Samarin
                agent
                (+ temperature
                   (* 0.01 (- (/ (vector-custom-foldr + 0 percepts 2 11)
-                                9)
+                                9) ;; average temperature of 9 surrounding tiles
                              temperature)))))
             (log-data! percepts value-system-label decision agent data n)
             ;; TODO test that the content of all the vectors is copied
@@ -863,7 +861,11 @@ Author: Petr Samarin
     (close-output-port data-port)
     ;; save the gnuplot file
     (fprintf gnuplot-port
-             "set view map
+             "#set term latex size 10cm,10cm
+#set terminal jpeg size 640,640 font \"/Library/Fonts/Arial.ttf\"
+#set output \"temperature_map.jpeg\"
+set terminal aqua size 500,500
+set view map
 set style data linespoints
 set xtics border in scale 0,0 mirror norotate  offset character 0, 0, 0
 set ytics border in scale 0,0 mirror norotate  offset character 0, 0, 0
@@ -894,6 +896,8 @@ splot \"temperature-map.dat\" with image")
   (lambda ()
     (save-color-information temperature-file gnuplot-file)
     (system "cd ../data; gnuplot plot-temperature.gnu; cd ../src")))
+
+;;(save-and-plot-temperature)
 
 ;;; Saving logs into a file
 (define f #f)
@@ -951,8 +955,11 @@ splot \"temperature-map.dat\" with image")
     (set! A (place-agent-randomly A env WORLD-SIZE))))
 
 (load "GUI.rkt")
-;;(make-gui)
-;;(save-environment "../environments/test.txt")
-(load-and-set-environment "../environments/env1.txt")
+;;(save-environment "../environments/demo_environment.txt")
+(load-and-set-environment "../environments/demo_environment.txt")
+;;(set-agent-energy! A max-energy)
+(set! A (place-agent A env (coordinates->position WORLD-SIZE (posn 1 1)) 1))
+(make-gui)
+
 
 ;; (save-and-plot-temperature) ;; visualize the temperature map of the environment
