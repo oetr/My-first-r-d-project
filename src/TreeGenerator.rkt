@@ -468,7 +468,7 @@
   (lambda (start length)
     (let ([start-utility (vector-ref dataset-utilities start)]
           [end-utility 0.0])
-      (printf "~nstarted with utility = ~a~n" start-utility)
+      (printf "~ninitial utility = ~a~n" start-utility)
       (for ([i (in-range 0 length)])
            (let ([position (+ start i)])
              (let ([action (vector-ref dataset-actions position)]
@@ -480,8 +480,7 @@
                        ;; show only 10 numbers after the comma
                        (/ (round (* current-utility 100000000.0)) 100000000.0)
                        (vector-ref ACTION-MEANINGS action)))))
-           (printf "utility gained: ~a~n" (- end-utility start-utility))
-           (printf "sequence length: ~a~n" length))))
+           (printf "utility gained: ~a~n" (- end-utility start-utility)))))
 
 (set! THRESHOLD 0.0)
 (set! *results* '())
@@ -493,10 +492,8 @@
 (printf "Done~n")
 
 (define sorted-list
-  (sort
-   ;; filter out the negative utilities
-   (filter (lambda (a-list) (positive? (caddr a-list))) *results*)
-   (lambda (a-list another-list) (> (caddr a-list) (caddr another-list)))))
+  (sort *results*
+        (lambda (a-list another-list) (> (caddr a-list) (caddr another-list)))))
 
 #|
 ;; printing some of the information
