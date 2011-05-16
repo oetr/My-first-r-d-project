@@ -25,6 +25,7 @@
 ;; Takes an infinite number of parameters (n) that all will be searched for
 ;; The user has to make sure not to call the function with arguments out of
 ;; range of the csv file
+;; the parameters must be sorted in ascending order
 (define get-nth-strs
   (lambda (str . n)
     (let ([started #f]
@@ -33,7 +34,7 @@
           [finished-counter 0] ;; counts the number of retrieved strings
           [temporary-result '()] ;; save the results here (discard if not useful)
           [fetch-n (sort n <)]) ;; sorted list of all positions of interest in str
-      (call-with-current-continuation ;; scheme's goto on steroids!
+      (call-with-current-continuation ;; to break out of the loop when done
        (lambda (exit)
          (for ([char (in-string str)])
               (cond
